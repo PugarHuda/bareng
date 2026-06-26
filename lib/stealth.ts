@@ -96,5 +96,5 @@ export function computeStealthPrivateKey(
   const R = Point.fromBytes(unhex(ephemeralPub));
   const sh = keccak_256(R.multiply(big(unhex(viewPriv))).toBytes(true));
   const stealthPriv = mod(big(unhex(spendPriv)) + mod(big(sh), N), N);
-  return hex(numberToBytesBE(stealthPriv, 32));
+  return hex(numberToBytesBE(stealthPriv)); // curve-bound: 32-byte BE
 }

@@ -3,12 +3,13 @@
 "use client";
 
 import { Magic } from "magic-sdk";
+import { OAuthExtension } from "@magic-ext/oauth2";
 import { BrowserProvider, getBytes } from "ethers";
 
-let _magic: Magic | null = null;
+let _magic: Magic<[OAuthExtension]> | null = null;
 
 /** Lazy singleton — Magic must only init in the browser. */
-export function getMagic(): Magic {
+export function getMagic(): Magic<[OAuthExtension]> {
   if (typeof window === "undefined") {
     throw new Error("getMagic() is browser-only");
   }
@@ -17,25 +18,35 @@ export function getMagic(): Magic {
       // ponytail: default network is Ethereum; point it at Arbitrum so the
       // signer/EOA lines up with where we settle. Verify chainId at office hours.
       network: { rpcUrl: "https://arb1.arbitrum.io/rpc", chainId: 42161 },
+      extensions: [new OAuthExtension()],
     });
   }
   return _magic;
 }
 
-/** Google/email login. Returns the user's EOA address (the UA owner). */
-export async function loginWithGoogle(): Promise<string> {
-  const magic = getMagic();
-  await magic.oauth2.loginWithRedirect({ provider: "google", redirectURI: window.location.origin });
-  const info = await magic.user.getInfo();
-  return info.publicAddress!;
+// ponytail: rpcProvider is Magic's EIP-1193 provider; ethers wraps it. We read
+// the EOA from the provider instead of getInfo() — v33 moved the address into a
+// multi-chain `wallets` map, but the signer address is stable across versions.
+function magicProvider(): BrowserProvider {
+  return new BrowserProvider(getMagic().rpcProvider as never);
 }
 
-/** Email OTP login fallback. */
+async function eoaAddress(): Promise<string> {
+  return (await magicProvider().getSigner()).getAddress();
+}
+
+/** Google login. Redirects away; getRedirectResult() finishes the flow on return. */
+export async function loginWithGoogle(): Promise<void> {
+  await getMagic().oauth2.loginWithRedirect({
+    provider: "google",
+    redirectURI: window.location.origin,
+  });
+}
+
+/** Email OTP login. Returns the user's EOA address (the UA owner). */
 export async function loginWithEmail(email: string): Promise<string> {
-  const magic = getMagic();
-  await magic.auth.loginWithEmailOTP({ email });
-  const info = await magic.user.getInfo();
-  return info.publicAddress!;
+  await getMagic().auth.loginWithEmailOTP({ email });
+  return eoaAddress();
 }
 
 export async function logout(): Promise<void> {
@@ -46,22 +57,15 @@ export async function logout(): Promise<void> {
 export async function getRedirectResult(): Promise<string | null> {
   const magic = getMagic();
   try {
-    const res = await magic.oauth2.getRedirectResult();
-    const addr = res?.magic?.userMetadata?.publicAddress;
-    if (addr) return addr;
+    await magic.oauth2.getRedirectResult(); // completes login when returning from Google
   } catch {
-    // no pending oauth redirect — fall through to session check
+    // no pending oauth redirect — fall through to the session check
   }
-  if (await magic.user.isLoggedIn()) {
-    return (await magic.user.getInfo()).publicAddress ?? null;
-  }
-  return null;
+  return (await magic.user.isLoggedIn()) ? eoaAddress() : null;
 }
 
 /** Sign the Universal Account transaction rootHash with the Magic-backed EOA. */
 export async function signRootHash(rootHash: string): Promise<string> {
-  // ponytail: rpcProvider is Magic's EIP-1193 provider; ethers wraps it to sign.
-  const provider = new BrowserProvider(getMagic().rpcProvider as never);
-  const signer = await provider.getSigner();
+  const signer = await magicProvider().getSigner();
   return signer.signMessage(getBytes(rootHash));
 }

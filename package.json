@@ -7,9 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test test/"
+    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs"
   },
   "dependencies": {
+    "@magic-ext/oauth2": "^15.8.0",
     "@noble/hashes": "^2.2.0",
     "@noble/secp256k1": "^3.1.0",
     "@particle-network/universal-account-sdk": "^1.1.1",
