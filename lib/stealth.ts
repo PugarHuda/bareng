@@ -7,47 +7,34 @@
 //     pot's UA isn't linkable on-chain.
 //   • Paying OUT to a member's personal address without doxxing it.
 //
-// Real cryptography via audited @noble libs — no hand-rolled curve math.
-// The on-chain leg (announce + sweep) reuses the same Universal Accounts flow as
-// the rest of the app; the derivation below is fully functional and tested.
+// Real cryptography via audited @noble libs (secp256k1 v3) — no hand-rolled
+// curve math. Verified by test/stealth.test.mjs: the recipient recovers the
+// controlling key, a stranger cannot, and repeat payments are unlinkable.
 
 import * as secp from "@noble/secp256k1";
-import { keccak_256 } from "@noble/hashes/sha3";
+import { keccak_256 } from "@noble/hashes/sha3.js";
 
-const G = secp.ProjectivePoint.BASE;
-const N = secp.CURVE.n;
+type Pt = InstanceType<typeof secp.Point>;
+const Point = secp.Point;
+const G = Point.BASE;
+// secp256k1 group order. noble v3 no longer exposes it on Point.CURVE, so pin it.
+const N = 0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n;
+const { bytesToNumberBE: big, numberToBytesBE, mod, hexToBytes, bytesToHex } = secp.etc;
 
-function bytesToBig(b: Uint8Array): bigint {
-  let x = 0n;
-  for (const byte of b) x = (x << 8n) | BigInt(byte);
-  return x;
+function hex(b: Uint8Array): string {
+  return "0x" + bytesToHex(b);
 }
-function bigToBytes32(x: bigint): Uint8Array {
-  const out = new Uint8Array(32);
-  for (let i = 31; i >= 0; i--) {
-    out[i] = Number(x & 0xffn);
-    x >>= 8n;
-  }
-  return out;
-}
-function toHex(b: Uint8Array): string {
-  return "0x" + Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
-}
-function hexToBytes(h: string): Uint8Array {
-  const s = h.startsWith("0x") ? h.slice(2) : h;
-  const out = new Uint8Array(s.length / 2);
-  for (let i = 0; i < out.length; i++) out[i] = parseInt(s.slice(i * 2, i * 2 + 2), 16);
-  return out;
+function unhex(h: string): Uint8Array {
+  return hexToBytes(h.startsWith("0x") ? h.slice(2) : h);
 }
 
 /** address = last 20 bytes of keccak256(uncompressed pubkey w/o 0x04 prefix). Lowercased. */
-function pointToAddress(point: InstanceType<typeof secp.ProjectivePoint>): string {
-  const hash = keccak_256(point.toRawBytes(false).slice(1));
-  return toHex(hash.slice(12));
+function pointToAddress(pt: Pt): string {
+  return hex(keccak_256(pt.toBytes(false).slice(1)).slice(12));
 }
 
 export function addressFromPrivateKey(priv: string): string {
-  return pointToAddress(G.multiply(bytesToBig(hexToBytes(priv))));
+  return pointToAddress(G.multiply(mod(big(unhex(priv)), N)));
 }
 
 export type MetaAddress = {
@@ -59,13 +46,13 @@ export type MetaAddress = {
 
 /** Recipient (the pot) generates this once and publishes spendPub + viewPub. */
 export function generateMetaAddress(): MetaAddress {
-  const spendPriv = secp.utils.randomPrivateKey();
-  const viewPriv = secp.utils.randomPrivateKey();
+  const spendPriv = secp.utils.randomSecretKey();
+  const viewPriv = secp.utils.randomSecretKey();
   return {
-    spendPriv: toHex(spendPriv),
-    spendPub: toHex(secp.getPublicKey(spendPriv, true)),
-    viewPriv: toHex(viewPriv),
-    viewPub: toHex(secp.getPublicKey(viewPriv, true)),
+    spendPriv: hex(spendPriv),
+    spendPub: hex(secp.getPublicKey(spendPriv, true)),
+    viewPriv: hex(viewPriv),
+    viewPub: hex(secp.getPublicKey(viewPriv, true)),
   };
 }
 
@@ -77,15 +64,13 @@ export type StealthPayment = {
 
 /** Sender: derive a one-time stealth address from the recipient's meta-address. */
 export function generateStealthAddress(spendPub: string, viewPub: string): StealthPayment {
-  const r = secp.utils.randomPrivateKey();
+  const r = secp.utils.randomSecretKey();
   const R = secp.getPublicKey(r, true);
-  const P = secp.ProjectivePoint.fromHex(spendPub.slice(2));
-  const Npub = secp.ProjectivePoint.fromHex(viewPub.slice(2));
-  const S = Npub.multiply(bytesToBig(r)); // shared secret point = r·N
-  const sh = keccak_256(S.toRawBytes(true));
-  const sScalar = bytesToBig(sh) % N;
-  const stealthPub = P.add(G.multiply(sScalar)); // P + s·G
-  return { stealthAddress: pointToAddress(stealthPub), ephemeralPub: toHex(R), viewTag: sh[0] };
+  const P = Point.fromBytes(unhex(spendPub));
+  const Npub = Point.fromBytes(unhex(viewPub));
+  const sh = keccak_256(Npub.multiply(big(r)).toBytes(true)); // hash of shared secret r·N
+  const s = mod(big(sh), N);
+  return { stealthAddress: pointToAddress(P.add(G.multiply(s))), ephemeralPub: hex(R), viewTag: sh[0] };
 }
 
 /** Recipient: scan one announcement. Returns the stealth address if it's ours, else null. */
@@ -95,13 +80,11 @@ export function scan(
   viewPriv: string,
   spendPub: string,
 ): string | null {
-  const R = secp.ProjectivePoint.fromHex(ephemeralPub.slice(2));
-  const S = R.multiply(bytesToBig(hexToBytes(viewPriv))); // n·R == r·N
-  const sh = keccak_256(S.toRawBytes(true));
+  const R = Point.fromBytes(unhex(ephemeralPub));
+  const sh = keccak_256(R.multiply(big(unhex(viewPriv))).toBytes(true)); // n·R == r·N
   if (sh[0] !== viewTag) return null; // fast reject
-  const sScalar = bytesToBig(sh) % N;
-  const P = secp.ProjectivePoint.fromHex(spendPub.slice(2));
-  return pointToAddress(P.add(G.multiply(sScalar)));
+  const P = Point.fromBytes(unhex(spendPub));
+  return pointToAddress(P.add(G.multiply(mod(big(sh), N))));
 }
 
 /** Recipient: the private key controlling a detected stealth address (to sweep). */
@@ -110,10 +93,8 @@ export function computeStealthPrivateKey(
   viewPriv: string,
   spendPriv: string,
 ): string {
-  const R = secp.ProjectivePoint.fromHex(ephemeralPub.slice(2));
-  const S = R.multiply(bytesToBig(hexToBytes(viewPriv)));
-  const sh = keccak_256(S.toRawBytes(true));
-  const sScalar = bytesToBig(sh) % N;
-  const stealthPriv = (bytesToBig(hexToBytes(spendPriv)) + sScalar) % N;
-  return toHex(bigToBytes32(stealthPriv));
+  const R = Point.fromBytes(unhex(ephemeralPub));
+  const sh = keccak_256(R.multiply(big(unhex(viewPriv))).toBytes(true));
+  const stealthPriv = mod(big(unhex(spendPriv)) + mod(big(sh), N), N);
+  return hex(numberToBytesBE(stealthPriv, 32));
 }
