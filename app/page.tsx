@@ -4,23 +4,32 @@
 // set — the spend-limit logic (lib/limits) and handle registry (lib/handles) are
 // real; only the on-chain send is stubbed. Wire Magic + UA where marked.
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Wallet } from "ethers";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
-import { newMember, spend } from "@/lib/bareng";
+import { newMember, spend, type SignedGrant } from "@/lib/bareng";
 import { claimHandle, handleFor, potLink } from "@/lib/handles";
 import { signRootHash } from "@/lib/magic";
+import { createSessionKey, signGrant, verifyGrant } from "@/lib/sessionKey";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
 
 const NOW = 1_000_000; // ponytail: fixed clock for the demo; use Date.now()/1000 when wired
+const WEEK = 604800n;
+const USDC_DECIMALS = 1_000000n;
 
+// ponytail: demo pot owner so grants sign/verify with no keys set (matches admin).
+const DEMO_OWNER = new Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d");
+
+// ponytail: valid demo EOAs so the 7702 grant crypto actually signs (fake "0x..budi"
+// strings can't be EIP-712-encoded). Real addresses arrive on Magic login.
 const PEOPLE = [
-  { address: "0xA1budi", name: "Budi", handle: "budi", limit: 100 },
-  { address: "0xB2sari", name: "Sari", handle: "sari", limit: 50 },
-  { address: "0xC3dewi", name: "Dewi", handle: "dewi", limit: 25 },
+  { address: createSessionKey().address, name: "Budi", handle: "budi", limit: 100 },
+  { address: createSessionKey().address, name: "Sari", handle: "sari", limit: 50 },
+  { address: createSessionKey().address, name: "Dewi", handle: "dewi", limit: 25 },
 ];
-const POT_ADDRESS = "0xP0Tbareng";
+const POT_ADDRESS = createSessionKey().address;
 const POT_HANDLE = "lunchsquad";
 
 // Seed the handle registry (real claim/resolve, not hardcoded strings).
@@ -28,6 +37,20 @@ PEOPLE.forEach((p) => claimHandle(p.handle, p.address));
 claimHandle(POT_HANDLE, POT_ADDRESS);
 
 const SEED: Member[] = PEOPLE.map((p) => newMember(p.address, p.name, p.limit, NOW));
+
+/** Owner-sign a real 7702 SpendPermission for one member (demo owner in this screen). */
+async function signMemberGrant(m: Member): Promise<SignedGrant> {
+  const permission = {
+    account: DEMO_OWNER.address,
+    sessionKey: createSessionKey().address,
+    member: m.address,
+    limit: BigInt(m.limit) * USDC_DECIMALS,
+    periodSeconds: WEEK,
+    token: ARBITRUM_USDC,
+  };
+  const signature = await signGrant(DEMO_OWNER, permission);
+  return { permission, signature, owner: DEMO_OWNER.address };
+}
 
 export default function Home() {
   const [balance, setBalance] = useState(420);
@@ -37,9 +60,23 @@ export default function Home() {
   const [feed, setFeed] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
+  const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const session = useSession();
 
+  // Sign a real 7702 grant per member on mount — the cap becomes cryptographic,
+  // not just an app-side counter. Same primitive the admin uses.
+  useEffect(() => {
+    let live = true;
+    Promise.all(SEED.map(signMemberGrant)).then((gs) => {
+      if (live) setGrants(Object.fromEntries(gs.map((g) => [g.permission.member, g])));
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+
   const me = members[active];
+  const grant = grants[me.address];
   const left = remaining(me, NOW);
   const ok = canSpend(me, amount, NOW) && amount <= balance;
 
@@ -53,6 +90,7 @@ export default function Home() {
     if (!ok) return;
     if (session.ua) {
       // Real path: route the spend through the Universal Account, settle on Arbitrum.
+      // The signed 7702 grant gates it — spend() refuses without a valid owner signature.
       try {
         const res = await spend(
           session.ua,
@@ -60,6 +98,7 @@ export default function Home() {
           { amount, receiver: session.address!, tokenAddress: ARBITRUM_USDC },
           signRootHash,
           NOW,
+          grant,
         );
         logSpend(res.member, res.txHash || "settled on Arbitrum");
       } catch (e) {
@@ -67,8 +106,13 @@ export default function Home() {
       }
       return;
     }
-    // Demo path (no keys): same limit logic, on-chain call stubbed.
-    logSpend(recordSpend(me, amount, NOW), "settled on Arbitrum (demo)");
+    // Demo path (no keys): same limit logic, on-chain call stubbed — but the 7702 grant
+    // is verified for real so the "grant-authorized" claim on screen is honest.
+    if (grant && !verifyGrant(grant.permission, grant.signature, grant.owner)) {
+      setFeed((f) => ["spend blocked: invalid 7702 grant", ...f].slice(0, 6));
+      return;
+    }
+    logSpend(recordSpend(me, amount, NOW), grant ? "7702 grant-authorized · Arbitrum (demo)" : "Arbitrum (demo)");
   }
 
   async function share() {
@@ -173,6 +217,9 @@ export default function Home() {
         <h2 className="text-sm font-semibold">
           Spend as <span className="text-indigo-400">@{handleFor(me.address)}</span>
         </h2>
+        <p className="text-xs text-neutral-500">
+          {grant ? "🔒 7702 session-key grant · owner-signed & verified" : "signing 7702 grant…"}
+        </p>
         <input
           type="range"
           min={1}
