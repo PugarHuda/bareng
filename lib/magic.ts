@@ -69,3 +69,9 @@ export async function signRootHash(rootHash: string): Promise<string> {
   const signer = await magicProvider().getSigner();
   return signer.signMessage(getBytes(rootHash));
 }
+
+/** Sign an EIP-712 typed payload (the 7702 session-key SpendPermission) with the owner EOA. */
+export async function signTypedData(domain: object, types: object, value: object): Promise<string> {
+  const signer = await magicProvider().getSigner();
+  return signer.signTypedData(domain as never, types as never, value as never);
+}

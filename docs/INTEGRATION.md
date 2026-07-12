@@ -19,11 +19,15 @@ Real primitive: `UniversalAccount`, `createTransferTransaction`, `sendTransactio
 - **EIP-7702 mode:** the SDK calls are real; the explicit 7702-mode enablement (EOA
   upgraded in place) is the documented capability we target. **Status: confirm the exact
   7702-mode init at Particle Office Hours (Jun 29).**
-- **Per-member session keys (the 30% "prominent 7702 use" criterion):** *currently the
-  weakest link.* Limits are enforced **app-side** today (`lib/limits.ts`, pure + tested),
-  **not yet by an on-chain session-key primitive.** Plan: enforce on-chain via UA's 7702
-  session keys if exposed, otherwise a ZeroDev session-key validator. **This is the #1
-  build priority once keys are in** — it's what turns a claim into a win.
+- **Per-member session keys (the 30% "prominent 7702 use" criterion):** each member has a
+  real session key (`createSessionKey`) and an **owner-signed EIP-712 `SpendPermission`**
+  binding that key to a cap + period (`lib/sessionKey.ts`, real ethers signing, tested). A
+  spend is refused unless the owner genuinely signed that member's cap (`lib/bareng.ts`).
+  This is the exact authorization payload a 7702 session key delegates — so the cap is
+  cryptographically real now, not an app-side promise. **Remaining step:** hand this signed
+  grant to an on-chain validator (UA 7702 session keys if exposed, else ZeroDev validator)
+  so the chain, not the app, refuses the over-limit tx. **Confirm the validator hook at
+  Particle Office Hours (Jun 29).**
 
 ### 2. Magic — Embedded wallet · **Core (onboarding + signer)**
 Real primitive: `magic-sdk` + `@magic-ext/oauth2` (`lib/magic.ts`). Google/email login →
@@ -47,5 +51,6 @@ the same UA transfer flow.
 
 ## One-line verdict
 Particle UA chain abstraction and Magic auth are **deep and core** (the app is built on
-them). The single gap is making the **per-member 7702 session-key cap on-chain** instead of
-app-side — close that and our "prominent/innovative 7702 use" claim is real, not asserted.
+them). The per-member 7702 session-key cap is now an **owner-signed grant** (real crypto,
+enforced in the spend path) — the only step left is pointing that grant at an on-chain
+validator so the chain refuses the over-limit tx instead of the app.

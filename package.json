@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs"
+    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs"
   },
   "dependencies": {
     "@magic-ext/oauth2": "^15.8.0",

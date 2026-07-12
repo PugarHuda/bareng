@@ -4,7 +4,11 @@
 
 import { canSpend, recordSpend, type Member } from "./limits";
 import { sendShared, type SignRootHash } from "./universalAccount";
+import { verifyGrant, type SpendPermission } from "./sessionKey";
 import type { UniversalAccount } from "@particle-network/universal-account-sdk";
+
+/** An owner-signed session-key grant that authorizes a member's spend cap. */
+export type SignedGrant = { permission: SpendPermission; signature: string; owner: string };
 
 export type SharedAccount = {
   name: string;
@@ -30,7 +34,19 @@ export async function spend(
   params: { amount: number; receiver: string; tokenAddress: string },
   sign: SignRootHash,
   now: number,
+  /** Optional owner-signed 7702 session-key grant. When present it's the source of
+   *  authority: a spend is refused unless the owner really signed this member's cap. */
+  grant?: SignedGrant,
 ): Promise<{ member: Member; txHash: string }> {
+  if (grant) {
+    const { permission: p } = grant;
+    if (!verifyGrant(p, grant.signature, grant.owner)) {
+      throw new Error(`Bareng: ${member.name} — invalid session-key grant`);
+    }
+    if (p.member.toLowerCase() !== member.address.toLowerCase()) {
+      throw new Error(`Bareng: grant is not for ${member.name}`);
+    }
+  }
   if (!canSpend(member, params.amount, now)) {
     throw new Error(`Bareng: ${member.name} over limit`);
   }
