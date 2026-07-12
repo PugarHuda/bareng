@@ -34,6 +34,7 @@ integration depth in `INTEGRATION.md`.
    prize amounts live on the Encode dashboard (public total: $15.5K).
 
 ## Pre-finale checklist
+- [ ] **Prove one on-chain tx:** `npm run prove:onchain` → real `transactionId` (see `docs/ONCHAIN_PROOF.md`). ← top priority
 - [ ] Keys in `.env.local`; live login → UA → spend verified end-to-end once.
 - [ ] Real cross-chain proof: top up from a non-Arbitrum chain → show it settle on Arbitrum.
 - [ ] Rehearse the `DEMO.md` flow to ~2–3 min; land the "over limit is enforced on-chain" beat.
@@ -46,6 +47,7 @@ owner-signed grants enforced **app-side**, not chain-enforced on the UA. ZeroDev
 standalone reference impls. The honest, winning story leans on **UX (40%) + the 7702 account +
 cross-chain balance** — all real — not on chain-enforced per-member caps. **Before finale, prove
 ONE real on-chain spend end-to-end (one tx hash) — that beats five scaffolded integrations.**
+The harness is ready: `npm run prove:onchain` — full runbook in `docs/ONCHAIN_PROOF.md`.
 
 ## Known ceilings (say them if asked — they read as intent, not gaps)
 - On-chain cap is **per-transaction** (ZeroDev call-policy); the **rolling weekly total** is

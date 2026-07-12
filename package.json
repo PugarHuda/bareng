@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prove:onchain": "node --env-file=.env.local scripts/prove-onchain.mjs",
     "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs"
   },
   "dependencies": {
