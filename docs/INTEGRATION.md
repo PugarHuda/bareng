@@ -23,20 +23,18 @@ Real primitive: `UniversalAccount`, `createTransferTransaction`, `sendTransactio
   real session key (`createSessionKey`) and an **owner-signed EIP-712 `SpendPermission`**
   binding that key to a cap + period (`lib/sessionKey.ts`, real ethers signing, tested). A
   spend is refused unless the owner genuinely signed that member's cap (`lib/bareng.ts`).
-  This is the exact authorization payload a 7702 session key delegates — so the cap is
-  cryptographically real now, not an app-side promise. **On-chain enforcement is built**
-  (`lib/zerodev.ts`): each member's session key is a **ZeroDev Kernel7702 permission
-  validator** whose `toCallPolicy` allows exactly one action — `USDC.transfer` with
-  `amount <= cap` — so the *chain* refuses an over-limit tx. Gated behind
-  `NEXT_PUBLIC_ZERODEV_RPC` like the other SDKs; pure policy shape is tested. This also
-  targets a **4th bounty (ZeroDev)** on the same build. Open question for Office Hours:
-  does the ZeroDev validator compose with the Particle UA, and does the bounty stack?
+  This is the exact authorization payload a 7702 session key delegates. **Honest scope
+  (see `docs/ARCHITECTURE.md`):** the Particle UA is single-owner with no session-key API, so
+  this grant is an **app-level authorization** the app verifies — the UA does not enforce it
+  on-chain. The cap is real crypto + app-side enforcement, not chain-enforced *on the UA*.
 
-  ### 1b. ZeroDev — Kernel7702 session-key validator · **Core (on-chain 7702 enforcement)**
+  ### 1b. ZeroDev — Kernel7702 validator · **Reference impl (standalone) + bounty**
   Real primitives: `createKernelAccount` (7702), `toPermissionValidator`, `toCallPolicy`,
-  `toECDSASigner` (`lib/zerodev.ts`). This is what makes the 30% "prominent 7702 use" claim
-  enforced by the chain, not asserted. Per-tx cap is on-chain; the rolling weekly total stays
-  app-side (`lib/limits.ts`) — ZeroDev has no cumulative-token-per-period policy.
+  `toECDSASigner` (`lib/zerodev.ts`). A **working demonstration** of on-chain 7702 spend-cap
+  enforcement (per-tx `USDC.transfer <= cap`) that targets the ZeroDev bounty. It does **not**
+  compose with the Particle UA — ZeroDev's kernel is a different account; real on-chain caps
+  would require making the pot a ZeroDev kernel (losing UA cross-chain balance). Gated behind
+  `NEXT_PUBLIC_ZERODEV_RPC`; pure policy shape tested.
 
 ### 2. Magic — Embedded wallet · **Core (onboarding + signer)**
 Real primitive: `magic-sdk` + `@magic-ext/oauth2` (`lib/magic.ts`). Google/email login →
@@ -52,26 +50,26 @@ Not a partner primitive — our own implementation of the EIP via audited `@nobl
 (`lib/stealth.ts`, tested). Private receive/payout; the on-chain announce + sweep reuses
 the same UA transfer flow.
 
-### 5. Openfort — x402 agent payments + backend sweep · **Functional (partner bounty)**
+### 5. Openfort — x402 agent payments + backend sweep · **Reference impl + bounty**
 Real x402 flow (`lib/x402.ts`) + backend sweep detection (`lib/sweep.ts`), gated behind
 `NEXT_PUBLIC_OPENFORT_FACILITATOR`.
-- **x402 agent wallet (the standout):** a member's ZeroDev 7702 session key is a *safe agent
-  wallet* — it pays per-request for a service via x402 and **physically cannot exceed the
-  member's cap** (the cap guard is `chargeWithinCap`, mirrored on-chain by the 7702 policy).
-  Live demo at `/agent`. This is the exact "autonomous agent that transacts, with guardrails"
-  the x402 bounty rewards, and it makes the 7702 cap the hero of a second story.
+- **x402 agent wallet:** demonstrates that a 7702-capped key is a *safe agent wallet* — it pays
+  per-request via x402 and is bounded by `chargeWithinCap` (refuses over-cap without paying).
+  Live demo at `/agent`. Hits the x402 bounty theme ("autonomous agent with guardrails"). Honest
+  scope: the cap guard mirrors the *shape* of a 7702 policy; settlement drawing from the pot is
+  abstracted (not wired to the UA or a ZeroDev kernel) — see `docs/ARCHITECTURE.md`.
 - **Backend sweep:** `findSweepable` detects the pot's stealth receives and recovers each
-  controlling key, ready for an Openfort policy-driven backend wallet to sweep into the UA —
-  completing the stealth-sweep to-do.
+  controlling key, ready for an Openfort backend wallet to sweep into the UA — completing the
+  stealth-sweep to-do (detection is real + tested; the on-chain sweep tx is not wired).
 
 ## Deliberately NOT used
 - Nothing from the featured set. All five partners (Particle, Magic, Arbitrum, ZeroDev,
   Openfort) are integrated with real code, each on the critical path of at least one flow.
 
 ## One-line verdict
-Particle UA chain abstraction and Magic auth are **deep and core**; the per-member 7702 cap
-is an **owner-signed grant** enforced **on-chain via a ZeroDev Kernel7702 call-policy**
-(`lib/zerodev.ts`); and that same capped key doubles as an **x402 agent wallet** (Openfort,
-`lib/x402.ts`) that can't overspend the pot. **Five partners used for real** (Particle, Magic,
-Arbitrum, ZeroDev, Openfort); open items are wiring the RPC/facilitator keys and confirming
-composition + bounty stacking at Office Hours.
+Particle UA chain abstraction, Magic auth, and Arbitrum settle are **deep and core** — the
+real, coherent spine (single-owner UA, cross-chain unified balance). Per-member caps are
+**owner-signed grants enforced app-side** (`lib/limits.ts` + `lib/sessionKey.ts`); the UA has
+no on-chain session-key API. **ZeroDev and Openfort/x402 are working reference implementations
++ bounty targets, NOT composed into the UA** (`docs/ARCHITECTURE.md`). Five partners with real
+code; the honest differentiator is the UX + the 7702 account, not chain-enforced per-member caps.

@@ -1,8 +1,12 @@
-// On-chain enforcement of the per-member spend cap via ZeroDev — Kernel7702.
+// On-chain 7702 spend-cap enforcement — a STANDALONE ZeroDev Kernel7702 reference impl.
 //
-// lib/sessionKey.ts makes the cap a real owner-signed grant; this makes the CHAIN, not
-// the app, refuse an over-limit tx. Each member's session key is a ZeroDev permission
-// validator whose policy allows exactly one thing: call USDC.transfer with amount <= cap.
+// IMPORTANT (see docs/ARCHITECTURE.md): this does NOT compose with the Particle UA. The UA is
+// a single-owner account with no session-key API; ZeroDev's kernel is a *different* account.
+// This genuinely demonstrates on-chain 7702 enforcement (real ZeroDev SDK) and targets the
+// ZeroDev bounty — but the chain only refuses over-limit txs if the pot IS a ZeroDev kernel,
+// which trades away the UA's cross-chain balance. On the UA the cap is app-side + owner-signed
+// grant (lib/limits.ts, lib/sessionKey.ts). Each member's session key is a permission validator
+// whose policy allows exactly one thing: call USDC.transfer with amount <= cap.
 //
 // There is no toSpendingLimitPolicy in @zerodev/permissions — an ERC20 cap is expressed as
 // a toCallPolicy that restricts the session key to `transfer(to, amount)` on the token,

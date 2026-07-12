@@ -1,14 +1,14 @@
 // x402 (HTTP-402) agent payments, guarded by the on-chain 7702 spend cap.
 //
-// The pitch: a member's ZeroDev 7702 session key (lib/zerodev.ts) is a SAFE agent wallet —
-// on-chain it can ONLY transfer USDC up to the member's cap. Point that key at an x402 flow
-// and you get an autonomous agent that pays per-request for APIs / compute / a group service
-// and PHYSICALLY cannot overspend the pot. That guardrail is the whole point.
+// The pitch: give an autonomous agent a 7702-capped key and it can pay per-request for a
+// service via x402 while being bounded by a spend cap — it can't drain the pot. The cap guard
+// (chargeWithinCap) is ours and tested; it mirrors the SHAPE of a 7702 policy.
 //
-// Settlement rides Openfort's x402 facilitator / backend wallet (gated behind
-// NEXT_PUBLIC_OPENFORT_FACILITATOR); the `pay` callback abstracts it. The cap guard here is
-// ours and is the differentiator — tested in test/x402.test.mjs. Schema = x402 v1
-// PaymentRequirements (Coinbase / x402 Foundation).
+// HONEST SCOPE (see docs/ARCHITECTURE.md): this is a reference demonstration. The on-chain cap
+// via ZeroDev (lib/zerodev.ts) is itself standalone, NOT composed with the Particle UA, and the
+// `pay` step (settlement drawing from the pot balance) is abstracted, not wired to either account
+// system. Settlement would ride Openfort's x402 facilitator (gated behind
+// NEXT_PUBLIC_OPENFORT_FACILITATOR). Schema = x402 v1 PaymentRequirements (x402 Foundation).
 
 import { canSpend, type Member } from "./limits.ts";
 

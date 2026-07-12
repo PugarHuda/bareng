@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Wallet } from "ethers";
+import { isAddress } from "viem";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
 import { newMember, spend, type SignedGrant } from "@/lib/bareng";
 import { claimHandle, handleFor, potLink, resolveHandle } from "@/lib/handles";
@@ -22,14 +23,15 @@ const USDC_DECIMALS = 1_000000n;
 // ponytail: demo pot owner so grants sign/verify with no keys set (matches admin).
 const DEMO_OWNER = new Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d");
 
-// ponytail: valid demo EOAs so the 7702 grant crypto actually signs (fake "0x..budi"
-// strings can't be EIP-712-encoded). Real addresses arrive on Magic login.
+// Fixed, valid checksummed demo EOAs — STABLE across refresh (so @budi is always the same
+// identity) and EIP-712-encodable so the 7702 grant crypto actually signs. Real addresses
+// arrive on Magic login. (Well-known Anvil test addresses.)
 const PEOPLE = [
-  { address: createSessionKey().address, name: "Budi", handle: "budi", limit: 100 },
-  { address: createSessionKey().address, name: "Sari", handle: "sari", limit: 50 },
-  { address: createSessionKey().address, name: "Dewi", handle: "dewi", limit: 25 },
+  { address: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", name: "Budi", handle: "budi", limit: 100 },
+  { address: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", name: "Sari", handle: "sari", limit: 50 },
+  { address: "0x90F79bf6EB2c4f870365E785982E1f101E93b906", name: "Dewi", handle: "dewi", limit: 25 },
 ];
-const POT_ADDRESS = createSessionKey().address;
+const POT_ADDRESS = "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65";
 const POT_HANDLE = "lunchsquad";
 
 // Seed the handle registry (real claim/resolve, not hardcoded strings).
@@ -63,6 +65,7 @@ export default function Home() {
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const [payee, setPayee] = useState("@sari");
   const [srcChain, setSrcChain] = useState("Base");
+  const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
   const session = useSession();
 
   // Sign a real 7702 grant per member on mount — the cap becomes cryptographic,
@@ -79,10 +82,10 @@ export default function Home() {
 
   const me = members[active];
   const grant = grants[me.address];
-  const left = remaining(me, NOW);
-  // Pay to a @handle (resolved via the registry) or a raw 0x address.
-  const receiver = /^0x[0-9a-fA-F]{40}$/.test(payee.trim()) ? payee.trim() : resolveHandle(payee);
-  const ok = canSpend(me, amount, NOW) && amount <= balance && Boolean(receiver);
+  const left = remaining(me, now);
+  // Pay to a @handle (resolved via the registry) or a checksum-valid 0x address.
+  const receiver = isAddress(payee.trim(), { strict: false }) ? payee.trim() : resolveHandle(payee);
+  const ok = canSpend(me, amount, now) && amount <= balance && Boolean(receiver);
 
   function logSpend(updated: Member, note: string) {
     setMembers((ms) => ms.map((m, i) => (i === active ? updated : m)));
@@ -102,7 +105,7 @@ export default function Home() {
           me,
           { amount, receiver: receiver ?? session.address!, tokenAddress: ARBITRUM_USDC },
           signRootHash,
-          NOW,
+          now,
           grant,
         );
         logSpend(res.member, res.txHash || "settled on Arbitrum");
@@ -117,7 +120,7 @@ export default function Home() {
       setFeed((f) => ["spend blocked: invalid 7702 grant", ...f].slice(0, 6));
       return;
     }
-    logSpend(recordSpend(me, amount, NOW), grant ? "7702 grant-authorized · Arbitrum (demo)" : "Arbitrum (demo)");
+    logSpend(recordSpend(me, amount, now), grant ? "7702 grant-authorized · Arbitrum (demo)" : "Arbitrum (demo)");
   }
 
   async function share() {
@@ -216,9 +219,20 @@ export default function Home() {
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-300">Members & weekly limits</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-neutral-300">Members & weekly limits</h2>
+          <button
+            onClick={() => {
+              setNow((n) => n + 604800);
+              setFeed((f) => ["⏭ a week passed — every cap reset", ...f].slice(0, 6));
+            }}
+            className="text-xs text-indigo-400"
+          >
+            Simulate next week →
+          </button>
+        </div>
         {members.map((m, i) => {
-          const r = remaining(m, NOW);
+          const r = remaining(m, now);
           return (
             <button
               key={m.address}

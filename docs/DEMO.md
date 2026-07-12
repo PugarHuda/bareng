@@ -9,9 +9,10 @@ shared money — onchain, and you never feel the crypto."*
    & verified** under the spend box — *"each member's cap is a real signed authorization."*
 2. **Spend as @budi, pay to @dewi → $30.** Settles "on Arbitrum", his remaining drops to $70.
    *"Pay by handle, never an address."*
-3. **Switch to @sari, drag to $60 → "Over limit"**, blocked. *"The cap isn't a UI nicety —
-   it's an owner-signed 7702 grant, enforced on-chain by a ZeroDev call-policy that only lets
-   the session key transfer up to the cap."*
+3. **Switch to @sari, drag to $60 → "Over limit"**, blocked. *"The cap is an owner-signed
+   7702 grant — real crypto the app verifies. `lib/zerodev.ts` is our working reference for
+   pushing that same cap on-chain."* (Honest — don't claim the UA enforces it on-chain; it's
+   single-owner with no session-key API. See docs/ARCHITECTURE.md.)
 4. **Top up from Base → +$50.** Balance jumps; feed says *"$50 from Base → unified on
    Arbitrum."* *"Funds enter on any chain, land as one balance. That's the cross-chain
    requirement — invisible."*
@@ -19,10 +20,10 @@ shared money — onchain, and you never feel the crypto."*
    handle, like PIVY."*
 6. **/admin** — invite **@maya**, set a $40 weekly cap. Watch **"Signing grant…" → 🔒 grant
    signed & verified**. *"The owner just signed her 7702 spend cap, live."*
-7. **/agent** — the money shot for the Openfort/x402 story. Agent fetches premium data →
-   **402 → pays $20 from @budi's 7702 key → 200 unlocked**. Drag the charge past his cap and
-   run again → **refused on-chain, without paying**. *"A capped 7702 key is a safe agent
-   wallet — it pays per request via x402 and physically can't drain the pot."*
+7. **/agent** — the Openfort/x402 story. Agent fetches premium data → **402 → pays $20 (within
+   @budi's cap) → 200 unlocked**. Drag the charge past his cap and run again → **refused before
+   paying**. *"A capped key is a safe agent wallet — it pays per request via x402 and is bounded
+   by the cap."* (Reference demo: the cap guard is real + tested; settlement is abstracted.)
 8. **/receive** — tap **Generate** twice → two *different* one-time addresses. Hit
    **Verify pot can claim → ✓**. *"Outside payments land on fresh stealth addresses; the
    pot's account stays unlinkable, then a backend wallet sweeps them in."*
@@ -36,11 +37,13 @@ no seed phrases. That's chain abstraction people would actually use."*
 - Same screens, now backed by on-chain transactions.
 
 ## What to emphasize per judge
-- **Particle (UX 40% / 7702 30%):** the per-member session-key cap is the standout — show
-  the "Over limit" block; it's an owner-signed 7702 grant (`lib/sessionKey.ts`).
-- **ZeroDev (bounty):** that cap is enforced **on-chain** by a Kernel7702 permission validator
-  whose call-policy only allows `USDC.transfer ≤ cap` (`lib/zerodev.ts`). The chain refuses
-  the over-limit tx — not the app. This is the "prominent 7702 use" made real.
+- **Particle (UX 40% / 7702 30%):** the account IS 7702 (UA in 7702 mode) + the cross-chain
+  unified balance is the standout. The per-member cap is an owner-signed 7702 grant
+  (`lib/sessionKey.ts`), enforced app-side.
+- **ZeroDev (bounty):** `lib/zerodev.ts` — a working Kernel7702 call-policy (`USDC.transfer ≤
+  cap`) demonstrating on-chain 7702 enforcement. Present it as a reference impl / the path to
+  chain-enforced caps — NOT as something enforcing on the Particle UA (it doesn't; different
+  account). Honesty here survives a judge's follow-up; the collapsed claim doesn't.
 - **Openfort (bounty):** the `/agent` screen — a 7702-capped session key as a safe x402 agent
   wallet (`lib/x402.ts`). "Autonomous agent that transacts, with on-chain guardrails" is
   exactly the x402 theme, and it reuses the 7702 cap you already built.

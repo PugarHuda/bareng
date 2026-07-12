@@ -258,7 +258,7 @@
       <div class="feat span2">
         <div class="who"><span class="mono">Openfort · x402 agent payments</span><span class="role">the twist</span></div>
         <div class="feel">The same capped key is a safe agent wallet.</div>
-        <div class="under">Point a member’s 7702 session key at an <code>x402</code> flow and it pays per-request for a service — an API, compute, a group subscription — and <b>physically cannot overspend the pot</b>, because the cap is enforced on-chain. An autonomous agent you can actually trust with money.</div>
+        <div class="under">Point a member’s 7702-capped key at an <code>x402</code> flow and it pays per-request for a service — an API, compute, a group subscription — <b>bounded by a spend cap</b> so it can’t drain the pot. An autonomous agent with real guardrails. <em style="opacity:.7">(Reference demo — cap guard tested, settlement abstracted.)</em></div>
       </div>
     </div>
   </section>
@@ -278,7 +278,7 @@
       <div class="score">
         <div class="top">
           <div class="name">Prominent EIP-7702 use
-            <span class="sub">Per-member session-key caps — an owner-signed grant, enforced on-chain by a ZeroDev call-policy. The 7702 capability almost nobody actually ships.</span>
+            <span class="sub">The account itself is EIP-7702 (Universal Account in 7702 mode). Per-member caps are owner-signed 7702 grants, with a working ZeroDev reference for on-chain enforcement.</span>
           </div>
           <div class="pct">30%</div>
         </div>

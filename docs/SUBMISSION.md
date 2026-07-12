@@ -6,10 +6,11 @@ integration depth in `INTEGRATION.md`.
 ## Status at a glance
 - ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 20/20).
 - ✅ Runs in demo mode with no keys — all four routes (`/`, `/admin`, `/agent`, `/receive`) serve.
-- ✅ Five partners integrated for real: **Particle** UA (chain-abstracted balance + Arbitrum
-  settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement), **ZeroDev**
-  (Kernel7702 on-chain spend-cap enforcement), **Openfort** (x402 agent payments bounded by
-  the 7702 cap — `/agent` — plus backend stealth sweep).
+- ✅ Core spine, real + coherent: **Particle** UA (single-owner, chain-abstracted balance,
+  7702 mode + Arbitrum settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement).
+- 🟡 **ZeroDev** + **Openfort/x402** are working **reference implementations + bounty targets**,
+  NOT composed into the UA (the UA has no session-key API) — see `docs/ARCHITECTURE.md`. Present
+  them honestly as such; don't claim they enforce caps on the UA.
 - 🟡 Live on-chain path needs API keys (below) — code is wired, it flips on when keys exist.
 
 ## Go live — the part that needs YOU (keys)
@@ -38,6 +39,13 @@ integration depth in `INTEGRATION.md`.
 - [ ] Rehearse the `DEMO.md` flow to ~2–3 min; land the "over limit is enforced on-chain" beat.
 - [ ] Submission form: repo link, demo video/screens, the four-partner story, team.
 - [ ] One "why it wins" slide: UX (40%) + prominent 7702 (30%) + the multi-user white space.
+
+## The architecture reality (read `docs/ARCHITECTURE.md` before pitching)
+The Particle UA is **single-owner with no on-chain session-key API**. So per-member caps are
+owner-signed grants enforced **app-side**, not chain-enforced on the UA. ZeroDev/x402 are
+standalone reference impls. The honest, winning story leans on **UX (40%) + the 7702 account +
+cross-chain balance** — all real — not on chain-enforced per-member caps. **Before finale, prove
+ONE real on-chain spend end-to-end (one tx hash) — that beats five scaffolded integrations.**
 
 ## Known ceilings (say them if asked — they read as intent, not gaps)
 - On-chain cap is **per-transaction** (ZeroDev call-policy); the **rolling weekly total** is
