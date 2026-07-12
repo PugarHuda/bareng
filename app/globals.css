@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+/* Accessibility (UX is 40% of the score — the basics are table stakes).
+   A visible keyboard-focus ring on every interactive element, app-wide. */
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: 2px solid #818cf8; /* indigo-400 */
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Honor users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

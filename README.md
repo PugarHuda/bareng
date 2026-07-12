@@ -4,16 +4,25 @@
 > Top up from any token on any chain, spend, and **settle on Arbitrum** — no gas, no seed phrase.
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
-Stacking: Arbitrum bounty ($2k) + Magic Labs bonus ($500).
+Uses all five featured partners — Particle, Magic, Arbitrum as the real core; ZeroDev and
+Openfort/x402 as working reference impls + bounty targets. **Read `docs/ARCHITECTURE.md` for the
+honest account model** (the UA is single-owner; per-member caps are owner-signed + app-side, not
+chain-enforced on the UA — don't overclaim that).
+
+**Docs:** [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`INTEGRATION.md`](docs/INTEGRATION.md) ·
+[`DEMO.md`](docs/DEMO.md) · [`ONCHAIN_PROOF.md`](docs/ONCHAIN_PROOF.md) ·
+[`SUBMISSION.md`](docs/SUBMISSION.md)
 
 > _"Bareng"_ is Indonesian for _"together"_ — the product is a shared group wallet that
 > puts the spirit of **gotong royong** (communal cooperation) onchain.
 
 ## Why this wins
 
-- **Prominent 7702 use (30%):** per-member session keys with spend caps — the 7702
-  capability almost nobody actually ships.
-- **UX (40%):** Google login, one balance, zero thought about chains or gas.
+- **Prominent 7702 use (30%):** the account itself is EIP-7702 (Universal Account in 7702 mode);
+  per-member caps are owner-signed 7702 grants, with a working ZeroDev reference for on-chain
+  enforcement (`lib/zerodev.ts`).
+- **UX (40%):** Google login, one balance, zero thought about chains or gas. Keyboard-focusable,
+  reduced-motion-aware.
 - **Cross-chain requirement:** top up on Base/Polygon → settle on Arbitrum via Universal Accounts.
 - **White space:** Particle's ecosystem has no shared / multi-user account product — everything
   is single-user (UniversalX, MYX, Overtime, etc.). Bareng owns that gap.
@@ -35,14 +44,22 @@ only the on-chain call is stubbed.
 | File | What it does | Status |
 |---|---|---|
 | `lib/limits.ts` | Per-member spend cap (pure, money path) | ✅ done + tested |
+| `lib/sessionKey.ts` | Owner-signed EIP-712 7702 spend-cap grant | ✅ done + tested |
+| `lib/bareng.ts` | Glue: shared account + `spend()` (grant + cap gate) | ✅ done + tested |
 | `lib/handles.ts` | Username handles + shareable pot links (pay/join by @handle) | ✅ done + tested |
 | `lib/stealth.ts` | Stealth addresses (ERC-5564) for private receive/payout | ✅ done + tested |
-| `lib/magic.ts` | Google/email login (Magic) → EOA | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
+| `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ tested · gated |
+| `lib/x402.ts` | x402 agent payments bounded by the cap (reference) | ✅ tested · gated |
+| `lib/sweep.ts` | Backend stealth-sweep detection (Openfort) | ✅ tested · gated |
+| `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
 | `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | 🟡 needs Particle keys |
-| `lib/bareng.ts` | Glue: shared account + spend() | ✅ |
-| `app/page.tsx` | Dashboard (balance, members, limit-aware spend) | ✅ runs visually |
-| `app/admin/page.tsx` | Invite members by @handle + set weekly limit | ✅ runs visually |
+| `app/page.tsx` | Dashboard (balance, members, pay-by-handle, top-up) | ✅ runs visually |
+| `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
+| `app/agent/page.tsx` | x402 agent wallet bounded by the cap | ✅ runs visually |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
+| `scripts/prove-onchain.mjs` | First-run harness for a real on-chain UA spend | 🟡 needs keys |
+
+`npm test` → 32 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive`.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 
@@ -58,14 +75,15 @@ Two layers, both built:
 
 ## To do (in priority order)
 
-1. **Add keys** to `.env.local` (Particle + Magic) — the login → UA → spend path is already
-   wired (`lib/session.ts`, `app/page.tsx`); it goes live the moment keys are present.
-2. **Particle Office Hours (Jun 29):** confirm the **EIP-7702 mode** flag on `UniversalAccount`
-   and how per-member session keys work (native UA vs. a ZeroDev layer). Only open question.
-3. Add a real payee input (spend currently settles to the signed-in address as a self-test).
-4. Connect the stealth sweep: announce on-chain + sweep the one-time address into the UA
-   (same `sendShared` flow).
-5. Demo: top up from a non-Arbitrum chain → show it settle on Arbitrum (cross-chain proof).
+1. **Prove ONE real on-chain tx** — `npm run prove:onchain` (needs Particle keys +
+   `OWNER_PRIVATE_KEY`). This is the top priority; see `docs/ONCHAIN_PROOF.md`. Nothing has
+   settled on-chain yet.
+2. **Add keys** to `.env.local` (Particle + Magic) → the login → UA → spend path goes live.
+3. **Particle Office Hours:** confirm the **EIP-7702 authorization** for the first tx per chain
+   and whether the UA exposes native session keys (would close the on-chain-cap gap).
+4. Wire the stealth sweep tx (detection is done in `lib/sweep.ts`) and real cross-chain top-up
+   (the dashboard button is currently a labeled demo).
+5. Record a demo video; confirm Milestone 2 status + submission format.
 
 ## Deadlines
 

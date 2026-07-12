@@ -110,6 +110,7 @@ export default function Admin() {
           step={5}
           value={limit}
           onChange={(e) => setLimit(Number(e.target.value))}
+          aria-label={`Weekly spend limit: $${limit}`}
           className="accent-indigo-500"
         />
         {error && <p className="text-xs text-red-400">{error}</p>}

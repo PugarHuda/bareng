@@ -197,6 +197,7 @@ export default function Home() {
           <select
             value={srcChain}
             onChange={(e) => setSrcChain(e.target.value)}
+            aria-label="Source chain to top up from"
             className="rounded-lg bg-white/15 px-2 py-1 text-xs font-medium text-white outline-none"
           >
             {["Base", "Polygon", "Optimism", "Arbitrum"].map((c) => (
@@ -208,6 +209,7 @@ export default function Home() {
               setBalance((b) => b + 50);
               setFeed((f) => [`topped up $50 from ${srcChain} → unified on Arbitrum (demo)`, ...f].slice(0, 6));
             }}
+            aria-label={`Top up $50 from ${srcChain}`}
             className="rounded-lg bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-700 hover:bg-white"
           >
             +$50
@@ -273,6 +275,7 @@ export default function Home() {
           max={Math.max(me.limit, 1)}
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
+          aria-label={`Amount to spend, up to $${me.limit}`}
           className="accent-indigo-500"
         />
         <div className="flex items-center justify-between text-sm">

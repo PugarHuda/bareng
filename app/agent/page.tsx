@@ -104,6 +104,7 @@ export default function Agent() {
           step={5}
           value={charge}
           onChange={(e) => setCharge(Number(e.target.value))}
+          aria-label={`Service charge for this request: $${charge}`}
           className="accent-indigo-500"
         />
         <p className="text-xs text-neutral-500">
