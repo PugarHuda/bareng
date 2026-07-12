@@ -5,10 +5,11 @@ integration depth in `INTEGRATION.md`.
 
 ## Status at a glance
 - ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 20/20).
-- ✅ Runs in demo mode with no keys — all three routes (`/`, `/admin`, `/receive`) serve.
-- ✅ Four partners integrated for real: **Particle** UA (chain-abstracted balance + Arbitrum
+- ✅ Runs in demo mode with no keys — all four routes (`/`, `/admin`, `/agent`, `/receive`) serve.
+- ✅ Five partners integrated for real: **Particle** UA (chain-abstracted balance + Arbitrum
   settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement), **ZeroDev**
-  (Kernel7702 on-chain spend-cap enforcement).
+  (Kernel7702 on-chain spend-cap enforcement), **Openfort** (x402 agent payments bounded by
+  the 7702 cap — `/agent` — plus backend stealth sweep).
 - 🟡 Live on-chain path needs API keys (below) — code is wired, it flips on when keys exist.
 
 ## Go live — the part that needs YOU (keys)
@@ -18,6 +19,7 @@ integration depth in `INTEGRATION.md`.
      `_CLIENT_KEY`, `_APP_ID`.
    - **Magic** — https://dashboard.magic.link → publishable key → `NEXT_PUBLIC_MAGIC_KEY`.
    - **ZeroDev** — https://dashboard.zerodev.app → bundler/paymaster RPC → `NEXT_PUBLIC_ZERODEV_RPC`.
+   - **Openfort** — https://dashboard.openfort.io → x402 facilitator URL → `NEXT_PUBLIC_OPENFORT_FACILITATOR`.
 3. `npm run dev` → the login card replaces the "Demo mode" banner; **Continue with Google**
    now mints a real Magic wallet → Universal Account, and a spend settles on Arbitrum.
 4. To run an interactive login yourself in this session, type: `! npm run dev`

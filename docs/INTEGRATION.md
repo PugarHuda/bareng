@@ -52,15 +52,26 @@ Not a partner primitive — our own implementation of the EIP via audited `@nobl
 (`lib/stealth.ts`, tested). Private receive/payout; the on-chain announce + sweep reuses
 the same UA transfer flow.
 
-## Deliberately NOT used (different track)
-- **Openfort backend wallets / x402** is a General-Track subtrack we skip — the fit would be
-  automated recurring pot top-ups, but that's scope creep this close to the finale.
-- **ZeroDev** is now USED (§1b) — its Kernel7702 session-key validator is our on-chain
-  enforcement layer, stacking a 4th bounty on the UA-track work.
+### 5. Openfort — x402 agent payments + backend sweep · **Functional (partner bounty)**
+Real x402 flow (`lib/x402.ts`) + backend sweep detection (`lib/sweep.ts`), gated behind
+`NEXT_PUBLIC_OPENFORT_FACILITATOR`.
+- **x402 agent wallet (the standout):** a member's ZeroDev 7702 session key is a *safe agent
+  wallet* — it pays per-request for a service via x402 and **physically cannot exceed the
+  member's cap** (the cap guard is `chargeWithinCap`, mirrored on-chain by the 7702 policy).
+  Live demo at `/agent`. This is the exact "autonomous agent that transacts, with guardrails"
+  the x402 bounty rewards, and it makes the 7702 cap the hero of a second story.
+- **Backend sweep:** `findSweepable` detects the pot's stealth receives and recovers each
+  controlling key, ready for an Openfort policy-driven backend wallet to sweep into the UA —
+  completing the stealth-sweep to-do.
+
+## Deliberately NOT used
+- Nothing from the featured set. All five partners (Particle, Magic, Arbitrum, ZeroDev,
+  Openfort) are integrated with real code, each on the critical path of at least one flow.
 
 ## One-line verdict
 Particle UA chain abstraction and Magic auth are **deep and core**; the per-member 7702 cap
 is an **owner-signed grant** enforced **on-chain via a ZeroDev Kernel7702 call-policy**
-(`lib/zerodev.ts`) — the chain, not the app, refuses an over-limit transfer. Four partners
-used for real (Particle, Magic, Arbitrum, ZeroDev); the only open items are wiring the
-ZeroDev RPC key and confirming UA composition + bounty stacking at Office Hours.
+(`lib/zerodev.ts`); and that same capped key doubles as an **x402 agent wallet** (Openfort,
+`lib/x402.ts`) that can't overspend the pot. **Five partners used for real** (Particle, Magic,
+Arbitrum, ZeroDev, Openfort); open items are wiring the RPC/facilitator keys and confirming
+composition + bounty stacking at Office Hours.

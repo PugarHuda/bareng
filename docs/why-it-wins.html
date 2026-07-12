@@ -117,6 +117,8 @@
 
   /* ---- Stack ---- */
   .stack { display: grid; gap: .8rem; grid-template-columns: repeat(2, 1fr); }
+  .feat.span2 { grid-column: 1 / -1; border-color: color-mix(in srgb, var(--amber) 45%, var(--line)); }
+  .feat.span2 .role { background: var(--amber-soft); color: var(--amber); }
   .feat {
     background: var(--raised); border: 1px solid var(--line);
     border-radius: 16px; padding: 1.15rem 1.2rem; box-shadow: var(--shadow);
@@ -226,7 +228,7 @@
     <div class="tagrow">
       <span class="chip">money, together</span>
       <span class="chip">Indonesian for “together”</span>
-      <span class="chip win">$15.5K prize pool · 4 partners</span>
+      <span class="chip win">$15.5K prize pool · 5 partners, all used</span>
     </div>
   </header>
 
@@ -252,6 +254,11 @@
         <div class="who"><span class="mono">Arbitrum · Settlement</span><span class="role">core</span></div>
         <div class="feel">The backend you never see.</div>
         <div class="under">Every spend settles on Arbitrum One. The user never picks a chain or holds gas — it’s just where the money lands.</div>
+      </div>
+      <div class="feat span2">
+        <div class="who"><span class="mono">Openfort · x402 agent payments</span><span class="role">the twist</span></div>
+        <div class="feel">The same capped key is a safe agent wallet.</div>
+        <div class="under">Point a member’s 7702 session key at an <code>x402</code> flow and it pays per-request for a service — an API, compute, a group subscription — and <b>physically cannot overspend the pot</b>, because the cap is enforced on-chain. An autonomous agent you can actually trust with money.</div>
       </div>
     </div>
   </section>
@@ -315,6 +322,7 @@
       <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Arbitrum</span>
       <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Magic</span>
       <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ZeroDev</span>
+      <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Openfort</span>
     </div>
     <div class="foot">
       <span>Bareng — money, together</span>

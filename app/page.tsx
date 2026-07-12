@@ -62,6 +62,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const [payee, setPayee] = useState("@sari");
+  const [srcChain, setSrcChain] = useState("Base");
   const session = useSession();
 
   // Sign a real 7702 grant per member on mount — the cap becomes cryptographic,
@@ -134,6 +135,7 @@ export default function Home() {
         <nav className="mt-3 flex gap-4 text-sm">
           <Link href="/admin" className="text-indigo-400">Manage pot</Link>
           <Link href="/receive" className="text-indigo-400">Receive privately</Link>
+          <Link href="/agent" className="text-indigo-400">Agent wallet</Link>
         </nav>
       </header>
 
@@ -190,6 +192,27 @@ export default function Home() {
         </div>
         <p className="mt-3 text-4xl font-bold">${balance.toFixed(2)}</p>
         <p className="mt-1 text-xs text-indigo-200">unified balance · any token · any chain</p>
+        <div className="mt-4 flex items-center gap-2">
+          <span className="text-xs text-indigo-200">Top up from</span>
+          <select
+            value={srcChain}
+            onChange={(e) => setSrcChain(e.target.value)}
+            className="rounded-lg bg-white/15 px-2 py-1 text-xs font-medium text-white outline-none"
+          >
+            {["Base", "Polygon", "Optimism", "Arbitrum"].map((c) => (
+              <option key={c} value={c} className="text-black">{c}</option>
+            ))}
+          </select>
+          <button
+            onClick={() => {
+              setBalance((b) => b + 50);
+              setFeed((f) => [`topped up $50 from ${srcChain} → unified on Arbitrum`, ...f].slice(0, 6));
+            }}
+            className="rounded-lg bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-700 hover:bg-white"
+          >
+            +$50
+          </button>
+        </div>
       </section>
 
       <section className="flex flex-col gap-2">
