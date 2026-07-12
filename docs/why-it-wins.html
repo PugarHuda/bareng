@@ -1,0 +1,324 @@
+<title>Bareng — Why It Wins</title>
+<style>
+  :root {
+    --ground: #faf9f7;
+    --raised: #ffffff;
+    --ink: #16151d;
+    --ink-soft: #4b4956;
+    --ink-faint: #7a7787;
+    --line: #e7e4ee;
+    --line-strong: #d6d1e2;
+    --indigo: #5b5bd6;
+    --violet: #7c3aed;
+    --amber: #d97a06;
+    --amber-soft: #fbeecd;
+    --emerald: #0f9d67;
+    --emerald-soft: #dcf3e8;
+    --shadow: 0 1px 2px rgba(20,18,40,.05), 0 12px 34px -18px rgba(60,50,120,.28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e0e14;
+      --raised: #17161f;
+      --ink: #f3f1f8;
+      --ink-soft: #b4b0c4;
+      --ink-faint: #7f7b91;
+      --line: #262432;
+      --line-strong: #322f42;
+      --indigo: #8b8bf5;
+      --violet: #a879f7;
+      --amber: #f4a83a;
+      --amber-soft: #2b2213;
+      --emerald: #43d69f;
+      --emerald-soft: #12231c;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 20px 48px -22px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #faf9f7; --raised: #ffffff; --ink: #16151d; --ink-soft: #4b4956;
+    --ink-faint: #7a7787; --line: #e7e4ee; --line-strong: #d6d1e2;
+    --indigo: #5b5bd6; --violet: #7c3aed; --amber: #d97a06; --amber-soft: #fbeecd;
+    --emerald: #0f9d67; --emerald-soft: #dcf3e8;
+    --shadow: 0 1px 2px rgba(20,18,40,.05), 0 12px 34px -18px rgba(60,50,120,.28);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e0e14; --raised: #17161f; --ink: #f3f1f8; --ink-soft: #b4b0c4;
+    --ink-faint: #7f7b91; --line: #262432; --line-strong: #322f42;
+    --indigo: #8b8bf5; --violet: #a879f7; --amber: #f4a83a; --amber-soft: #2b2213;
+    --emerald: #43d69f; --emerald-soft: #12231c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 20px 48px -22px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  .wrap {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3.75rem) clamp(1.2rem, 4vw, 2.75rem) 4rem;
+  }
+
+  /* ---- Hero ---- */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .55rem;
+    font-size: .74rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .eyebrow::before {
+    content: ""; width: 1.6rem; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--indigo), var(--violet));
+  }
+  h1 {
+    font-size: clamp(2.4rem, 7vw, 4.35rem);
+    line-height: .98; letter-spacing: -.035em; font-weight: 800;
+    text-wrap: balance;
+    margin: 1.1rem 0 0;
+  }
+  h1 .grad {
+    background: linear-gradient(102deg, var(--indigo), var(--violet) 60%, var(--amber));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lede {
+    margin: 1.35rem 0 0; max-width: 40ch;
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--ink-soft); text-wrap: pretty;
+  }
+  .lede b { color: var(--ink); font-weight: 650; }
+  .tagrow {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem;
+  }
+  .chip {
+    font-size: .78rem; font-weight: 550; padding: .3rem .7rem; border-radius: 999px;
+    border: 1px solid var(--line-strong); color: var(--ink-soft); background: var(--raised);
+  }
+  .chip.win { border-color: transparent; background: var(--amber-soft); color: var(--amber); font-weight: 650; }
+
+  /* ---- Section scaffolding ---- */
+  section { margin-top: clamp(2.75rem, 6vw, 4rem); }
+  .kicker {
+    font-size: .76rem; font-weight: 650; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--indigo); margin: 0 0 1.25rem;
+    display: flex; align-items: baseline; gap: .8rem;
+  }
+  .kicker::after {
+    content: ""; flex: 1; height: 1px; background: var(--line);
+    transform: translateY(-.25em);
+  }
+
+  /* ---- Stack ---- */
+  .stack { display: grid; gap: .8rem; grid-template-columns: repeat(2, 1fr); }
+  .feat {
+    background: var(--raised); border: 1px solid var(--line);
+    border-radius: 16px; padding: 1.15rem 1.2rem; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .feat .who {
+    font-size: .72rem; letter-spacing: .04em; color: var(--ink-faint);
+    display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+  }
+  .feat .who .role {
+    padding: .1rem .5rem; border-radius: 999px; font-weight: 650; font-size: .66rem;
+    text-transform: uppercase; letter-spacing: .07em;
+    background: color-mix(in srgb, var(--indigo) 14%, transparent); color: var(--indigo);
+  }
+  .feat .feel { font-size: 1.06rem; font-weight: 700; letter-spacing: -.01em; }
+  .feat .under { font-size: .88rem; color: var(--ink-soft); }
+  .feat .under code {
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .82em;
+    color: var(--ink); background: color-mix(in srgb, var(--indigo) 10%, transparent);
+    padding: .05rem .3rem; border-radius: 5px;
+  }
+
+  /* ---- Scorecard ---- */
+  .scores { display: flex; flex-direction: column; gap: 1.5rem; }
+  .score { display: grid; grid-template-columns: 1fr; gap: .55rem; }
+  .score .top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .score .name { font-size: 1.12rem; font-weight: 750; letter-spacing: -.015em; }
+  .score .name .sub { display: block; font-size: .84rem; font-weight: 500; color: var(--ink-soft); letter-spacing: 0; margin-top: .15rem; max-width: 52ch; }
+  .score .pct { font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .bar > span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--indigo), var(--violet)); }
+  .bar.warm > span { background: linear-gradient(90deg, var(--violet), var(--amber)); }
+
+  /* ---- White space ---- */
+  .whitespace {
+    background: var(--raised); border: 1px solid var(--line-strong);
+    border-radius: 18px; padding: clamp(1.4rem, 3vw, 2.1rem); box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .whitespace::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 4px;
+    background: linear-gradient(180deg, var(--indigo), var(--violet), var(--amber));
+  }
+  .whitespace h3 { margin: 0 0 .6rem; font-size: 1.3rem; letter-spacing: -.02em; }
+  .whitespace p { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+  .whitespace .peers { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .whitespace .peers span {
+    font-size: .74rem; color: var(--ink-faint); padding: .22rem .55rem;
+    border: 1px dashed var(--line-strong); border-radius: 8px;
+    text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--amber) 60%, transparent);
+  }
+  .whitespace .peers b {
+    text-decoration: none; color: var(--amber); border-style: solid;
+    border-color: var(--amber); font-weight: 700;
+  }
+
+  /* ---- Close ---- */
+  .close {
+    margin-top: clamp(2.75rem, 6vw, 4rem);
+    border-top: 1px solid var(--line); padding-top: 2rem;
+    display: flex; flex-direction: column; gap: 1.1rem;
+  }
+  .close .line {
+    font-size: clamp(1.3rem, 3.4vw, 1.95rem); font-weight: 800; letter-spacing: -.03em;
+    line-height: 1.12; text-wrap: balance;
+  }
+  .close .line em { font-style: normal; color: var(--violet); }
+  .prizes { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+  .prizes .pool {
+    font-weight: 800; font-size: .95rem; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .prizes .dot { color: var(--ink-faint); }
+  .prizes .p {
+    font-size: .8rem; font-weight: 600; padding: .3rem .65rem; border-radius: 999px;
+    background: var(--emerald-soft); color: var(--emerald);
+    display: inline-flex; align-items: center; gap: .35rem;
+  }
+  .prizes .p svg { width: .8rem; height: .8rem; }
+  .foot {
+    margin-top: 2.5rem; font-size: .78rem; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+  }
+
+  @media (max-width: 620px) {
+    .stack { grid-template-columns: 1fr; }
+    .score .pct { font-size: 1.25rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .feat, .score, .whitespace { animation: rise .6s cubic-bezier(.2,.7,.3,1) both; }
+    .stack .feat:nth-child(2) { animation-delay: .05s; }
+    .stack .feat:nth-child(3) { animation-delay: .1s; }
+    .stack .feat:nth-child(4) { animation-delay: .15s; }
+    .bar > span { animation: grow 1s .2s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+    @keyframes grow { from { transform: scaleX(0); transform-origin: left; } }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">UXmaxx Hackathon · Universal Accounts Track</span>
+    <h1>Bareng puts <span class="grad">gotong royong</span> onchain.</h1>
+    <p class="lede">A shared group wallet: <b>one Universal Account, one cross-chain balance</b> —
+      and every member gets their own spending limit via an <b>EIP-7702 session key</b>. It feels
+      like a normal money app. No chains. No gas. No seed phrase.</p>
+    <div class="tagrow">
+      <span class="chip">money, together</span>
+      <span class="chip">Indonesian for “together”</span>
+      <span class="chip win">$15.5K prize pool · 4 partners</span>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="kicker">The invisible stack</h2>
+    <div class="stack">
+      <div class="feat">
+        <div class="who"><span class="mono">Particle · Universal Accounts</span><span class="role">core</span></div>
+        <div class="feel">One balance, every chain.</div>
+        <div class="under">Top up from any token on any chain; spend from a single unified balance. Chain abstraction is the spine — a shared pot is impossible without it.</div>
+      </div>
+      <div class="feat">
+        <div class="who"><span class="mono">Magic · Embedded wallet</span><span class="role">core</span></div>
+        <div class="feel">Google in, wallet ready.</div>
+        <div class="under">Social login mints a seedless EOA that owns the account and signs. Web2 onboarding, no MetaMask, no phrase to lose.</div>
+      </div>
+      <div class="feat">
+        <div class="who"><span class="mono">ZeroDev · Kernel7702</span><span class="role">core</span></div>
+        <div class="feel">The cap the chain enforces.</div>
+        <div class="under">Each member’s session key is a permission validator: a <code>toCallPolicy</code> that only allows <code>USDC.transfer ≤ cap</code>. Over-limit? The chain refuses — not the app.</div>
+      </div>
+      <div class="feat">
+        <div class="who"><span class="mono">Arbitrum · Settlement</span><span class="role">core</span></div>
+        <div class="feel">The backend you never see.</div>
+        <div class="under">Every spend settles on Arbitrum One. The user never picks a chain or holds gas — it’s just where the money lands.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="kicker">Why it wins — mapped to the score</h2>
+    <div class="scores">
+      <div class="score">
+        <div class="top">
+          <div class="name">Effortless UX
+            <span class="sub">Google login, one balance, zero thought about chains, gas, or seed phrases. Crypto stays entirely under the hood.</span>
+          </div>
+          <div class="pct">40%</div>
+        </div>
+        <div class="bar"><span style="width:100%"></span></div>
+      </div>
+      <div class="score">
+        <div class="top">
+          <div class="name">Prominent EIP-7702 use
+            <span class="sub">Per-member session-key caps — an owner-signed grant, enforced on-chain by a ZeroDev call-policy. The 7702 capability almost nobody actually ships.</span>
+          </div>
+          <div class="pct">30%</div>
+        </div>
+        <div class="bar warm"><span style="width:75%"></span></div>
+      </div>
+      <div class="score">
+        <div class="top">
+          <div class="name">Creativity &amp; feel
+            <span class="sub">It reads as a consumer money app — “pay @dewi $30”, split a dinner, cap a kid’s allowance — with real onchain limits underneath.</span>
+          </div>
+          <div class="pct">30%</div>
+        </div>
+        <div class="bar warm"><span style="width:75%"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="whitespace">
+      <h3>The white space nobody owns</h3>
+      <p>Particle’s ecosystem is entirely <b>single-user</b> — every flagship app is one person, one
+        account. There is no shared, multi-user account product. Bareng is the first, and the shared
+        pot is exactly where per-member 7702 limits become essential rather than decorative.</p>
+      <div class="peers">
+        <span>UniversalX</span><span>MYX</span><span>Overtime</span>
+        <b>Bareng — shared &amp; multi-user</b>
+      </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <p class="line">One shared balance. Real per-person limits. Real privacy.<br>
+      <em>No gas, no chains, no seed phrases.</em></p>
+    <div class="prizes">
+      <span class="pool">$15.5K pool</span>
+      <span class="dot">·</span>
+      <span class="p">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Universal Accounts track
+      </span>
+      <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Arbitrum</span>
+      <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Magic</span>
+      <span class="p"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ZeroDev</span>
+    </div>
+    <div class="foot">
+      <span>Bareng — money, together</span>
+      <span class="mono">UXmaxx finale · 30 Jul 2026</span>
+    </div>
+  </div>
+</div>
