@@ -20,8 +20,9 @@ const RESOURCE = "https://api.premium.example/insight";
 type Line = { text: string; kind: "info" | "pay" | "ok" | "block" };
 
 export default function Agent() {
-  // The agent spends as @budi, capped at $100/week — enforced on-chain by the 7702 key.
-  const [member, setMember] = useState<Member>(() => newMember("0xA1budi", "Budi", 100, NOW));
+  // The agent spends as @budi, capped at $100/week. Reference demo (mock endpoint, settlement
+  // abstracted) — the cap guard is real; see docs/ARCHITECTURE.md for scope.
+  const [member, setMember] = useState<Member>(() => newMember("0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "Budi", 100, NOW));
   const [charge, setCharge] = useState(20);
   const [log, setLog] = useState<Line[]>([]);
   const [busy, setBusy] = useState(false);
@@ -86,8 +87,8 @@ export default function Agent() {
       <section className="rounded-2xl border border-neutral-800 p-4 text-sm text-neutral-300">
         <p>
           The agent spends as <b className="text-indigo-400">@budi</b> using his{" "}
-          <b>7702 session key</b>. It pays for a service per-request via <b>x402</b> — and the
-          on-chain cap means it <b>can never overspend the pot</b>.
+          <b>7702-capped key</b>. It pays for a service per-request via <b>x402</b>, bounded by a
+          spend cap so it <b>can’t drain the pot</b>.
         </p>
         <p className="mt-2 text-xs text-neutral-500">
           Weekly cap $100 · <span className="text-neutral-300">${left} left</span>
@@ -106,7 +107,7 @@ export default function Agent() {
           className="accent-indigo-500"
         />
         <p className="text-xs text-neutral-500">
-          Drag past ${left} left to watch the agent get refused on-chain — without paying.
+          Drag past ${left} left to watch the agent get refused — before paying anything.
         </p>
         <button
           onClick={run}
@@ -116,7 +117,7 @@ export default function Agent() {
           {busy ? "Running…" : "Agent: fetch premium data"}
         </button>
         <button
-          onClick={() => { setMember(newMember("0xA1budi", "Budi", 100, NOW)); setLog([]); }}
+          onClick={() => { setMember(newMember("0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "Budi", 100, NOW)); setLog([]); }}
           className="text-xs text-neutral-500"
         >
           Reset week
@@ -132,7 +133,7 @@ export default function Agent() {
       )}
 
       <footer className="pb-6 pt-2 text-center text-xs text-neutral-600">
-        Openfort x402 · bounded by the ZeroDev 7702 cap · settles on Arbitrum
+        Openfort x402 · bounded by a 7702 spend cap · reference demo
       </footer>
     </main>
   );

@@ -6,8 +6,10 @@ command. Do this the moment you have Particle keys.
 
 ## Why this matters
 A judge asking "show me a real tx" is the fastest way to expose a scaffolded submission. One
-settled UA transfer on Arbitrum answers it — and because `scripts/prove-onchain.mjs` reuses the
-exact `lib/universalAccount.ts` the app uses, a green run means the live UI path is real too.
+settled UA transfer on Arbitrum answers it. `scripts/prove-onchain.mjs` reuses the exact
+`lib/universalAccount.ts` the app uses, so it's the right starting point — **but it has never
+touched the network.** Treat the first run as debugging, not a guaranteed green: expect to
+iterate on the 7702 authorization (below), the signer contract, and the response shape.
 
 ## Prereqs (the part that needs you)
 1. Particle keys in `.env.local` (`NEXT_PUBLIC_PARTICLE_PROJECT_ID/_CLIENT_KEY/_APP_ID`).

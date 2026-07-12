@@ -47,7 +47,8 @@ owner-signed grants enforced **app-side**, not chain-enforced on the UA. ZeroDev
 standalone reference impls. The honest, winning story leans on **UX (40%) + the 7702 account +
 cross-chain balance** — all real — not on chain-enforced per-member caps. **Before finale, prove
 ONE real on-chain spend end-to-end (one tx hash) — that beats five scaffolded integrations.**
-The harness is ready: `npm run prove:onchain` — full runbook in `docs/ONCHAIN_PROOF.md`.
+Harness (a starting point, not yet network-tested): `npm run prove:onchain` — runbook in
+`docs/ONCHAIN_PROOF.md`. Budget time to debug the first live run.
 
 ## Known ceilings (say them if asked — they read as intent, not gaps)
 - On-chain cap is **per-transaction** (ZeroDev call-policy); the **rolling weekly total** is

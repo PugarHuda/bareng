@@ -6,22 +6,19 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Wallet } from "ethers";
 import { isAddress } from "viem";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
 import { newMember, spend, type SignedGrant } from "@/lib/bareng";
 import { claimHandle, handleFor, potLink, resolveHandle } from "@/lib/handles";
 import { signRootHash } from "@/lib/magic";
 import { createSessionKey, signGrant, verifyGrant } from "@/lib/sessionKey";
+import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
 
 const NOW = 1_000_000; // ponytail: fixed clock for the demo; use Date.now()/1000 when wired
 const WEEK = 604800n;
 const USDC_DECIMALS = 1_000000n;
-
-// ponytail: demo pot owner so grants sign/verify with no keys set (matches admin).
-const DEMO_OWNER = new Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d");
 
 // Fixed, valid checksummed demo EOAs — STABLE across refresh (so @budi is always the same
 // identity) and EIP-712-encodable so the 7702 grant crypto actually signs. Real addresses
@@ -209,7 +206,7 @@ export default function Home() {
           <button
             onClick={() => {
               setBalance((b) => b + 50);
-              setFeed((f) => [`topped up $50 from ${srcChain} → unified on Arbitrum`, ...f].slice(0, 6));
+              setFeed((f) => [`topped up $50 from ${srcChain} → unified on Arbitrum (demo)`, ...f].slice(0, 6));
             }}
             className="rounded-lg bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-700 hover:bg-white"
           >

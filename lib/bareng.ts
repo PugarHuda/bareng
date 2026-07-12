@@ -2,9 +2,9 @@
 // The UA holds one cross-chain balance; each member has a 7702 session key
 // with a spend cap (enforced by lib/limits.ts, mirrored on-chain).
 
-import { canSpend, recordSpend, type Member } from "./limits";
-import { sendShared, type SignRootHash } from "./universalAccount";
-import { verifyGrant, type SpendPermission } from "./sessionKey";
+import { canSpend, recordSpend, type Member } from "./limits.ts";
+import { sendShared, type SignRootHash } from "./universalAccount.ts";
+import { verifyGrant, type SpendPermission } from "./sessionKey.ts";
 import type { UniversalAccount } from "@particle-network/universal-account-sdk";
 
 /** An owner-signed session-key grant that authorizes a member's spend cap. */

@@ -9,22 +9,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Wallet } from "ethers";
 import { remaining, type Member } from "@/lib/limits";
 import { newMember } from "@/lib/bareng";
 import { claimHandle, isValidHandle } from "@/lib/handles";
 import { createSessionKey, signGrant, verifyGrant, type SignerLike } from "@/lib/sessionKey";
 import { signTypedData as magicSignTypedData } from "@/lib/magic";
+import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
 
 const NOW = 1_000_000;
 const WEEK = 604800n;
 const USDC_DECIMALS = 1_000000n; // 6dp
-
-// ponytail: demo UA owner so the grant signs/verifies with no keys set. Real owner =
-// the admin's Magic EOA (used automatically once signed in). Well-known test key.
-const DEMO_OWNER = new Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d");
 
 type Row = Member & { sessionKey: string; grantOk: boolean };
 
