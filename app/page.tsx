@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Wallet } from "ethers";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
 import { newMember, spend, type SignedGrant } from "@/lib/bareng";
-import { claimHandle, handleFor, potLink } from "@/lib/handles";
+import { claimHandle, handleFor, potLink, resolveHandle } from "@/lib/handles";
 import { signRootHash } from "@/lib/magic";
 import { createSessionKey, signGrant, verifyGrant } from "@/lib/sessionKey";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
@@ -61,6 +61,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
+  const [payee, setPayee] = useState("@sari");
   const session = useSession();
 
   // Sign a real 7702 grant per member on mount — the cap becomes cryptographic,
@@ -78,12 +79,15 @@ export default function Home() {
   const me = members[active];
   const grant = grants[me.address];
   const left = remaining(me, NOW);
-  const ok = canSpend(me, amount, NOW) && amount <= balance;
+  // Pay to a @handle (resolved via the registry) or a raw 0x address.
+  const receiver = /^0x[0-9a-fA-F]{40}$/.test(payee.trim()) ? payee.trim() : resolveHandle(payee);
+  const ok = canSpend(me, amount, NOW) && amount <= balance && Boolean(receiver);
 
   function logSpend(updated: Member, note: string) {
     setMembers((ms) => ms.map((m, i) => (i === active ? updated : m)));
     setBalance((b) => b - amount);
-    setFeed((f) => [`@${handleFor(me.address)} spent $${amount} · ${note}`, ...f].slice(0, 6));
+    const to = handleFor(receiver ?? "") ? `@${handleFor(receiver ?? "")}` : payee.trim();
+    setFeed((f) => [`@${handleFor(me.address)} paid $${amount} → ${to} · ${note}`, ...f].slice(0, 6));
   }
 
   async function doSpend() {
@@ -95,7 +99,7 @@ export default function Home() {
         const res = await spend(
           session.ua,
           me,
-          { amount, receiver: session.address!, tokenAddress: ARBITRUM_USDC },
+          { amount, receiver: receiver ?? session.address!, tokenAddress: ARBITRUM_USDC },
           signRootHash,
           NOW,
           grant,
@@ -220,6 +224,15 @@ export default function Home() {
         <p className="text-xs text-neutral-500">
           {grant ? "🔒 7702 session-key grant · owner-signed & verified" : "signing 7702 grant…"}
         </p>
+        <label className="text-xs text-neutral-400">Pay to (@handle or 0x address)</label>
+        <input
+          value={payee}
+          onChange={(e) => setPayee(e.target.value)}
+          placeholder="@sari or 0x…"
+          className={`rounded-xl bg-neutral-900 px-3 py-2 text-sm outline-none ${
+            payee.trim() && !receiver ? "ring-1 ring-red-500/60" : ""
+          }`}
+        />
         <input
           type="range"
           min={1}
@@ -237,7 +250,13 @@ export default function Home() {
           disabled={!ok}
           className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:cursor-not-allowed disabled:bg-neutral-800 disabled:text-neutral-500"
         >
-          {ok ? `Pay $${amount}` : amount > left ? "Over limit" : "Not enough balance"}
+          {!receiver
+            ? "Enter a valid payee"
+            : ok
+              ? `Pay $${amount}`
+              : amount > left
+                ? "Over limit"
+                : "Not enough balance"}
         </button>
       </section>
 
