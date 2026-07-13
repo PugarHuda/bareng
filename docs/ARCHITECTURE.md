@@ -26,8 +26,9 @@ no session-key, policy, delegation, or spend-limit API in the UA SDK.** One owne
 They are **standalone, working reference implementations**, not composed into the Particle UA:
 
 - **`lib/zerodev.ts`** — a real ZeroDev Kernel7702 permission validator whose call-policy caps
-  `USDC.transfer ≤ limit`. It genuinely demonstrates on-chain 7702 enforcement and targets the
-  ZeroDev bounty. It does **not** enforce anything on the Particle UA — ZeroDev's kernel is a
+  `USDC.transfer ≤ limit`. It is a **working reference implementation** of on-chain 7702
+  enforcement (built + unit-tested, but not yet executed on-chain — see the on-chain-proof gap)
+  and targets the ZeroDev bounty. It does **not** enforce anything on the Particle UA — ZeroDev's kernel is a
   *different* account. To get real on-chain per-member caps you would make the pot a **ZeroDev
   kernel account instead of a Particle UA**, trading away UA's cross-chain unified balance.
 - **`lib/x402.ts` / `/agent`** — demonstrates that a 7702-capped key is a safe agent wallet,

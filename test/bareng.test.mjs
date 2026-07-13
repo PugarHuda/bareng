@@ -51,6 +51,21 @@ test("a valid owner-signed grant lets the spend through", async () => {
   assert.equal(res.member.spent, 30);
 });
 
+test("the OWNER-SIGNED cap gates the amount, not just its authenticity", async () => {
+  const { ua, calls } = fakeUA();
+  const owner = Wallet.createRandom();
+  // App-side member.limit is generous (100), but the owner only signed a 10 USDC cap.
+  const member = newMember(budiAddr, "Budi", 100, NOW);
+  const permission = {
+    account: owner.address, sessionKey: createSessionKey().address, member: budiAddr,
+    limit: 10_000000n, periodSeconds: 604800n, token: USDC, // signed cap = 10, not 100
+  };
+  const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
+  // 30 > the signed 10 → refused BEFORE the chain, even though member.limit alone would allow it.
+  await assert.rejects(spend(ua, member, params, sign, NOW, grant), /over the owner-signed cap/);
+  assert.equal(calls.sent, 0);
+});
+
 test("a grant for a DIFFERENT member is refused", async () => {
   const { ua, calls } = fakeUA();
   const owner = Wallet.createRandom();

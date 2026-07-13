@@ -2,7 +2,7 @@
 // The UA holds one cross-chain balance; each member has a 7702 session key
 // with a spend cap (enforced by lib/limits.ts, mirrored on-chain).
 
-import { canSpend, recordSpend, type Member } from "./limits.ts";
+import { canSpend, recordSpend, spentInPeriod, type Member } from "./limits.ts";
 import { sendShared, type SignRootHash } from "./universalAccount.ts";
 import { verifyGrant, type SpendPermission } from "./sessionKey.ts";
 import type { UniversalAccount } from "@particle-network/universal-account-sdk";
@@ -46,10 +46,22 @@ export async function spend(
     if (p.member.toLowerCase() !== member.address.toLowerCase()) {
       throw new Error(`Bareng: grant is not for ${member.name}`);
     }
+    // The signed cap is the ACTUAL authority for the amount — not just proof it's authentic.
+    // Without this the owner's signature vouches for a number (p.limit) nothing enforces, and
+    // the real ceiling is the parallel app-side member.limit. Gate the period spend on p.limit.
+    // ponytail: settlement token is USDC (6dp); pass token decimals here if a pot ever caps a
+    // non-6dp token.
+    const base = (v: number) => BigInt(Math.round(v * 1e6));
+    if (base(spentInPeriod(member, now)) + base(params.amount) > p.limit) {
+      throw new Error(`Bareng: ${member.name} — over the owner-signed cap`);
+    }
   }
   if (!canSpend(member, params.amount, now)) {
     throw new Error(`Bareng: ${member.name} over limit`);
   }
+  // ponytail: TOCTOU — check here, recordSpend after the await. Fine for the single-user
+  // in-memory demo; add a per-member lock (or record-then-settle) if spend() ever runs
+  // server-side with concurrent callers.
   const result = await sendShared(
     ua,
     { amount: String(params.amount), receiver: params.receiver, tokenAddress: params.tokenAddress },
