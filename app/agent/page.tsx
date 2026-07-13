@@ -59,10 +59,16 @@ export default function Agent() {
         // The pay step: settle via the capped session key (Openfort facilitator in prod).
         async () => "0xPAYMENT_PROOF",
       );
+      if (!res.paid) {
+        add({ text: `${res.status} — resource was free, nothing to pay`, kind: "ok" });
+        return;
+      }
+      // ponytail: only charge the cap when we actually paid. Real settlement can still fail
+      // after X-PAYMENT (res.status !== 200); wire that refusal here once Openfort is live.
       const updated = recordSpend(member, res.charge, NOW);
       setMember(updated);
       add({ text: `Paid $${res.charge} via 7702 session key · X-PAYMENT sent`, kind: "pay" });
-      add({ text: `200 OK — resource unlocked. Cap left: $${remaining(updated, NOW)}`, kind: "ok" });
+      add({ text: `${res.status} OK — resource unlocked. Cap left: $${remaining(updated, NOW)}`, kind: "ok" });
     } catch (e) {
       add({ text: `${(e as Error).message}`, kind: "block" });
     } finally {
