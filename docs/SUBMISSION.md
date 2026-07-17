@@ -4,8 +4,11 @@ What's done, what's on you, and how to take Bareng live. Pitch script is in `DEM
 integration depth in `INTEGRATION.md`.
 
 ## Status at a glance
-- ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 20/20).
+- ✅ **Live:** https://bareng-jade.vercel.app (public, demo mode) · repo https://github.com/PugarHuda/bareng
+- ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 33/33).
 - ✅ Runs in demo mode with no keys — all four routes (`/`, `/admin`, `/agent`, `/receive`) serve.
+- ✅ **Particle keys valid + on-chain path preflighted** — `prove:onchain` runs init → build → sign
+  → send end-to-end; only a UA deposit remains before a real tx hash (see checklist).
 - ✅ Core spine, real + coherent: **Particle** UA (single-owner, chain-abstracted balance,
   7702 mode + Arbitrum settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement).
 - 🟡 **ZeroDev** + **Openfort/x402** are working **reference implementations + bounty targets**,
@@ -26,18 +29,22 @@ integration depth in `INTEGRATION.md`.
 4. To run an interactive login yourself in this session, type: `! npm run dev`
 
 ## Confirm at Particle/ZeroDev Office Hours (the only open questions)
-1. **7702-mode init** on `UniversalAccount` — exact flag (open `ponytail:` in
-   `lib/universalAccount.ts`).
+1. ~~**7702-mode init** / first-tx authorization~~ — **RESOLVED by preflight.** A real
+   `sendTransaction(tx, signature)` against the funded-keys UA was accepted by Particle's infra
+   (only failed on "insufficient balance for gas"); the EIP-7702 authorization is handled
+   server-side, no 3rd arg needed. No longer an open question.
 2. **Composition** — does the ZeroDev Kernel7702 `regular` permission validator compose with
    the Particle UA? `createMemberKernel` currently casts the options (`lib/zerodev.ts`).
 3. **Bounty stacking** — does the ZeroDev bounty stack with the UA track? Exact per-partner
    prize amounts live on the Encode dashboard (public total: $15.5K).
 
 ## Pre-finale checklist
-- [ ] **Prove one on-chain tx:** `npm run prove:onchain` → real `transactionId` (see `docs/ONCHAIN_PROOF.md`). ← top priority
-- [ ] Keys in `.env.local`; live login → UA → spend verified end-to-end once.
+- [x] Particle keys valid; `prove:onchain` preflighted (init→build→sign→send all pass).
+- [ ] **Prove one on-chain tx:** deposit USDC to the UA (`0x14eB…a22c`, Arbitrum One) → rerun
+  `npm run prove:onchain` → real `transactionId` (see `docs/ONCHAIN_PROOF.md`). ← top priority, only step left
 - [ ] Real cross-chain proof: top up from a non-Arbitrum chain → show it settle on Arbitrum.
-- [ ] Rehearse the `DEMO.md` flow to ~2–3 min; land the "over limit is enforced on-chain" beat.
+- [ ] Rehearse the `DEMO.md` flow to ~2–3 min; land the "over limit is refused — owner-signed
+  7702 cap, verified" beat (app-side enforcement; don't say the UA enforces it on-chain).
 - [ ] Submission form: repo link, demo video/screens, the four-partner story, team.
 - [ ] One "why it wins" slide: UX (40%) + prominent 7702 (30%) + the multi-user white space.
 
@@ -47,8 +54,8 @@ owner-signed grants enforced **app-side**, not chain-enforced on the UA. ZeroDev
 standalone reference impls. The honest, winning story leans on **UX (40%) + the 7702 account +
 cross-chain balance** — all real — not on chain-enforced per-member caps. **Before finale, prove
 ONE real on-chain spend end-to-end (one tx hash) — that beats five scaffolded integrations.**
-Harness (a starting point, not yet network-tested): `npm run prove:onchain` — runbook in
-`docs/ONCHAIN_PROOF.md`. Budget time to debug the first live run.
+Harness `npm run prove:onchain` (runbook in `docs/ONCHAIN_PROOF.md`) is **network-tested against
+real Particle keys** — the full path runs; it just needs the UA deposit to settle.
 
 ## Known ceilings (say them if asked — they read as intent, not gaps)
 - On-chain cap is **per-transaction** (ZeroDev call-policy); the **rolling weekly total** is
