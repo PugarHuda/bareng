@@ -44,9 +44,22 @@ try {
     { amount: String(amount), receiver, tokenAddress: ARBITRUM_USDC },
     sign,
   );
-  const hash = res?.transactionId ?? res?.hash ?? JSON.stringify(res);
-  console.log(`✓ Sent. transactionId: ${hash}`);
-  console.log(`  Screenshot this + the settled tx on Arbiscan for the submission.`);
+  // SDK return types are all Promise<any>, so dump the raw response — whatever field holds the
+  // on-chain hash shows here regardless of its name.
+  console.log(`✓ Sent. Raw response:`);
+  console.log(JSON.stringify(res, null, 2));
+  const txId = res?.transactionId ?? res?.hash;
+  if (txId) {
+    console.log(`\n  Particle transactionId: ${txId}`);
+    // Best-effort: resolve the settled Arbitrum tx hash(es). May be pending on first call.
+    try {
+      const detail = await ua.getTransaction(txId);
+      console.log(`  On-chain detail: ${JSON.stringify(detail, null, 2)}`);
+    } catch (e2) {
+      console.log(`  (getTransaction not ready: ${e2.message} — look up the id above on Particle's explorer)`);
+    }
+  }
+  console.log(`\n  → Grab the Arbitrum tx hash from the output above; screenshot it + Arbiscan for the submission.`);
 } catch (e) {
   console.error(`✗ Send failed: ${e.message}`);
   console.error(`  If it mentions 7702 authorization: the FIRST tx per chain needs an EIP-7702`);
