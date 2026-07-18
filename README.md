@@ -50,6 +50,7 @@ only the on-chain call is stubbed.
 | `lib/bareng.ts` | Glue: shared account + `spend()` (grant + cap gate) | ✅ done + tested |
 | `lib/handles.ts` | Username handles + shareable pot links (pay/join by @handle) | ✅ done + tested |
 | `lib/stealth.ts` | Stealth addresses (ERC-5564) for private receive/payout | ✅ done + tested |
+| `lib/arisan.ts` | Arisan/ROSCA — rotating savings circle (trustless, fair rotation) | ✅ done + tested |
 | `lib/receipts.ts` | Transparent group receipts (tagged, auditable spends) | ✅ done + tested |
 | `lib/yield.ts` | Idle-balance yield → Aave v3 approve+supply batch (via UA) | ✅ done + tested |
 | `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ tested · gated |
@@ -62,9 +63,12 @@ only the on-chain call is stubbed.
 | `app/agent/page.tsx` | x402 agent wallet bounded by the cap | ✅ runs visually |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
 | `app/earn/page.tsx` | Earn on idle balance (Aave v3, keep-liquid slider) | ✅ runs visually |
+| `app/arisan/page.tsx` | Arisan — rotating savings circle (gotong royong onchain) | ✅ runs visually |
 | `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
+| `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
+| `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | 🟡 ready · needs free ZeroDev RPC |
 
-`npm test` → 41 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn`.
+`npm test` → 46 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan`.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 
