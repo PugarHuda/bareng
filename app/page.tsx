@@ -146,7 +146,7 @@ export default function Home() {
       <header className="pt-4">
         <h1 className="text-2xl font-bold tracking-tight">Bareng</h1>
         <p className="text-sm text-neutral-400">money, together — one balance, every chain</p>
-        <nav className="mt-3 flex gap-4 text-sm">
+        <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
           <Link href="/admin" className="text-indigo-400">Manage pot</Link>
           <Link href="/receive" className="text-indigo-400">Receive privately</Link>
           <Link href="/agent" className="text-indigo-400">Agent wallet</Link>

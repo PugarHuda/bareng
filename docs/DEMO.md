@@ -27,6 +27,11 @@ shared money — onchain, and you never feel the crypto."*
 8. **/receive** — tap **Generate** twice → two *different* one-time addresses. Hit
    **Verify pot can claim → ✓**. *"Outside payments land on fresh stealth addresses; the
    pot's account stays unlinkable, then a backend wallet sweeps them in."*
+9. **/earn** — drag the keep-liquid slider; idle balance shows a live yield projection. *"The
+   shared fund earns in Aave v3 between spends — one tap from being spent."*
+10. **/arisan** — the showstopper. Each member **pays in $10**, then **one member collects the
+    whole pot**. *"This is arisan — Indonesia's 500-year-old rotating savings circle — trustless
+    on-chain. We didn't just build a shared wallet; we put gotong royong itself on-chain."*
 
 Close line: *"One shared balance, real per-person limits, real privacy — no gas, no chains,
 no seed phrases. That's chain abstraction people would actually use."*
