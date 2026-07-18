@@ -151,6 +151,7 @@ export default function Home() {
           <Link href="/receive" className="text-indigo-400">Receive privately</Link>
           <Link href="/agent" className="text-indigo-400">Agent wallet</Link>
           <Link href="/earn" className="text-indigo-400">Earn</Link>
+          <Link href="/arisan" className="text-indigo-400">Arisan</Link>
         </nav>
       </header>
 
