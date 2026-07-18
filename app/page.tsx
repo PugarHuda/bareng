@@ -15,6 +15,7 @@ import { createSessionKey, signGrant, verifyGrant } from "@/lib/sessionKey";
 import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
+import { makeReceipt, CATEGORIES, type Receipt } from "@/lib/receipts";
 
 const NOW = 1_000_000; // ponytail: fixed clock for the demo; use Date.now()/1000 when wired
 const WEEK = 604800n;
@@ -56,7 +57,10 @@ export default function Home() {
   const [members, setMembers] = useState<Member[]>(SEED);
   const [active, setActive] = useState(0);
   const [amount, setAmount] = useState(10);
-  const [feed, setFeed] = useState<string[]>([]);
+  const [feed, setFeed] = useState<Receipt[]>([]);
+  const [notice, setNotice] = useState("");
+  const [memo, setMemo] = useState("");
+  const [category, setCategory] = useState<string>("Food");
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
@@ -88,7 +92,17 @@ export default function Home() {
     setMembers((ms) => ms.map((m, i) => (i === active ? updated : m)));
     setBalance((b) => b - amount);
     const to = handleFor(receiver ?? "") ? `@${handleFor(receiver ?? "")}` : payee.trim();
-    setFeed((f) => [`@${handleFor(me.address)} paid $${amount} → ${to} · ${note}`, ...f].slice(0, 6));
+    const receipt = makeReceipt({
+      from: `@${handleFor(me.address)}`,
+      to,
+      amount,
+      category,
+      memo,
+      note,
+      ts: now,
+    });
+    setFeed((f) => [receipt, ...f].slice(0, 8));
+    setMemo("");
   }
 
   async function doSpend() {
@@ -107,14 +121,14 @@ export default function Home() {
         );
         logSpend(res.member, res.txHash || "settled on Arbitrum");
       } catch (e) {
-        setFeed((f) => [`spend failed: ${(e as Error).message}`, ...f].slice(0, 6));
+        setNotice(`spend failed: ${(e as Error).message}`);
       }
       return;
     }
     // Demo path (no keys): same limit logic, on-chain call stubbed — but the 7702 grant
     // is verified for real so the "grant-authorized" claim on screen is honest.
     if (grant && !verifyGrant(grant.permission, grant.signature, grant.owner)) {
-      setFeed((f) => ["spend blocked: invalid 7702 grant", ...f].slice(0, 6));
+      setNotice("spend blocked: invalid 7702 grant");
       return;
     }
     logSpend(recordSpend(me, amount, now), grant ? "7702 grant-authorized · Arbitrum (demo)" : "Arbitrum (demo)");
@@ -207,7 +221,7 @@ export default function Home() {
           <button
             onClick={() => {
               setBalance((b) => b + 50);
-              setFeed((f) => [`topped up $50 from ${srcChain} → unified on Arbitrum (demo)`, ...f].slice(0, 6));
+              setNotice(`topped up $50 from ${srcChain} → unified on Arbitrum (demo)`);
             }}
             aria-label={`Top up $50 from ${srcChain}`}
             className="rounded-lg bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-700 hover:bg-white"
@@ -223,7 +237,7 @@ export default function Home() {
           <button
             onClick={() => {
               setNow((n) => n + 604800);
-              setFeed((f) => ["⏭ a week passed — every cap reset", ...f].slice(0, 6));
+              setNotice("⏭ a week passed — every cap reset");
             }}
             className="text-xs text-indigo-400"
           >
@@ -282,6 +296,29 @@ export default function Home() {
           <span>Amount: <b>${amount}</b></span>
           <span className="text-neutral-400">${left} limit left</span>
         </div>
+        <input
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
+          placeholder="What's it for? (e.g. team lunch)"
+          maxLength={80}
+          aria-label="Memo — what this spend is for"
+          className="rounded-xl bg-neutral-900 px-3 py-2 text-sm outline-none"
+        />
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Category">
+          {CATEGORIES.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCategory(c)}
+              aria-pressed={category === c}
+              className={`rounded-full px-3 py-1 text-xs ${
+                category === c ? "bg-indigo-600 text-white" : "bg-neutral-900 text-neutral-400"
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
         <button
           onClick={doSpend}
           disabled={!ok}
@@ -297,10 +334,27 @@ export default function Home() {
         </button>
       </section>
 
+      {notice && (
+        <p className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-2 text-center text-xs text-neutral-400">{notice}</p>
+      )}
+
       {feed.length > 0 && (
-        <section className="flex flex-col gap-1 text-xs text-neutral-400">
-          {feed.map((line, i) => (
-            <p key={i}>· {line}</p>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-xs font-semibold text-neutral-400">Group receipts · everyone can see</h2>
+          {feed.map((r, i) => (
+            <div key={i} className="flex items-start justify-between gap-2 rounded-xl border border-neutral-800 bg-neutral-900/40 p-2.5 text-xs">
+              <div className="min-w-0">
+                <p className="text-neutral-200">
+                  <span className="text-indigo-400">{r.from}</span> → {r.to}
+                  {r.memo && <span className="text-neutral-400"> · {r.memo}</span>}
+                </p>
+                <p className="text-neutral-500">{r.note}</p>
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="font-semibold text-neutral-100">${r.amount}</p>
+                <span className="rounded-full bg-neutral-800 px-2 py-0.5 text-[10px] text-neutral-300">{r.category}</span>
+              </div>
+            </div>
           ))}
         </section>
       )}
