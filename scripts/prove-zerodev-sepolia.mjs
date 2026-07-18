@@ -38,7 +38,7 @@ const pub = createPublicClient({ chain: sepolia, transport: http() });
 
 // Owner EOA is 7702-upgraded (sudo); the session key is the capped `regular` validator.
 const owner = privateKeyToAccount(process.env.OWNER_PRIVATE_KEY);
-const sessionSigner = toECDSASigner({ signer: privateKeyToAccount(generatePrivateKey()) });
+const sessionSigner = await toECDSASigner({ signer: privateKeyToAccount(generatePrivateKey()) });
 
 const regular = await toPermissionValidator(pub, {
   entryPoint,
@@ -67,22 +67,33 @@ const call = (amount) => ({
   value: 0n,
   data: encodeFunctionData({ abi: ERC20, functionName: "transfer", args: [RECIPIENT, amount] }),
 });
+const detailOf = (e) => e.details ?? e.metaMessages?.join(" ") ?? e.cause?.message ?? e.shortMessage ?? e.message ?? String(e);
+const NEEDS_GAS_POLICY = (d) => /gas sponsoring policies/i.test(d);
 
 console.log(`Kernel: ${account.address}\nCap: ${CAP} per transfer on ${TOKEN}\n`);
 
-// 1) OVER the cap → the on-chain policy must REJECT it.
+// 1) OVER the cap → the on-chain cap policy must REJECT it.
 try {
   await client.sendUserOperation({ callData: await account.encodeCalls([call(CAP + 1n)]) });
   console.log("✗ Over-cap tx was NOT rejected — policy not enforcing (investigate).");
 } catch (e) {
-  console.log(`✓ Over-cap transfer REJECTED on-chain by the cap policy: ${String(e.message).slice(0, 120)}…`);
+  const d = detailOf(e);
+  if (NEEDS_GAS_POLICY(d)) {
+    console.error(`⚠ Prerequisite: create a ZeroDev GAS POLICY first.`);
+    console.error(`  Dashboard → your Sepolia project → Gas Policies → add a policy that sponsors userOps`);
+    console.error(`  (e.g. "sponsor all"). Without it the paymaster refuses BOTH txs before the cap is even`);
+    console.error(`  evaluated, so enforcement can't be shown. Add it, then rerun \`npm run prove:zerodev\`.`);
+    process.exit(1);
+  }
+  console.log(`✓ Over-cap transfer REJECTED on-chain by the cap policy: ${String(d).slice(0, 140)}`);
 }
 
-// 2) WITHIN the cap → the policy admits it (may still revert in execution if the kernel holds no
-//    token — passing validation is the point).
+// 2) WITHIN the cap → the policy admits it (execution may still revert if the kernel holds no token;
+//    passing the policy check is the point).
 try {
   const hash = await client.sendUserOperation({ callData: await account.encodeCalls([call(CAP)]) });
-  console.log(`✓ Within-cap transfer admitted by the policy. userOpHash: ${hash}`);
+  console.log(`✓ Within-cap transfer admitted by the cap policy. userOpHash: ${hash}`);
+  console.log(`  → cap ENFORCED on-chain: over-cap refused, within-cap allowed. Screenshot for the submission.`);
 } catch (e) {
-  console.log(`• Within-cap validation passed; execution note: ${String(e.message).slice(0, 120)}…`);
+  console.log(`• Within-cap: ${String(detailOf(e)).slice(0, 140)}`);
 }

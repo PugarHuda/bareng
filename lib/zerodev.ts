@@ -61,18 +61,20 @@ export function spendCapPolicy(cap: SpendCap) {
 }
 
 /** The permission validator: this session key, bound to the spend-cap policy. */
-export function buildMemberSessionValidator(
+export async function buildMemberSessionValidator(
   publicClient: PublicClient,
   sessionKeyAddress: string,
   cap: SpendCap,
 ) {
-  const emptySessionKeySigner = toECDSASigner({
+  // toECDSASigner is async (returns a ModularSigner) — must be awaited, else the validator gets a
+  // Promise and blows up later with "signer.getSignerData is not a function".
+  const emptySessionKeySigner = await toECDSASigner({
     signer: addressToEmptyAccount(getAddress(sessionKeyAddress)),
   });
   return toPermissionValidator(publicClient, {
     entryPoint,
     kernelVersion,
-    signer: emptySessionKeySigner as never,
+    signer: emptySessionKeySigner,
     policies: [spendCapPolicy(cap)],
   });
 }
