@@ -7,8 +7,8 @@ integration depth in `INTEGRATION.md`.
 - ✅ **Live:** https://bareng-jade.vercel.app (public, demo mode) · repo https://github.com/PugarHuda/bareng
 - ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 33/33).
 - ✅ Runs in demo mode with no keys — all four routes (`/`, `/admin`, `/agent`, `/receive`) serve.
-- ✅ **Particle keys valid + on-chain path preflighted** — `prove:onchain` runs init → build → sign
-  → send end-to-end; only a UA deposit remains before a real tx hash (see checklist).
+- ✅ **Proven on-chain** — `prove:onchain` settled a real shared-UA spend on Arbitrum One:
+  [tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7).
 - ✅ Core spine, real + coherent: **Particle** UA (single-owner, chain-abstracted balance,
   7702 mode + Arbitrum settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement).
 - 🟡 **ZeroDev** + **Openfort/x402** are working **reference implementations + bounty targets**,
@@ -40,8 +40,9 @@ integration depth in `INTEGRATION.md`.
 
 ## Pre-finale checklist
 - [x] Particle keys valid; `prove:onchain` preflighted (init→build→sign→send all pass).
-- [ ] **Prove one on-chain tx:** deposit USDC to the UA (`0x14eB…a22c`, Arbitrum One) → rerun
-  `npm run prove:onchain` → real `transactionId` (see `docs/ONCHAIN_PROOF.md`). ← top priority, only step left
+- [x] **Proven one on-chain tx:** UA funded, `prove:onchain` settled 0.01 USDC on Arbitrum One —
+  tx `0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7` (block 485190402, SUCCESS,
+  via EntryPoint 4337 v0.7). The headline gap is closed.
 - [ ] Real cross-chain proof: top up from a non-Arbitrum chain → show it settle on Arbitrum.
 - [ ] Rehearse the `DEMO.md` flow to ~2–3 min; land the "over limit is refused — owner-signed
   7702 cap, verified" beat (app-side enforcement; don't say the UA enforces it on-chain).

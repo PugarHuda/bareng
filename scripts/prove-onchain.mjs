@@ -44,22 +44,32 @@ try {
     { amount: String(amount), receiver, tokenAddress: ARBITRUM_USDC },
     sign,
   );
-  // SDK return types are all Promise<any>, so dump the raw response — whatever field holds the
-  // on-chain hash shows here regardless of its name.
-  console.log(`✓ Sent. Raw response:`);
-  console.log(JSON.stringify(res, null, 2));
+  // sendTransaction returns Particle's internal transactionId; the settled Arbitrum txHash lands a
+  // few seconds later. Poll getTransaction until a userOp exposes its on-chain txHash.
   const txId = res?.transactionId ?? res?.hash;
+  console.log(`✓ Sent. Particle transactionId: ${txId ?? JSON.stringify(res)}`);
   if (txId) {
-    console.log(`\n  Particle transactionId: ${txId}`);
-    // Best-effort: resolve the settled Arbitrum tx hash(es). May be pending on first call.
-    try {
-      const detail = await ua.getTransaction(txId);
-      console.log(`  On-chain detail: ${JSON.stringify(detail, null, 2)}`);
-    } catch (e2) {
-      console.log(`  (getTransaction not ready: ${e2.message} — look up the id above on Particle's explorer)`);
+    process.stdout.write(`  Waiting for on-chain settlement`);
+    for (let i = 0; i < 24; i++) {
+      const d = await ua.getTransaction(txId).catch(() => null);
+      const ops = [
+        ...(d?.lendingUserOperations ?? []),
+        ...(d?.settlementUserOperations ?? []),
+        ...(d?.depositUserOperations ?? []),
+      ];
+      const hash = ops.map((o) => o.txHash).find(Boolean);
+      if (hash) {
+        console.log(`\n✓ SETTLED on Arbitrum One`);
+        console.log(`  txHash:   ${hash}`);
+        console.log(`  Arbiscan: https://arbiscan.io/tx/${hash}`);
+        console.log(`  Screenshot this for the submission.`);
+        break;
+      }
+      process.stdout.write(`.`);
+      await new Promise((r) => setTimeout(r, 5000));
+      if (i === 23) console.log(`\n  Still pending — rerun getTransaction("${txId}") in a moment, or check Particle's explorer.`);
     }
   }
-  console.log(`\n  → Grab the Arbitrum tx hash from the output above; screenshot it + Arbiscan for the submission.`);
 } catch (e) {
   console.error(`✗ Send failed: ${e.message}`);
   console.error(`  If it mentions 7702 authorization: the FIRST tx per chain needs an EIP-7702`);

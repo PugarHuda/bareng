@@ -4,6 +4,8 @@
 > Top up from any token on any chain, spend, and **settle on Arbitrum** — no gas, no seed phrase.
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
+**✅ Proven on-chain:** a real shared-UA spend settled on Arbitrum One —
+[tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7).
 Uses all five featured partners — Particle, Magic, Arbitrum as the real core; ZeroDev and
 Openfort/x402 as working reference impls + bounty targets. **Read `docs/ARCHITECTURE.md` for the
 honest account model** (the UA is single-owner; per-member caps are owner-signed + app-side, not
@@ -75,9 +77,11 @@ Two layers, both built:
 
 ## To do (in priority order)
 
-1. **Prove ONE real on-chain tx** — `npm run prove:onchain` (needs Particle keys +
-   `OWNER_PRIVATE_KEY`). This is the top priority; see `docs/ONCHAIN_PROOF.md`. Nothing has
-   settled on-chain yet.
+1. ✅ **DONE — a real UA spend settled on Arbitrum One.** `npm run prove:onchain` sent 0.01 USDC
+   from the shared Universal Account; tx
+   [`0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7)
+   (block 485190402, SUCCESS, via EntryPoint 4337 v0.7). The UA is no longer just wired — it spends
+   on-chain. See `docs/ONCHAIN_PROOF.md`.
 2. **Add keys** to `.env.local` (Particle + Magic) → the login → UA → spend path goes live.
 3. **Particle Office Hours:** confirm the **EIP-7702 authorization** for the first tx per chain
    and whether the UA exposes native session keys (would close the on-chain-cap gap).

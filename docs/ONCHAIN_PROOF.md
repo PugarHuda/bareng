@@ -1,8 +1,21 @@
-# On-chain proof runbook — close gap #1 before the finale
+# On-chain proof runbook — ✅ DONE
 
-The single most valuable thing left: **one real transaction hash.** Everything is scaffolded
-and demo-mode; nothing has settled on-chain. This turns that from a vague to-do into one
-command. Do this the moment you have Particle keys.
+## ✅ RESULT (2026-07-18) — gap closed
+A real shared-Universal-Account spend settled on **Arbitrum One**:
+
+- **txHash:** [`0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7)
+- **block** 485190402 · **status** SUCCESS · settled via **EntryPoint 4337 v0.7** (`0x5FF1…2789`)
+- Sender = the UA `0x14eB…a22c` · 0.01 USDC · gas paid from the UA's USDC balance.
+- The EIP-7702 first-tx authorization was **handled by Particle's infra** — plain
+  `sendTransaction(tx, signature)` (2 args) was accepted; no 3rd-arg authorization needed.
+- `npm run prove:onchain` now auto-polls `getTransaction` and prints the txHash + Arbiscan link.
+
+The rest of this file is the original runbook, kept for reference.
+
+---
+
+The single most valuable thing left *was*: **one real transaction hash.** This turned that from a
+vague to-do into one command.
 
 ## Why this matters
 A judge asking "show me a real tx" is the fastest way to expose a scaffolded submission. One
