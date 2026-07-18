@@ -10,6 +10,7 @@
     "prove:onchain": "node --env-file=.env.local scripts/prove-onchain.mjs",
     "prove:crosschain": "node --env-file=.env.local scripts/prove-crosschain.mjs",
     "prove:zerodev": "node --env-file=.env.local scripts/prove-zerodev-sepolia.mjs",
+    "prove:aave": "node --env-file=.env.local scripts/prove-aave.mjs",
     "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs"
   },
   "dependencies": {
