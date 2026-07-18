@@ -150,6 +150,7 @@ export default function Home() {
           <Link href="/admin" className="text-indigo-400">Manage pot</Link>
           <Link href="/receive" className="text-indigo-400">Receive privately</Link>
           <Link href="/agent" className="text-indigo-400">Agent wallet</Link>
+          <Link href="/earn" className="text-indigo-400">Earn</Link>
         </nav>
       </header>
 

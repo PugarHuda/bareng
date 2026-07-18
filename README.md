@@ -50,18 +50,21 @@ only the on-chain call is stubbed.
 | `lib/bareng.ts` | Glue: shared account + `spend()` (grant + cap gate) | ✅ done + tested |
 | `lib/handles.ts` | Username handles + shareable pot links (pay/join by @handle) | ✅ done + tested |
 | `lib/stealth.ts` | Stealth addresses (ERC-5564) for private receive/payout | ✅ done + tested |
+| `lib/receipts.ts` | Transparent group receipts (tagged, auditable spends) | ✅ done + tested |
+| `lib/yield.ts` | Idle-balance yield → Aave v3 approve+supply batch (via UA) | ✅ done + tested |
 | `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ tested · gated |
 | `lib/x402.ts` | x402 agent payments bounded by the cap (reference) | ✅ tested · gated |
-| `lib/sweep.ts` | Backend stealth-sweep detection (Openfort) | ✅ tested · gated |
+| `lib/sweep.ts` | Stealth-sweep detection + ready-to-broadcast sweep tx (Openfort) | ✅ done + tested |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
-| `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | 🟡 needs Particle keys |
-| `app/page.tsx` | Dashboard (balance, members, pay-by-handle, top-up) | ✅ runs visually |
+| `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | ✅ proven on-chain |
+| `app/page.tsx` | Dashboard (balance, members, pay-by-handle, receipts, top-up) | ✅ runs visually |
 | `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
 | `app/agent/page.tsx` | x402 agent wallet bounded by the cap | ✅ runs visually |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
-| `scripts/prove-onchain.mjs` | First-run harness for a real on-chain UA spend | 🟡 needs keys |
+| `app/earn/page.tsx` | Earn on idle balance (Aave v3, keep-liquid slider) | ✅ runs visually |
+| `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
 
-`npm test` → 32 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive`.
+`npm test` → 41 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn`.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 
