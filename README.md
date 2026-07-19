@@ -20,7 +20,7 @@ chain-enforced on the UA — don't overclaim that).
 
 **Docs:** [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`INTEGRATION.md`](docs/INTEGRATION.md) ·
 [`DEMO.md`](docs/DEMO.md) · [`ONCHAIN_PROOF.md`](docs/ONCHAIN_PROOF.md) ·
-[`SUBMISSION.md`](docs/SUBMISSION.md) · [`WORKSHOP_NOTES.md`](docs/WORKSHOP_NOTES.md)
+[`SUBMISSION.md`](docs/SUBMISSION.md) · [`WORKSHOP_NOTES.md`](docs/WORKSHOP_NOTES.md) · [`SECURITY.md`](SECURITY.md)
 
 > _"Bareng"_ is Indonesian for _"together"_ — the product is a shared group wallet that
 > puts the spirit of **gotong royong** (communal cooperation) onchain.
