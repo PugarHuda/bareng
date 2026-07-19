@@ -5,6 +5,14 @@
 // the supplied USDC becomes aArbUSDC you can withdraw later.
 //
 // Run: node --env-file=.env.local scripts/prove-aave.mjs [amountUSDC]   (default 0.3)
+//
+// STATUS (2026-07-19): BLOCKED by Particle server-side, not by this code. createUniversalTransaction
+// (the ONLY SDK method for arbitrary contract calls — createTransfer/Buy/Convert/Sell can't call
+// Aave's supply) returns "System maintenance, use SEND/TRANSFER/SELL". Diagnosed: tested WITH and
+// WITHOUT expectTokens — both fail identically, so the whole universal-transaction engine is gated,
+// not our payload. The UA holds 1.7 USDC on Arbitrum (verified on-chain), so it is NOT a funds or
+// routing issue. No client-side workaround exists (contract calls only go through this one gated
+// method). Rerun when Particle lifts maintenance.
 
 import { Wallet, getBytes } from "ethers";
 import { createUniversalAccount, ARBITRUM_USDC } from "../lib/universalAccount.ts";
