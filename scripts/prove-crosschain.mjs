@@ -6,7 +6,7 @@
 // Needs the same env as prove-onchain (Particle keys + funded OWNER_PRIVATE_KEY / UA).
 
 import { Wallet, getBytes } from "ethers";
-import { createUniversalAccount } from "../lib/universalAccount.ts";
+import { createUniversalAccount, build7702Authorizations } from "../lib/universalAccount.ts";
 
 const need = ["NEXT_PUBLIC_PARTICLE_PROJECT_ID", "NEXT_PUBLIC_PARTICLE_CLIENT_KEY", "NEXT_PUBLIC_PARTICLE_APP_ID", "OWNER_PRIVATE_KEY"];
 const missing = need.filter((k) => !process.env[k]);
@@ -21,6 +21,8 @@ const EXPLORER = { 8453: "https://basescan.org/tx/", 10: "https://optimistic.eth
 const wallet = new Wallet(process.env.OWNER_PRIVATE_KEY);
 const ua = createUniversalAccount(wallet.address);
 const sign = async (rootHash) => wallet.signMessage(getBytes(rootHash));
+const authorize = async ({ address, nonce, chainId }) =>
+  (await wallet.authorize({ address, nonce, chainId })).signature.serialized;
 
 console.log(`Delivering ${amount} USDC on chain ${destChainId}, funded from the UA's unified balance (USDC on Arbitrum). One signature, cross-chain.\n`);
 
@@ -30,7 +32,8 @@ try {
     amount: String(amount),
     receiver: wallet.address,
   });
-  const res = await ua.sendTransaction(tx, await sign(tx.rootHash));
+  const authorizations = await build7702Authorizations(tx, authorize); // fresh-account first tx
+  const res = await ua.sendTransaction(tx, await sign(tx.rootHash), authorizations.length ? authorizations : undefined);
   const txId = res?.transactionId ?? res?.hash;
   console.log(`✓ Sent. Particle transactionId: ${txId ?? JSON.stringify(res)}`);
   process.stdout.write(`  Waiting for cross-chain settlement`);

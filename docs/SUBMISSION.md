@@ -66,3 +66,8 @@ Sepolia) — that beats five scaffolded integrations. Harnesses: `npm run prove:
   app-side (`lib/limits.ts`) — ZeroDev has no cumulative-token-per-period policy.
 - Handle registry + demo clock are in-memory (`lib/handles.ts`, fixed `NOW`) — fine for the
   demo; upgrade paths are noted in the code.
+- **Live Magic path, first spend:** the on-chain UA spend mechanism is proven end-to-end by the
+  ethers harnesses (`prove:onchain`/`prove:aave`, which sign the EIP-7702 authorization). A brand-new
+  Magic account's *first* spend additionally needs a one-time 7702 pre-delegation (Particle's
+  `ua-7702-magic-demo` `ensureDelegated`) because Magic can't sign the chainId-0 auth inline — the
+  remaining live-login wire-up. The demo runs keyless, so this isn't on the critical path.
