@@ -20,11 +20,15 @@ export default function ArisanPage() {
 
   function pay(member: string) {
     try {
-      setA(contribute(a, member));
-      setNote(`${member} paid in $${a.contribution}.`);
+      contribute(a, member); // validate synchronously so invalid clicks surface the error
     } catch (e) {
       setNote((e as Error).message);
+      return;
     }
+    // Apply against the LATEST state, not the closed-over `a` — two rapid clicks on different
+    // members must both land. Guard the same-member race so we never throw inside the updater.
+    setA((prev) => (prev.paidThisRound.includes(member) ? prev : contribute(prev, member)));
+    setNote(`${member} paid in $${a.contribution}.`);
   }
 
   function collect() {

@@ -65,6 +65,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const [payee, setPayee] = useState("@sari");
+  const [busy, setBusy] = useState(false); // in-flight lock: a double-click must not double-spend
   const [srcChain, setSrcChain] = useState("Base");
   const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
   const session = useSession();
@@ -106,7 +107,15 @@ export default function Home() {
   }
 
   async function doSpend() {
-    if (!ok) return;
+    if (!ok || busy) return; // busy: the live spend awaits before state updates — block re-entry
+    setBusy(true);
+    try {
+      await doSpendInner();
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function doSpendInner() {
     if (session.ua) {
       // Real path: route the spend through the Universal Account, settle on Arbitrum.
       // The signed 7702 grant gates it — spend() refuses without a valid owner signature.
@@ -325,16 +334,18 @@ export default function Home() {
         </div>
         <button
           onClick={doSpend}
-          disabled={!ok}
+          disabled={!ok || busy}
           className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:cursor-not-allowed disabled:bg-neutral-800 disabled:text-neutral-500"
         >
-          {!receiver
-            ? "Enter a valid payee"
-            : ok
-              ? `Pay $${amount}`
-              : amount > left
-                ? "Over limit"
-                : "Not enough balance"}
+          {busy
+            ? "Paying…"
+            : !receiver
+              ? "Enter a valid payee"
+              : ok
+                ? `Pay $${amount}`
+                : amount > left
+                  ? "Over limit"
+                  : "Not enough balance"}
         </button>
       </section>
 
