@@ -55,6 +55,7 @@ only the on-chain call is stubbed.
 | `lib/settle.ts` | Split-the-bill / settle-up — debt netting, fewest transfers | ✅ done + tested |
 | `lib/qr.ts` | QR codes (join pot / scan-to-pay one-time address) | ✅ done |
 | `lib/receipts.ts` | Transparent group receipts (tagged, auditable spends) | ✅ done + tested |
+| `lib/insights.ts` | "Where the pot goes" — spend aggregated by category / member | ✅ done + tested |
 | `lib/yield.ts` | Idle-balance yield → Aave v3 approve+supply batch (via UA) | ✅ done + tested |
 | `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ tested · gated |
 | `lib/x402.ts` | x402 agent payments bounded by the cap (reference) | ✅ tested · gated |
@@ -73,7 +74,7 @@ only the on-chain call is stubbed.
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | 🟡 ready · needs free ZeroDev RPC |
 
-`npm test` → 62 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan /split`.
+`npm test` → 66 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 

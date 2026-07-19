@@ -5,7 +5,7 @@ integration depth in `INTEGRATION.md`.
 
 ## Status at a glance
 - ✅ **Live:** https://bareng-jade.vercel.app (public, demo mode) · repo https://github.com/PugarHuda/bareng
-- ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 62/62).
+- ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 66/66).
 - ✅ Runs in demo mode with no keys — all seven routes (`/`, `/admin`, `/agent`, `/receive`, `/earn`, `/arisan`, `/split`) serve.
 - ✅ **Proven on-chain** — `prove:onchain` settled a real shared-UA spend on Arbitrum One:
   [tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7).

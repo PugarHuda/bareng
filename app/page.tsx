@@ -16,6 +16,7 @@ import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
 import { makeReceipt, CATEGORIES, type Receipt } from "@/lib/receipts";
+import { spendByCategory, totalSpent } from "@/lib/insights";
 import { qrDataUrl } from "@/lib/qr";
 
 const NOW = 1_000_000; // ponytail: fixed clock for the demo; use Date.now()/1000 when wired
@@ -46,6 +47,15 @@ claimHandle(POT_HANDLE, POT_ADDRESS);
 
 const SEED: Member[] = PEOPLE.map((p) => newMember(p.address, p.name, p.limit, NOW));
 
+// A little pot history so the dashboard (and the "where the pot goes" breakdown) is alive on load,
+// not an empty shell. New spends prepend to this.
+const SEED_RECEIPTS: Receipt[] = [
+  makeReceipt({ from: "@budi", to: "@warung", amount: 24, category: "Food", memo: "Team lunch", note: "Arbitrum · settled", ts: NOW - 3600 }),
+  makeReceipt({ from: "@sari", to: "@grab", amount: 12, category: "Transport", memo: "Ride to venue", note: "Arbitrum · settled", ts: NOW - 7200 }),
+  makeReceipt({ from: "@dewi", to: "@pln", amount: 18, category: "Bills", memo: "Wifi + power", note: "Arbitrum · settled", ts: NOW - 10800 }),
+  makeReceipt({ from: "@budi", to: "@kopi", amount: 9, category: "Food", memo: "Coffee run", note: "Arbitrum · settled", ts: NOW - 14400 }),
+];
+
 /** Owner-sign a real 7702 SpendPermission for one member (demo owner in this screen). */
 async function signMemberGrant(m: Member): Promise<SignedGrant> {
   const permission = {
@@ -65,7 +75,7 @@ export default function Home() {
   const [members, setMembers] = useState<Member[]>(SEED);
   const [active, setActive] = useState(0);
   const [amount, setAmount] = useState(10);
-  const [feed, setFeed] = useState<Receipt[]>([]);
+  const [feed, setFeed] = useState<Receipt[]>(SEED_RECEIPTS);
   const [notice, setNotice] = useState("");
   const [memo, setMemo] = useState("");
   const [category, setCategory] = useState<string>("Food");
@@ -396,6 +406,30 @@ export default function Home() {
 
       {notice && (
         <p className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-2 text-center text-xs text-neutral-400">{notice}</p>
+      )}
+
+      {feed.length > 0 && (
+        <section className="flex flex-col gap-2 rounded-2xl border border-neutral-800 p-4">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-xs font-semibold text-neutral-400">Where the pot goes</h2>
+            <span className="text-xs text-neutral-500">${totalSpent(feed).toFixed(0)} across {feed.length}</span>
+          </div>
+          {/* Single-hue magnitude bars: length = share of spend, identity from the label (not
+              color), so no categorical palette needed. Track is recessive; fills are rounded. */}
+          <div className="flex flex-col gap-1.5">
+            {spendByCategory(feed).map((c) => (
+              <div key={c.category} className="flex items-center gap-2 text-xs">
+                <span className="w-16 shrink-0 text-neutral-300">{c.category}</span>
+                <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-neutral-800">
+                  <div className="h-full rounded-full bg-indigo-500" style={{ width: `${Math.max(4, Math.round(c.share * 100))}%` }} />
+                </div>
+                <span className="w-14 shrink-0 text-right tabular-nums text-neutral-400">
+                  ${c.total.toFixed(0)} · {Math.round(c.share * 100)}%
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {feed.length > 0 && (
