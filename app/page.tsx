@@ -4,7 +4,7 @@
 // set — the spend-limit logic (lib/limits) and handle registry (lib/handles) are
 // real; only the on-chain send is stubbed. Wire Magic + UA where marked.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isAddress } from "viem";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
@@ -85,6 +85,7 @@ export default function Home() {
   const [payee, setPayee] = useState("@sari");
   const [busy, setBusy] = useState(false); // in-flight lock: a double-click must not double-spend
   const [showQr, setShowQr] = useState(false);
+  const seq = useRef(0); // monotonic id so prepended feed rows get a STABLE key (fixed demo clock → ts alone collides)
   const [srcChain, setSrcChain] = useState("Base");
   const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
   const session = useSession();
@@ -119,7 +120,7 @@ export default function Home() {
       category,
       memo,
       note,
-      ts: now,
+      ts: now + seq.current++, // unique per receipt — feed prepends, so the key must track identity, not position
     });
     setFeed((f) => [receipt, ...f].slice(0, 8));
     setMemo("");
@@ -445,8 +446,8 @@ export default function Home() {
       {feed.length > 0 && (
         <section className="flex flex-col gap-2">
           <h2 className="text-xs font-semibold text-neutral-400">Group receipts · everyone can see</h2>
-          {feed.map((r, i) => (
-            <div key={i} className="flex items-start justify-between gap-2 rounded-xl border border-neutral-800 bg-neutral-900/40 p-2.5 text-xs">
+          {feed.map((r) => (
+            <div key={r.ts} className="flex items-start justify-between gap-2 rounded-xl border border-neutral-800 bg-neutral-900/40 p-2.5 text-xs">
               <div className="min-w-0">
                 <p className="text-neutral-200">
                   <span className="text-indigo-400">{r.from}</span> → {r.to}

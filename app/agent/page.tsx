@@ -6,7 +6,7 @@
 // mock endpoint (no network) so it works in demo mode; wire the real Openfort facilitator
 // behind NEXT_PUBLIC_OPENFORT_FACILITATOR to settle for real.
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { newMember } from "@/lib/bareng";
 import { recordSpend, remaining, type Member } from "@/lib/limits";
@@ -17,7 +17,7 @@ const NOW = 1_000_000;
 const WANT = { asset: ARBITRUM_USDC, network: "arbitrum" };
 const RESOURCE = "https://api.premium.example/insight";
 
-type Line = { text: string; kind: "info" | "pay" | "ok" | "block" };
+type Line = { id: number; text: string; kind: "info" | "pay" | "ok" | "block" };
 
 export default function Agent() {
   // The agent spends as @budi, capped at $100/week. Reference demo (mock endpoint, settlement
@@ -26,6 +26,7 @@ export default function Agent() {
   const [charge, setCharge] = useState(20);
   const [log, setLog] = useState<Line[]>([]);
   const [busy, setBusy] = useState(false);
+  const seq = useRef(0); // stable ids for the prepended log (index keys mis-reconcile on prepend)
   const left = remaining(member, NOW);
 
   // Mock x402 server: first request 402s with a price; retry-with-payment returns 200.
@@ -47,7 +48,7 @@ export default function Agent() {
 
   async function run() {
     setBusy(true);
-    const add = (l: Line) => setLog((ls) => [l, ...ls].slice(0, 8));
+    const add = (l: Omit<Line, "id">) => setLog((ls) => [{ ...l, id: seq.current++ }, ...ls].slice(0, 8));
     add({ text: `Agent requests ${RESOURCE} → 402 Payment Required ($${charge})`, kind: "info" });
     try {
       const res = await payAndRetry(
@@ -133,8 +134,8 @@ export default function Agent() {
 
       {log.length > 0 && (
         <section className="flex flex-col gap-1 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 text-xs">
-          {log.map((l, i) => (
-            <p key={i} className={color[l.kind]}>· {l.text}</p>
+          {log.map((l) => (
+            <p key={l.id} className={color[l.kind]}>· {l.text}</p>
           ))}
         </section>
       )}
