@@ -7,7 +7,6 @@
 // balance. All derivation is real (lib/stealth) and runs live in the browser.
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
   generateMetaAddress,
   generateStealthAddress,
@@ -46,9 +45,6 @@ export default function Receive() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Receive privately</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">
-          ← Dashboard
-        </Link>
       </header>
 
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">

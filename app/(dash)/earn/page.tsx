@@ -6,7 +6,6 @@
 // proven UA path as scripts/prove-onchain.
 
 import { useState } from "react";
-import Link from "next/link";
 import { idleAmount, projectedYield } from "@/lib/yield";
 
 const BALANCE = 420; // demo pot balance (USD)
@@ -28,7 +27,6 @@ export default function Earn() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Earn on idle balance</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">

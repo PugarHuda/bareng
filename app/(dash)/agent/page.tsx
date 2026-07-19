@@ -7,7 +7,6 @@
 // behind NEXT_PUBLIC_OPENFORT_FACILITATOR to settle for real.
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { newMember } from "@/lib/bareng";
 import { recordSpend, remaining, type Member } from "@/lib/limits";
 import { payAndRetry, type FetchLike, type PaymentRequirement } from "@/lib/x402";
@@ -88,7 +87,6 @@ export default function Agent() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Agent wallet</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">

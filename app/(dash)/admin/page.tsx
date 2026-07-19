@@ -9,7 +9,6 @@
 // Kernel7702 on Sepolia (over-cap rejected, within-cap settled — see README / prove:zerodev).
 
 import { useState } from "react";
-import Link from "next/link";
 import { remaining, type Member } from "@/lib/limits";
 import { newMember } from "@/lib/bareng";
 import { claimHandle, isValidHandle } from "@/lib/handles";
@@ -80,9 +79,6 @@ export default function Admin() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Manage pot</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">
-          ← Dashboard
-        </Link>
       </header>
 
       <p className="rounded-xl neo-sm bg-[var(--panel)] p-2 text-center text-xs text-black/70">
@@ -100,7 +96,7 @@ export default function Admin() {
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
             placeholder="budi"
-            className="flex-1 bg-transparent py-3 pl-1 outline-none"
+            className="flex-1 bg-transparent py-3 pl-1 outline-none neo-input"
           />
         </div>
         <label className="text-xs text-black/70">Weekly limit: ${limit}</label>

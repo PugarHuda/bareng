@@ -179,21 +179,10 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
-      <header className="pt-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-black tracking-tight">Bareng</h1>
-          <Link href="/" className="neo-btn rounded-lg bg-[var(--panel)] px-3 py-1.5 text-xs text-black">← Home</Link>
-        </div>
-        <p className="mt-1 text-sm font-medium text-black/70">money, together — one balance, every chain</p>
-        <nav className="mt-3 flex flex-wrap gap-2 text-xs">
-          <Link href="/admin" className="neo-btn rounded-lg bg-[var(--yellow)] px-3 py-1.5 text-black">Manage pot</Link>
-          <Link href="/receive" className="neo-btn rounded-lg bg-[var(--pink)] px-3 py-1.5 text-black">Receive</Link>
-          <Link href="/agent" className="neo-btn rounded-lg bg-[var(--blue)] px-3 py-1.5 text-black">Agent</Link>
-          <Link href="/earn" className="neo-btn rounded-lg bg-[var(--green)] px-3 py-1.5 text-black">Earn</Link>
-          <Link href="/arisan" className="neo-btn rounded-lg bg-[var(--purple)] px-3 py-1.5 text-black">Arisan</Link>
-          <Link href="/split" className="neo-btn rounded-lg bg-[var(--orange)] px-3 py-1.5 text-black">Split</Link>
-        </nav>
+    <main className="mx-auto flex max-w-md flex-col gap-5 p-5 md:pt-1">
+      <header>
+        <h1 className="text-2xl font-black tracking-tight">Overview</h1>
+        <p className="text-sm font-medium text-black/70">Your shared pot at a glance.</p>
       </header>
 
       {/* The strongest proof this is real, not a mockup: a UA spend that actually settled on
@@ -238,7 +227,7 @@ export default function Home() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@email.com"
-              className="flex-1 rounded-lg bg-[var(--panel)] px-3 py-2 text-sm outline-none"
+              className="flex-1 rounded-lg bg-[var(--panel)] px-3 py-2 text-sm outline-none neo-input"
             />
             <button
               onClick={() => session.email(email)}
@@ -295,7 +284,7 @@ export default function Home() {
             value={srcChain}
             onChange={(e) => setSrcChain(e.target.value)}
             aria-label="Source chain to top up from"
-            className="rounded-lg bg-[var(--panel)] px-2 py-1 text-xs font-medium outline-none"
+            className="rounded-lg bg-[var(--panel)] px-2 py-1 text-xs font-medium outline-none neo-input"
           >
             {["Base", "Polygon", "Optimism", "Arbitrum"].map((c) => (
               <option key={c} value={c} className="text-black">{c}</option>
@@ -362,7 +351,7 @@ export default function Home() {
           value={payee}
           onChange={(e) => setPayee(e.target.value)}
           placeholder="@sari or 0x…"
-          className={`rounded-xl bg-[var(--panel)] px-3 py-2 text-sm outline-none ${
+          className={`rounded-xl bg-[var(--panel)] px-3 py-2 text-sm outline-none neo-input ${
             payee.trim() && !receiver ? "ring-1 ring-red-500/60" : ""
           }`}
         />
@@ -385,7 +374,7 @@ export default function Home() {
           placeholder="What's it for? (e.g. team lunch)"
           maxLength={80}
           aria-label="Memo — what this spend is for"
-          className="rounded-xl bg-[var(--panel)] px-3 py-2 text-sm outline-none"
+          className="rounded-xl bg-[var(--panel)] px-3 py-2 text-sm outline-none neo-input"
         />
         <div className="flex flex-wrap gap-1.5" role="group" aria-label="Category">
           {CATEGORIES.map((c) => (

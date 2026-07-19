@@ -5,7 +5,6 @@
 // through the same shared Universal Account as the rest of Bareng (demo settles in-UI).
 
 import { useState } from "react";
-import Link from "next/link";
 import { settleUp, netBalances, type Expense } from "@/lib/settle";
 
 const MEMBERS = ["@budi", "@sari", "@dewi"];
@@ -34,7 +33,6 @@ export default function SplitPage() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Split &amp; settle up</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">
@@ -53,7 +51,7 @@ export default function SplitPage() {
             value={payer}
             onChange={(e) => setPayer(e.target.value)}
             aria-label="Who paid"
-            className="rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none"
+            className="rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none neo-input"
           >
             {MEMBERS.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
@@ -64,14 +62,14 @@ export default function SplitPage() {
             value={amount}
             onChange={(e) => setAmount(Math.max(0, Number(e.target.value) || 0))}
             aria-label="Amount paid"
-            className="w-20 rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none"
+            className="w-20 rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none neo-input"
           />
           <input
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
             placeholder="for… (dinner)"
             aria-label="What the expense was for"
-            className="flex-1 rounded-lg bg-[var(--panel)] px-3 py-2 text-sm outline-none"
+            className="flex-1 rounded-lg bg-[var(--panel)] px-3 py-2 text-sm outline-none neo-input"
           />
         </div>
         <button

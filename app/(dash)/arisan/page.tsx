@@ -5,7 +5,6 @@
 // Demo runs keyless; live, contributions are UA spends in and the payout is a UA transfer out.
 
 import { useState } from "react";
-import Link from "next/link";
 import {
   newArisan, potThisRound, recipientThisRound, roundReady, isComplete, contribute, payout, type Arisan,
 } from "@/lib/arisan";
@@ -60,7 +59,6 @@ export default function ArisanPage() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Arisan</h1>
-        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">
