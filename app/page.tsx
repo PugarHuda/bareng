@@ -34,6 +34,10 @@ const POT_HANDLE = "lunchsquad";
 // A real shared-UA spend that settled on Arbitrum One (see docs/ONCHAIN_PROOF.md) — the proof
 // this isn't a mockup. Surfaced as a live badge below.
 const PROVEN_TX = "0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7";
+// Local framing: this is gotong royong, so show the pot in Rupiah too. Demo rate; a live app
+// reads a price feed. ponytail: static rate, swap for an oracle if amounts must be exact.
+const USD_TO_IDR = 16_300;
+const idr = (usd: number) => `Rp ${Math.round(usd * USD_TO_IDR).toLocaleString("id-ID")}`;
 
 // Seed the handle registry (real claim/resolve, not hardcoded strings).
 PEOPLE.forEach((p) => claimHandle(p.handle, p.address));
@@ -233,6 +237,7 @@ export default function Home() {
           </button>
         </div>
         <p className="mt-3 text-4xl font-bold">${balance.toFixed(2)}</p>
+        <p className="mt-1 text-sm font-medium text-indigo-100">≈ {idr(balance)}</p>
         <p className="mt-1 text-xs text-indigo-200">unified balance · any token · any chain</p>
         <div className="mt-4 flex items-center gap-2">
           <span className="text-xs text-indigo-200">Top up from</span>
