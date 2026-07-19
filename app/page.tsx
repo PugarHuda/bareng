@@ -117,6 +117,7 @@ export default function Home() {
           { amount, receiver: receiver ?? session.address!, tokenAddress: ARBITRUM_USDC },
           signRootHash,
           now,
+          DEMO_OWNER.address, // the pot owner the grant must be signed by
           grant,
         );
         logSpend(res.member, res.txHash || "settled on Arbitrum");
@@ -127,7 +128,8 @@ export default function Home() {
     }
     // Demo path (no keys): same limit logic, on-chain call stubbed — but the 7702 grant
     // is verified for real so the "grant-authorized" claim on screen is honest.
-    if (grant && !verifyGrant(grant.permission, grant.signature, grant.owner)) {
+    if (grant && (grant.owner.toLowerCase() !== DEMO_OWNER.address.toLowerCase()
+        || !verifyGrant(grant.permission, grant.signature, grant.owner))) {
       setNotice("spend blocked: invalid 7702 grant");
       return;
     }

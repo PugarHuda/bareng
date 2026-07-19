@@ -25,7 +25,7 @@ const params = { amount: 30, receiver: "0xdead", tokenAddress: USDC };
 test("happy path: settles and records the spend", async () => {
   const { ua, calls } = fakeUA();
   const member = newMember(budiAddr, "Budi", 100, NOW);
-  const res = await spend(ua, member, params, sign, NOW);
+  const res = await spend(ua, member, params, sign, NOW, budiAddr);
   assert.equal(res.txHash, "0xTXHASH");
   assert.equal(res.member.spent, 30);
   assert.equal(calls.sent, 1);
@@ -34,7 +34,7 @@ test("happy path: settles and records the spend", async () => {
 test("over limit: throws BEFORE touching the chain", async () => {
   const { ua, calls } = fakeUA();
   const member = newMember(budiAddr, "Budi", 100, NOW);
-  await assert.rejects(spend(ua, member, { ...params, amount: 999 }, sign, NOW), /over limit/);
+  await assert.rejects(spend(ua, member, { ...params, amount: 999 }, sign, NOW, budiAddr), /over limit/);
   assert.equal(calls.sent, 0); // nothing settled
 });
 
@@ -47,7 +47,7 @@ test("a valid owner-signed grant lets the spend through", async () => {
     limit: 100_000000n, periodSeconds: 604800n, token: USDC,
   };
   const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
-  const res = await spend(ua, member, params, sign, NOW, grant);
+  const res = await spend(ua, member, params, sign, NOW, owner.address, grant);
   assert.equal(res.member.spent, 30);
 });
 
@@ -62,7 +62,7 @@ test("the OWNER-SIGNED cap gates the amount, not just its authenticity", async (
   };
   const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
   // 30 > the signed 10 → refused BEFORE the chain, even though member.limit alone would allow it.
-  await assert.rejects(spend(ua, member, params, sign, NOW, grant), /over the owner-signed cap/);
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /over the owner-signed cap/);
   assert.equal(calls.sent, 0);
 });
 
@@ -76,7 +76,7 @@ test("a grant for a DIFFERENT member is refused", async () => {
     limit: 100_000000n, periodSeconds: 604800n, token: USDC,
   };
   const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
-  await assert.rejects(spend(ua, member, params, sign, NOW, grant), /not for/);
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /not for/);
   assert.equal(calls.sent, 0);
 });
 
@@ -89,6 +89,49 @@ test("a forged grant signature is refused", async () => {
     limit: 100_000000n, periodSeconds: 604800n, token: USDC,
   };
   const grant = { permission, signature: "0xdeadbeef", owner: owner.address };
-  await assert.rejects(spend(ua, member, params, sign, NOW, grant), /invalid session-key grant/);
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /invalid session-key grant/);
+  assert.equal(calls.sent, 0);
+});
+
+test("a grant self-signed by an ATTACKER (not the pot owner) is refused", async () => {
+  const { ua, calls } = fakeUA();
+  const owner = Wallet.createRandom();    // the real pot owner
+  const attacker = Wallet.createRandom(); // a malicious member with their own key
+  const member = newMember(budiAddr, "Budi", 100, NOW);
+  // Attacker forges a generous grant, signs it with THEIR key, claims themselves as owner.
+  const permission = {
+    account: attacker.address, sessionKey: createSessionKey().address, member: budiAddr,
+    limit: 999_000000n, periodSeconds: 604800n, token: USDC,
+  };
+  const grant = { permission, signature: await signGrant(attacker, permission), owner: attacker.address };
+  // Bound to the REAL owner → refused even though the signature is internally valid.
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /not signed by the pot owner/);
+  assert.equal(calls.sent, 0);
+});
+
+test("a grant capping a DIFFERENT token than the spend is refused", async () => {
+  const { ua, calls } = fakeUA();
+  const owner = Wallet.createRandom();
+  const member = newMember(budiAddr, "Budi", 100, NOW);
+  const permission = {
+    account: owner.address, sessionKey: createSessionKey().address, member: budiAddr,
+    limit: 100_000000n, periodSeconds: 604800n,
+    token: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", // WETH, not the USDC being spent
+  };
+  const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /different token/);
+  assert.equal(calls.sent, 0);
+});
+
+test("a grant whose period doesn't match the member's is refused", async () => {
+  const { ua, calls } = fakeUA();
+  const owner = Wallet.createRandom();
+  const member = newMember(budiAddr, "Budi", 100, NOW); // member period = WEEK
+  const permission = {
+    account: owner.address, sessionKey: createSessionKey().address, member: budiAddr,
+    limit: 100_000000n, periodSeconds: 3600n, token: USDC, // hourly ≠ member's weekly
+  };
+  const grant = { permission, signature: await signGrant(owner, permission), owner: owner.address };
+  await assert.rejects(spend(ua, member, params, sign, NOW, owner.address, grant), /period does not match/);
   assert.equal(calls.sent, 0);
 });

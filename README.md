@@ -69,7 +69,7 @@ only the on-chain call is stubbed.
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | 🟡 ready · needs free ZeroDev RPC |
 
-`npm test` → 46 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan`.
+`npm test` → 49 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan`.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 
