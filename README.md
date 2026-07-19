@@ -73,7 +73,8 @@ only the on-chain call is stubbed.
 | `lib/sweep.ts` | Stealth-sweep detection + ready-to-broadcast sweep tx (Openfort) | ✅ done + tested |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
 | `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | ✅ proven on-chain |
-| `app/page.tsx` | Dashboard (balance, members, pay-by-handle, receipts, top-up) | ✅ runs visually |
+| `app/page.tsx` | Landing page (neobrutalism — hero, on-chain proofs, features, CTA) | ✅ runs visually |
+| `app/app/page.tsx` | Dashboard (balance, members, pay-by-handle, receipts, top-up) | ✅ runs visually |
 | `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
 | `app/agent/page.tsx` | x402 agent wallet bounded by the cap | ✅ runs visually |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
@@ -85,7 +86,7 @@ only the on-chain call is stubbed.
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | ✅ over-cap **rejected**, within-cap **settled** ([tx `0x73ad50…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036)) |
 
-`npm test` → 66 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
+`npm test` → 66 passing (pure logic + money path). `next build` clean · **neobrutalism** UI · routes `/` (landing) `/app` (dashboard) `/admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 

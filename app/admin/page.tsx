@@ -80,22 +80,22 @@ export default function Admin() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Manage pot</h1>
-        <Link href="/" className="text-sm text-indigo-400">
+        <Link href="/app" className="text-sm text-blue-700 font-bold">
           ← Dashboard
         </Link>
       </header>
 
-      <p className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-2 text-center text-xs text-neutral-400">
+      <p className="rounded-xl neo-sm bg-[var(--panel)] p-2 text-center text-xs text-black/70">
         {MAGIC_CONFIGURED && session.address
           ? `Grants signed by owner ${session.address.slice(0, 6)}…${session.address.slice(-4)}`
           : "Demo owner signs grants — sign in with Magic to sign as the real pot owner"}
       </p>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-neutral-800 p-4">
+      <section className="flex flex-col gap-3 rounded-2xl neo-sm p-4">
         <h2 className="text-sm font-semibold">Invite a member</h2>
-        <label className="text-xs text-neutral-400">Handle</label>
-        <div className="flex items-center rounded-xl bg-neutral-900 px-3">
-          <span className="text-neutral-500">@</span>
+        <label className="text-xs text-black/70">Handle</label>
+        <div className="flex items-center rounded-xl bg-[var(--panel)] px-3">
+          <span className="text-black/60">@</span>
           <input
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
@@ -103,7 +103,7 @@ export default function Admin() {
             className="flex-1 bg-transparent py-3 pl-1 outline-none"
           />
         </div>
-        <label className="text-xs text-neutral-400">Weekly limit: ${limit}</label>
+        <label className="text-xs text-black/70">Weekly limit: ${limit}</label>
         <input
           type="range"
           min={5}
@@ -112,34 +112,34 @@ export default function Admin() {
           value={limit}
           onChange={(e) => setLimit(Number(e.target.value))}
           aria-label={`Weekly spend limit: $${limit}`}
-          className="accent-indigo-500"
+          className="accent-black"
         />
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-red-600">{error}</p>}
         <button
           onClick={invite}
           disabled={busy}
-          className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:opacity-50"
+          className="rounded-xl neo-btn bg-[var(--blue)] py-3 font-semibold disabled:opacity-50"
         >
           {busy ? "Signing grant…" : `Invite @${handle || "…"}`}
         </button>
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold text-neutral-300">Members ({members.length})</h2>
-        {members.length === 0 && <p className="text-xs text-neutral-500">No members yet.</p>}
+        <h2 className="text-sm font-semibold text-black">Members ({members.length})</h2>
+        {members.length === 0 && <p className="text-xs text-black/60">No members yet.</p>}
         {members.map((m) => (
           <div
             key={m.address}
-            className="flex items-center justify-between rounded-xl border border-neutral-800 bg-neutral-900/40 p-3"
+            className="flex items-center justify-between rounded-xl neo-sm bg-[var(--panel)] p-3"
           >
             <div>
-              <p className="font-medium text-indigo-400">@{m.name}</p>
-              <p className="text-xs text-neutral-500">
+              <p className="font-medium text-blue-700 font-bold">@{m.name}</p>
+              <p className="text-xs text-black/60">
                 {m.grantOk ? "🔒 7702 grant signed & verified" : "⚠ grant unverified"} · key{" "}
                 {m.sessionKey.slice(0, 6)}…{m.sessionKey.slice(-4)}
               </p>
             </div>
-            <p className="text-sm text-neutral-400">
+            <p className="text-sm text-black/70">
               ${remaining(m, NOW)} of ${m.limit}/wk
             </p>
           </div>

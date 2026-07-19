@@ -28,21 +28,21 @@ export default function Earn() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Earn on idle balance</h1>
-        <Link href="/" className="text-sm text-indigo-400">← Dashboard</Link>
+        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
-      <section className="rounded-2xl border border-neutral-800 p-4 text-sm text-neutral-300">
+      <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
           A shared fund mostly sits still between spends. Bareng routes the <b>idle part</b> into{" "}
           <b>Aave v3 on Arbitrum</b> so it earns — kept <b>one tap</b> from being spent.
         </p>
-        <p className="mt-2 text-xs text-neutral-500">
-          Pot balance ${BALANCE} · lent ${lent} · <span className="text-emerald-400">~{(APY * 100).toFixed(1)}% APY</span> (variable)
+        <p className="mt-2 text-xs text-black/60">
+          Pot balance ${BALANCE} · lent ${lent} · <span className="text-green-700">~{(APY * 100).toFixed(1)}% APY</span> (variable)
         </p>
       </section>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-neutral-800 p-4">
-        <label className="text-xs text-neutral-400">Keep liquid for spending: ${reserve}</label>
+      <section className="flex flex-col gap-3 rounded-2xl neo-sm p-4">
+        <label className="text-xs text-black/70">Keep liquid for spending: ${reserve}</label>
         <input
           type="range"
           min={0}
@@ -51,31 +51,31 @@ export default function Earn() {
           value={reserve}
           onChange={(e) => setReserve(Number(e.target.value))}
           aria-label={`Reserve to keep liquid: $${reserve}`}
-          className="accent-indigo-500"
+          className="accent-black"
         />
         <div className="flex items-center justify-between text-sm">
-          <span>Idle → earn: <b className="text-emerald-400">${idle}</b></span>
-          <span className="text-neutral-400">~${projectedYield(idle, APY, 365).toFixed(2)}/yr · ${projectedYield(idle, APY, 30).toFixed(2)}/mo</span>
+          <span>Idle → earn: <b className="text-green-700">${idle}</b></span>
+          <span className="text-black/70">~${projectedYield(idle, APY, 365).toFixed(2)}/yr · ${projectedYield(idle, APY, 30).toFixed(2)}/mo</span>
         </div>
         <button
           onClick={putToWork}
           disabled={idle <= 0}
-          className="rounded-xl bg-emerald-600 py-3 font-semibold disabled:cursor-not-allowed disabled:bg-neutral-800 disabled:text-neutral-500"
+          className="rounded-xl neo-btn bg-[var(--green)] py-3 font-semibold disabled:cursor-not-allowed disabled:bg-[var(--panel)] disabled:text-black/60"
         >
           {idle > 0 ? `Put $${idle} to work` : "Nothing idle to lend"}
         </button>
         {lent > 0 && (
-          <button onClick={() => { setLent(0); setNote("Withdrew everything back to liquid."); }} className="text-xs text-neutral-500">
+          <button onClick={() => { setLent(0); setNote("Withdrew everything back to liquid."); }} className="text-xs text-black/60">
             Withdraw all
           </button>
         )}
       </section>
 
       {note && (
-        <p className="rounded-xl border border-emerald-800/40 bg-emerald-900/15 p-2 text-center text-xs text-emerald-300">{note}</p>
+        <p className="rounded-xl neo-sm bg-[var(--green)] p-2 text-center text-xs text-black">{note}</p>
       )}
 
-      <footer className="pb-6 pt-2 text-center text-xs text-neutral-600">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
         Aave v3 · Arbitrum · idle-balance yield · reference demo
       </footer>
     </main>

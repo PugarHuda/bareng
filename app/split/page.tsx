@@ -34,10 +34,10 @@ export default function SplitPage() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Split &amp; settle up</h1>
-        <Link href="/" className="text-sm text-indigo-400">← Dashboard</Link>
+        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
-      <section className="rounded-2xl border border-neutral-800 p-4 text-sm text-neutral-300">
+      <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
           Someone always fronts the bill. Log who paid for what; Bareng nets it down to the{" "}
           <b>fewest transfers</b> that make everyone even — then each settles through the shared
@@ -46,38 +46,38 @@ export default function SplitPage() {
       </section>
 
       {/* Add an expense */}
-      <section className="flex flex-col gap-2 rounded-2xl border border-neutral-800 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Add an expense</p>
+      <section className="flex flex-col gap-2 rounded-2xl neo-sm p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-black/60">Add an expense</p>
         <div className="flex gap-2">
           <select
             value={payer}
             onChange={(e) => setPayer(e.target.value)}
             aria-label="Who paid"
-            className="rounded-lg bg-neutral-900 px-2 py-2 text-sm outline-none"
+            className="rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none"
           >
             {MEMBERS.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
-          <span className="self-center text-xs text-neutral-500">paid</span>
+          <span className="self-center text-xs text-black/60">paid</span>
           <input
             type="number"
             min={1}
             value={amount}
             onChange={(e) => setAmount(Math.max(0, Number(e.target.value) || 0))}
             aria-label="Amount paid"
-            className="w-20 rounded-lg bg-neutral-900 px-2 py-2 text-sm outline-none"
+            className="w-20 rounded-lg bg-[var(--panel)] px-2 py-2 text-sm outline-none"
           />
           <input
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
             placeholder="for… (dinner)"
             aria-label="What the expense was for"
-            className="flex-1 rounded-lg bg-neutral-900 px-3 py-2 text-sm outline-none"
+            className="flex-1 rounded-lg bg-[var(--panel)] px-3 py-2 text-sm outline-none"
           />
         </div>
         <button
           onClick={add}
           disabled={amount <= 0}
-          className="rounded-lg bg-indigo-600 py-2 text-sm font-semibold disabled:bg-neutral-800 disabled:text-neutral-500"
+          className="rounded-lg neo-btn bg-[var(--blue)] py-2 text-sm font-semibold disabled:bg-[var(--panel)] disabled:text-black/60"
         >
           Add · split equally across {MEMBERS.length}
         </button>
@@ -85,18 +85,18 @@ export default function SplitPage() {
 
       {/* Expense log */}
       <section className="flex flex-col gap-1">
-        <p className="text-xs font-semibold text-neutral-400">Expenses</p>
+        <p className="text-xs font-semibold text-black/70">Expenses</p>
         {expenses.map((e, i) => (
-          <div key={i} className="flex justify-between rounded-lg border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-sm">
-            <span><span className="text-indigo-400">{e.payer}</span> · {e.memo}</span>
-            <span className="text-neutral-300">{usd(e.amount)}</span>
+          <div key={i} className="flex justify-between rounded-lg neo-sm bg-[var(--panel)] px-3 py-2 text-sm">
+            <span><span className="text-blue-700 font-bold">{e.payer}</span> · {e.memo}</span>
+            <span className="text-black">{usd(e.amount)}</span>
           </div>
         ))}
       </section>
 
       {/* Net position */}
-      <section className="rounded-2xl border border-neutral-800 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Where everyone stands</p>
+      <section className="rounded-2xl neo-sm p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-black/60">Where everyone stands</p>
         <div className="mt-2 flex flex-col gap-1 text-sm">
           {MEMBERS.map((m) => {
             const v = bal[m] ?? 0;
@@ -104,8 +104,8 @@ export default function SplitPage() {
             const owes = v < -0.005;
             return (
               <div key={m} className="flex justify-between">
-                <span className="text-indigo-400">{m}</span>
-                <span className={owed ? "text-emerald-400" : owes ? "text-amber-400" : "text-neutral-500"}>
+                <span className="text-blue-700 font-bold">{m}</span>
+                <span className={owed ? "text-green-700" : owes ? "text-orange-600" : "text-black/60"}>
                   {owed ? `is owed ${usd(v)}` : owes ? `owes ${usd(-v)}` : "settled"}
                 </span>
               </div>
@@ -115,26 +115,26 @@ export default function SplitPage() {
       </section>
 
       {/* Minimized settle-up */}
-      <section className="rounded-2xl border border-emerald-800/40 bg-emerald-900/10 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-500">
+      <section className="rounded-2xl neo-sm bg-[var(--green)] p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-black">
           Settle up · {transfers.length} transfer{transfers.length === 1 ? "" : "s"}
         </p>
         {transfers.length === 0 ? (
-          <p className="mt-2 text-sm text-neutral-400">Everyone&apos;s even. 🎉</p>
+          <p className="mt-2 text-sm text-black/70">Everyone&apos;s even. 🎉</p>
         ) : (
           <div className="mt-2 flex flex-col gap-2">
             {transfers.map((t, i) => (
               <div key={i} className="flex items-center justify-between text-sm">
                 <span>
-                  <span className="text-amber-400">{t.from}</span>
-                  <span className="text-neutral-500"> → </span>
-                  <span className="text-emerald-400">{t.to}</span>
-                  <span className="ml-2 text-neutral-300">{usd(t.amount)}</span>
+                  <span className="text-orange-600">{t.from}</span>
+                  <span className="text-black/60"> → </span>
+                  <span className="text-green-700">{t.to}</span>
+                  <span className="ml-2 text-black">{usd(t.amount)}</span>
                 </span>
                 <button
                   onClick={() => setSettled((s) => (s.includes(String(i)) ? s : [...s, String(i)]))}
                   disabled={settled.includes(String(i))}
-                  className="rounded-lg bg-emerald-600 px-3 py-1 text-xs font-semibold text-white disabled:bg-neutral-800 disabled:text-neutral-500"
+                  className="rounded-lg neo-btn bg-[var(--green)] px-3 py-1 text-xs font-semibold disabled:bg-[var(--panel)] disabled:text-black/60"
                 >
                   {settled.includes(String(i)) ? "sent ✓" : "settle via UA"}
                 </button>
@@ -144,7 +144,7 @@ export default function SplitPage() {
         )}
       </section>
 
-      <footer className="pb-6 pt-2 text-center text-xs text-neutral-600">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
         Debt netting · fewest transfers · settled on one shared Universal Account
       </footer>
     </main>

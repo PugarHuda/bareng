@@ -78,32 +78,32 @@ export default function Agent() {
   }
 
   const color: Record<Line["kind"], string> = {
-    info: "text-neutral-400",
-    pay: "text-indigo-300",
-    ok: "text-emerald-400",
-    block: "text-amber-400",
+    info: "text-black/70",
+    pay: "text-blue-700",
+    ok: "text-green-700",
+    block: "text-orange-600",
   };
 
   return (
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Agent wallet</h1>
-        <Link href="/" className="text-sm text-indigo-400">← Dashboard</Link>
+        <Link href="/app" className="text-sm text-blue-700 font-bold">← Dashboard</Link>
       </header>
 
-      <section className="rounded-2xl border border-neutral-800 p-4 text-sm text-neutral-300">
+      <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
-          The agent spends as <b className="text-indigo-400">@budi</b> using his{" "}
+          The agent spends as <b className="text-blue-700 font-bold">@budi</b> using his{" "}
           <b>7702-capped key</b>. It pays for a service per-request via <b>x402</b>, bounded by a
           spend cap so it <b>can’t drain the pot</b>.
         </p>
-        <p className="mt-2 text-xs text-neutral-500">
-          Weekly cap $100 · <span className="text-neutral-300">${left} left</span>
+        <p className="mt-2 text-xs text-black/60">
+          Weekly cap $100 · <span className="text-black">${left} left</span>
         </p>
       </section>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-neutral-800 p-4">
-        <label className="text-xs text-neutral-400">Service charge for this request: ${charge}</label>
+      <section className="flex flex-col gap-3 rounded-2xl neo-sm p-4">
+        <label className="text-xs text-black/70">Service charge for this request: ${charge}</label>
         <input
           type="range"
           min={5}
@@ -112,35 +112,35 @@ export default function Agent() {
           value={charge}
           onChange={(e) => setCharge(Number(e.target.value))}
           aria-label={`Service charge for this request: $${charge}`}
-          className="accent-indigo-500"
+          className="accent-black"
         />
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-black/60">
           Drag past ${left} left to watch the agent get refused — before paying anything.
         </p>
         <button
           onClick={run}
           disabled={busy}
-          className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:opacity-50"
+          className="rounded-xl neo-btn bg-[var(--blue)] py-3 font-semibold disabled:opacity-50"
         >
           {busy ? "Running…" : "Agent: fetch premium data"}
         </button>
         <button
           onClick={() => { setMember(newMember("0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "Budi", 100, NOW)); setLog([]); }}
-          className="text-xs text-neutral-500"
+          className="text-xs text-black/60"
         >
           Reset week
         </button>
       </section>
 
       {log.length > 0 && (
-        <section className="flex flex-col gap-1 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 text-xs">
+        <section className="flex flex-col gap-1 rounded-2xl neo-sm bg-[var(--panel)] p-4 text-xs">
           {log.map((l) => (
             <p key={l.id} className={color[l.kind]}>· {l.text}</p>
           ))}
         </section>
       )}
 
-      <footer className="pb-6 pt-2 text-center text-xs text-neutral-600">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
         Openfort x402 · bounded by a 7702 spend cap · reference demo
       </footer>
     </main>

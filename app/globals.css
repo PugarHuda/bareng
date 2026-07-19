@@ -1,14 +1,97 @@
 @import "tailwindcss";
 
-/* Accessibility (UX is 40% of the score — the basics are table stakes).
-   A visible keyboard-focus ring on every interactive element, app-wide. */
-:where(a, button, input, select, [tabindex]):focus-visible {
-  outline: 2px solid #818cf8; /* indigo-400 */
-  outline-offset: 2px;
-  border-radius: 8px;
+/* ---------------------------------------------------------------------------
+   Neobrutalism system — thick black borders, hard offset shadows (no blur),
+   bright flat fills, chunky bold type. Single deliberate light theme.
+--------------------------------------------------------------------------- */
+:root {
+  --bg: #fdf6e3;      /* warm cream ground */
+  --panel: #ffffff;   /* raised surface */
+  --ink: #111111;     /* near-black */
+  --line: #111111;    /* borders are always ink */
+  /* accents */
+  --yellow: #ffd93d;
+  --pink: #ff8fce;
+  --blue: #4d9dff;
+  --green: #4ade80;
+  --purple: #b799ff;
+  --orange: #ff9f43;
+  --red: #ff6b6b;
+  --lime: #d3f26a;
 }
 
-/* Honor users who ask for less motion. */
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Hard-shadow surfaces */
+.neo {
+  border: 3px solid var(--line);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+.neo-sm {
+  border: 3px solid var(--line);
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+.neo-flat {
+  border: 3px solid var(--line);
+}
+
+/* Chunky pressable button — translates into its own shadow on click */
+.neo-btn {
+  border: 3px solid var(--line);
+  box-shadow: 4px 4px 0 0 var(--ink);
+  font-weight: 800;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.neo-btn:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+.neo-btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 var(--ink);
+}
+.neo-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Inputs / selects */
+.neo-input {
+  border: 3px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 600;
+}
+.neo-input:focus {
+  outline: none;
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+
+/* Small square tag/pill */
+.neo-tag {
+  border: 2px solid var(--line);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Uppercase chunky label */
+.neo-label {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* Accessibility — visible keyboard focus ring on every interactive element. */
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Honor reduced-motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

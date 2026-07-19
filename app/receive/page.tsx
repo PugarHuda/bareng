@@ -46,33 +46,33 @@ export default function Receive() {
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="flex items-center justify-between pt-4">
         <h1 className="text-xl font-bold">Receive privately</h1>
-        <Link href="/" className="text-sm text-indigo-400">
+        <Link href="/app" className="text-sm text-blue-700 font-bold">
           ← Dashboard
         </Link>
       </header>
 
-      <section className="rounded-2xl border border-neutral-800 p-4 text-sm text-neutral-300">
+      <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
           Each payment lands on a <b>fresh one-time address</b>. The pot&apos;s Universal Account
           stays unlinkable on-chain, then sweeps the funds into the shared balance.
         </p>
-        <p className="mt-2 text-xs text-neutral-500">Pot meta-address (public): {pot ? short(pot.spendPub) : "generating…"}</p>
+        <p className="mt-2 text-xs text-black/60">Pot meta-address (public): {pot ? short(pot.spendPub) : "generating…"}</p>
       </section>
 
-      <button onClick={generate} disabled={!pot} className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:opacity-50">
+      <button onClick={generate} disabled={!pot} className="rounded-xl neo-btn bg-[var(--blue)] py-3 font-semibold disabled:opacity-50">
         Generate one-time receive address
       </button>
 
       <section className="flex flex-col gap-2">
         {payments.length === 0 && (
-          <p className="text-xs text-neutral-500">Tap above — every address will be different.</p>
+          <p className="text-xs text-black/60">Tap above — every address will be different.</p>
         )}
         {payments.map((pay) => (
-          <div key={pay.stealthAddress} className="flex items-start justify-between gap-3 rounded-xl border border-neutral-800 bg-neutral-900/40 p-3">
+          <div key={pay.stealthAddress} className="flex items-start justify-between gap-3 rounded-xl neo-sm bg-[var(--panel)] p-3">
             <div className="min-w-0">
               <p className="font-mono text-sm">{short(pay.stealthAddress)}</p>
-              <p className="text-xs text-neutral-500">view tag {pay.viewTag} · eph {short(pay.ephemeralPub)}</p>
-              <button onClick={() => verify(pay)} className="mt-2 text-xs text-indigo-400">
+              <p className="text-xs text-black/60">view tag {pay.viewTag} · eph {short(pay.ephemeralPub)}</p>
+              <button onClick={() => verify(pay)} className="mt-2 text-xs text-blue-700 font-bold">
                 {verified[pay.stealthAddress] === undefined
                   ? "Verify pot can claim →"
                   : verified[pay.stealthAddress]
