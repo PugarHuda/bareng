@@ -4,6 +4,7 @@
 > Top up from any token on any chain, spend, and **settle on Arbitrum** — no gas, no seed phrase.
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
+**▶ Live demo:** [bareng-jade.vercel.app](https://bareng-jade.vercel.app) (runs keyless — no wallet needed).
 **✅ Proven on-chain:** a real shared-UA spend settled on Arbitrum One —
 [tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7).
 Uses all five featured partners — Particle, Magic, Arbitrum as the real core; ZeroDev and
@@ -28,6 +29,10 @@ chain-enforced on the UA — don't overclaim that).
 - **Cross-chain requirement:** top up on Base/Polygon → settle on Arbitrum via Universal Accounts.
 - **White space:** Particle's ecosystem has no shared / multi-user account product — everything
   is single-user (UniversalX, MYX, Overtime, etc.). Bareng owns that gap.
+- **Gotong royong as a primitive (not just a wallet):** **arisan** (rotating savings circle with a
+  *verifiable fair draw*), **split-the-bill / settle-up** (debt netting → fewest transfers), and
+  **transparent group receipts** with a "where the pot goes" breakdown — everyday shared-money
+  rituals, on-chain. Scan-to-join and scan-to-pay QR for the phone-first flow.
 
 ## Run
 

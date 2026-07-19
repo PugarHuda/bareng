@@ -226,9 +226,9 @@
       and every member gets their own spending limit via an <b>EIP-7702 session key</b>. It feels
       like a normal money app. No chains. No gas. No seed phrase.</p>
     <div class="tagrow">
-      <span class="chip">money, together</span>
-      <span class="chip">Indonesian for “together”</span>
-      <span class="chip win">$15.5K prize pool · 5 partners, all used</span>
+      <a class="chip win" href="https://bareng-jade.vercel.app" style="text-decoration:none">▶ Live demo</a>
+      <a class="chip" href="https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7" style="text-decoration:none">✅ Real UA spend settled on Arbitrum ↗</a>
+      <span class="chip">$15.5K pool · 5 partners, all used</span>
     </div>
   </header>
 
@@ -246,9 +246,9 @@
         <div class="under">Social login mints a seedless EOA that owns the account and signs. Web2 onboarding, no MetaMask, no phrase to lose.</div>
       </div>
       <div class="feat">
-        <div class="who"><span class="mono">ZeroDev · Kernel7702</span><span class="role">core</span></div>
-        <div class="feel">The cap the chain enforces.</div>
-        <div class="under">Each member’s session key is a permission validator: a <code>toCallPolicy</code> that only allows <code>USDC.transfer ≤ cap</code>. Over-limit? The chain refuses — not the app.</div>
+        <div class="who"><span class="mono">ZeroDev · Kernel7702</span><span class="role">reference</span></div>
+        <div class="feel">Caps, headed on-chain.</div>
+        <div class="under">Each member’s cap is an <b>owner-signed 7702 grant</b>, verified cryptographically and enforced app-side today. <code>lib/zerodev.ts</code> is a working Kernel7702 <code>toCallPolicy</code> (<code>USDC.transfer ≤ cap</code>) — the path to chain-enforced caps. <em style="opacity:.7">(Standalone reference — a different account from the UA; it doesn’t enforce on the UA itself.)</em></div>
       </div>
       <div class="feat">
         <div class="who"><span class="mono">Arbitrum · Settlement</span><span class="role">core</span></div>
@@ -259,6 +259,27 @@
         <div class="who"><span class="mono">Openfort · x402 agent payments</span><span class="role">the twist</span></div>
         <div class="feel">The same capped key is a safe agent wallet.</div>
         <div class="under">Point a member’s 7702-capped key at an <code>x402</code> flow and it pays per-request for a service — an API, compute, a group subscription — <b>bounded by a spend cap</b> so it can’t drain the pot. An autonomous agent with real guardrails. <em style="opacity:.7">(Reference demo — cap guard tested, settlement abstracted.)</em></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="kicker">Gotong royong as a primitive</h2>
+    <div class="stack">
+      <div class="feat span2">
+        <div class="who"><span class="mono">Arisan · rotating savings circle</span><span class="role">headline</span></div>
+        <div class="feel">A 500-year-old ritual, made trustless.</div>
+        <div class="under">Every round each member pays in; one collects the whole pot — with a <b>verifiable fair draw</b> (keccak-seeded from a public seed) so who collects first can’t be rigged and anyone can recompute it. We didn’t build a shared wallet; we put <b>gotong royong itself</b> on-chain.</div>
+      </div>
+      <div class="feat">
+        <div class="who"><span class="mono">Split &amp; settle up</span><span class="role">everyday</span></div>
+        <div class="feel">Patungan without the spreadsheet.</div>
+        <div class="under">Log who fronted what; Bareng nets it to the <b>fewest transfers</b> and settles each through the shared account.</div>
+      </div>
+      <div class="feat">
+        <div class="who"><span class="mono">Transparent receipts</span><span class="role">trust</span></div>
+        <div class="feel">Everyone sees where the pot goes.</div>
+        <div class="under">Every spend is a tagged, auditable line, with a live <b>“where the pot goes”</b> category breakdown.</div>
       </div>
     </div>
   </section>
