@@ -3,7 +3,7 @@
 // with a spend cap (enforced by lib/limits.ts, mirrored on-chain).
 
 import { canSpend, recordSpend, spentInPeriod, type Member } from "./limits.ts";
-import { sendShared, type SignRootHash } from "./universalAccount.ts";
+import { sendShared, type SignRootHash, type Authorize7702 } from "./universalAccount.ts";
 import { verifyGrant, type SpendPermission } from "./sessionKey.ts";
 import type { UniversalAccount } from "@particle-network/universal-account-sdk";
 
@@ -41,6 +41,9 @@ export async function spend(
   /** Optional owner-signed 7702 session-key grant. When present it's the source of
    *  authority: a spend is refused unless the owner really signed this member's cap. */
   grant?: SignedGrant,
+  /** Signs the EIP-7702 authorization for a fresh (undelegated) account's first tx — Magic's
+   *  sign7702 in the app, ethers wallet.authorize in scripts. Omit once the account is delegated. */
+  authorize?: Authorize7702,
 ): Promise<{ member: Member; txHash: string }> {
   if (grant) {
     const { permission: p } = grant;
@@ -89,6 +92,7 @@ export async function spend(
     ua,
     { amount: String(params.amount), receiver: params.receiver, tokenAddress: params.tokenAddress },
     sign,
+    authorize,
   );
   return { member: recordSpend(member, params.amount, now), txHash: (result as { transactionId?: string }).transactionId ?? "" };
 }

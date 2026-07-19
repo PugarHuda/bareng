@@ -4,7 +4,7 @@
 
 import { Magic } from "magic-sdk";
 import { OAuthExtension } from "@magic-ext/oauth2";
-import { BrowserProvider, getBytes } from "ethers";
+import { BrowserProvider, getBytes, Signature } from "ethers";
 
 let _magic: Magic<[OAuthExtension]> | null = null;
 
@@ -62,6 +62,22 @@ export async function getRedirectResult(): Promise<string | null> {
     // no pending oauth redirect — fall through to the session check
   }
   return (await magic.user.isLoggedIn()) ? eoaAddress() : null;
+}
+
+/**
+ * Sign an EIP-7702 authorization with the Magic EOA — needed for a fresh account's first tx per
+ * chain (delegates the EOA to Particle's UA implementation). magic-sdk v33 supports chainId 0
+ * (universal), so this uses the same inline path as the ethers harnesses — no separate Type-4
+ * pre-delegation tx, no ETH needed (the UA paymaster sponsors gas from USDC). Returns the
+ * serialized 65-byte signature for sendTransaction's `authorizations` arg.
+ */
+export async function sign7702(auth: { address: string; nonce: number; chainId: number }): Promise<string> {
+  const res = await getMagic().wallet.sign7702Authorization({
+    contractAddress: auth.address,
+    chainId: auth.chainId,
+    nonce: auth.nonce,
+  });
+  return res.signature ?? Signature.from({ r: res.r, s: res.s, v: res.v }).serialized;
 }
 
 /** Sign the Universal Account transaction rootHash with the Magic-backed EOA. */

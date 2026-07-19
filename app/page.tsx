@@ -10,7 +10,7 @@ import { isAddress } from "viem";
 import { canSpend, remaining, recordSpend, type Member } from "@/lib/limits";
 import { newMember, spend, type SignedGrant } from "@/lib/bareng";
 import { claimHandle, handleFor, potLink, resolveHandle } from "@/lib/handles";
-import { signRootHash } from "@/lib/magic";
+import { signRootHash, sign7702 } from "@/lib/magic";
 import { createSessionKey, signGrant, verifyGrant } from "@/lib/sessionKey";
 import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
@@ -153,6 +153,7 @@ export default function Home() {
           now,
           DEMO_OWNER.address, // the pot owner the grant must be signed by
           grant,
+          sign7702, // covers a fresh Magic account's first (undelegated) tx — inline 7702 auth, no ETH
         );
         logSpend(res.member, res.txHash || "settled on Arbitrum");
       } catch (e) {
