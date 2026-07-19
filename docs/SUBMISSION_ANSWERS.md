@@ -50,10 +50,18 @@ The Particle UA is **single-owner with no on-chain session-key API**, so per-mem
 claim ZeroDev/x402 enforce caps on the UA. The win is UX + the 7702 account + the real cross-chain
 balance — all real.
 
-## On-chain proof
-A real 0.01 USDC spend from the shared UA settled on **Arbitrum One**:
-`0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7` (block 485190402, SUCCESS, via
-EntryPoint 4337 v0.7). https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7
+## On-chain proof — THREE settled artifacts
+1. **Shared-UA spend** on Arbitrum One — `0x40a4722a…d50f7` (block 485190402, SUCCESS, EntryPoint
+   v0.7). https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7
+2. **7702 cap enforced on-chain** (ZeroDev Kernel7702, Sepolia) — over-cap rejected at validation,
+   within-cap settled `0x73ad508a…b34036`. https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036
+3. **Real DeFi contract call** — the UA supplied USDC into **Aave v3 on Arbitrum** (approve+supply
+   batched, EOA 7702-delegated in place) — `0x7b5698c0…606dad` (block 485521607, SUCCESS, 12 logs).
+   https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad
+
+Built on Particle UA SDK **v2.0.3** (the supported version). Confirmed on the hackathon Discord that
+per-member spend rules can't be *universally* enforced on-chain in the UA path — matching our honest
+architecture (caps are owner-signed + app-side; ZeroDev shows the chain-enforced path standalone).
 
 ## Tech
 Next.js 16 · React 19 · TypeScript · viem + ethers · Particle Universal Account SDK · Magic SDK ·

@@ -12,13 +12,16 @@ anything concretely implementable in Bareng. Honest mapping — done, pending fu
 | **ZeroDev: batching multiple calls into one tx** | `lib/yield.ts` — `approve` + `supply` batched into one `createUniversalTransaction` call; the batch shape is unit-tested (`test/yield.test.mjs`). |
 | **Openfort/x402: capped agent wallet, HTTP-402 pay-per-request** | `lib/x402.ts` + `/agent` — agent pays per request, physically bounded by the cap. |
 | **Openfort: backend wallet sweeps (server-side, autonomous)** | `lib/sweep.ts` — detects stealth receives + builds a broadcastable sweep INTO the UA; a sponsored backend wallet submits it. |
-| **UA does arbitrary contract calls** (`createUniversalTransaction`) | `{to,data,value}` batch built + unit-tested; the *transfer* path settled on-chain (`0x40a4…`). The Aave lend row is a ready harness, see below. |
+| **UA does arbitrary contract calls** (`createUniversalTransaction`) | ✅ **PROVEN on-chain** — the UA supplied USDC into **Aave v3** on Arbitrum (approve+supply batched, 7702-delegated in place), tx [`0x7b5698c0…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad) (block 485521607, 12 logs). A real DeFi call, not just a transfer. Needs SDK v2.0.3. |
 
-## 🟡 Built, ready — blocked on external state (funds / Particle maintenance)
+## 🟡 Built, ready — needs more funds to run
 | Insight | Harness |
 |---|---|
-| **Openfort recipe: yield farming** — idle balance → Aave v3 on Arbitrum | `lib/yield.ts` + `/earn`, harness `scripts/prove-aave.mjs` (`npm run prove:aave`). Same-chain so no bridge minimums — works on the ~$1.70 on hand. Blocked *today* only because Particle's `createUniversalTransaction` DeFi routing returns "System maintenance — use SEND/TRANSFER" (same maintenance that affects convert/buy). The transfer path is unaffected (that's how `0x40a4…` settled). Rerun `prove:aave` once Particle lifts maintenance → second on-chain artifact (a real DeFi contract call, not just a transfer). |
-| **Cross-chain from a single balance** (WS02's headline: USDC on one chain → asset on another) | `scripts/prove-crosschain.mjs` (`npm run prove:crosschain`) — delivers USDC on **Base**, funded from the UA's **Arbitrum** balance, one signature. Code validated up to the funds boundary; the UA's ~$1.70 isn't enough after cross-chain bridge minimums/fees. Fund the UA `0x14eB…a22c` with ~$3–4 more and it settles a real Base tx → cross-chain criterion hit directly. |
+| **Cross-chain from a single balance** (WS02's headline: USDC on one chain → asset on another) | `scripts/prove-crosschain.mjs` (`npm run prove:crosschain`) — delivers USDC on **Base**, funded from the UA's **Arbitrum** balance, one signature. Code validated up to the funds boundary; the on-hand balance isn't enough after cross-chain bridge minimums/fees. Fund the account with ~$3–4 more and it settles a real Base tx → cross-chain criterion hit directly. (Note: SDK 2.0.3 has intermittent cross-chain issues per the hackathon Discord — same-chain is solid.) |
+
+> The Aave "System maintenance" that blocked this earlier was a **deprecated-SDK (1.1.1) bug**, not
+> an outage — confirmed on the hackathon Discord and fixed by moving to **SDK v2.0.3**. The Aave
+> lend now settles on-chain (see the ✅ row above).
 
 ## 🔎 Available but deliberately not wired (honest scope)
 - **ZeroDev Intents / solver network** ("vote on Arbitrum using USDC from Base") — Particle's UA
