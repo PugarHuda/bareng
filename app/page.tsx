@@ -216,6 +216,11 @@ export default function Home() {
         </div>
       ) : (
         <div className="flex flex-col gap-2 rounded-xl border border-neutral-800 p-3">
+          {session.error && (
+            <p className="rounded-lg border border-red-800/40 bg-red-900/20 px-2 py-1.5 text-xs text-red-300">
+              {session.error}
+            </p>
+          )}
           <button
             onClick={session.google}
             disabled={session.busy}
