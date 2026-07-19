@@ -4,7 +4,7 @@ Open line: *"Crypto has the infra. It just doesn't use it. Bareng puts gotong ro
 shared money — onchain, and you never feel the crypto."*
 
 The app is **separated for a clean demo**: `/` is the landing (the pitch), `/app` is the pot
-(the product), and each feature has its own screen reached from the colored nav chips — so you can
+(the product), and each feature has its own screen reached from the sidebar (a scrollable top-nav on mobile) — so you can
 jump straight to whatever a judge wants to see.
 
 ---
@@ -32,26 +32,26 @@ Open on the landing page. Neobrutalism hero: *"Money, together."*
    can see."* Tap **QR** on the pot card → *"scan to join the patungan."*
 
 ## Act 2 — Gotong royong, made a primitive  ·  the differentiators
-6. **Arisan chip → /arisan** (the showstopper). Tap **🎲 Fair draw** → the collection order comes
+6. **Arisan in the sidebar → /arisan** (the showstopper). Tap **🎲 Fair draw** → the collection order comes
    from a public seed. *"Who collects first is a provably-fair draw — anyone recomputes it to check
    nobody rigged it."* Each member **pays in $10**, one **collects the whole pot**. *"Arisan —
    Indonesia's 500-year-old rotating savings circle — trustless on-chain. We didn't build a shared
    wallet; we put gotong royong itself on-chain."*
-7. **Split chip → /split.** Add an expense (**@sari paid $18, dinner**). The *"Where everyone
+7. **Split in the sidebar → /split.** Add an expense (**@sari paid $18, dinner**). The *"Where everyone
    stands"* + *"Settle up"* panels recompute live. *"Who owes whom, netted to the fewest transfers
    — patungan without the spreadsheet, each settled through the same shared account."*
 
-## Act 3 — The rest of the stack  ·  one chip each (show what the judge asks for)
-8. **Receive chip → /receive** — tap **Generate** twice → two *different* one-time addresses, each
+## Act 3 — The rest of the stack  ·  one sidebar item each (show what the judge asks for)
+8. **Receive in the sidebar → /receive** — tap **Generate** twice → two *different* one-time addresses, each
    with a **scan-to-pay QR**. **Verify pot can claim → ✓**. *"Payments land on fresh stealth
    addresses; the pot stays unlinkable, then a backend wallet sweeps them in."*
-9. **Agent chip → /agent** (Openfort/x402) — agent fetches premium data → **402 → pays $20 within
+9. **Agent in the sidebar → /agent** (Openfort/x402) — agent fetches premium data → **402 → pays $20 within
    @budi's cap → 200**. Drag past the cap, run again → **refused before paying**. *"A capped 7702
    key is a safe agent wallet."* (Reference: cap guard real + tested; settlement abstracted.)
-10. **Earn chip → /earn** — drag the keep-liquid slider; idle balance shows a live Aave v3 yield
+10. **Earn in the sidebar → /earn** — drag the keep-liquid slider; idle balance shows a live Aave v3 yield
     projection. *"The shared fund earns between spends."* (We settled a real Aave supply on-chain —
     see the landing's 3rd proof.)
-11. **Manage-pot chip → /admin** — invite **@maya**, set a $40 cap. **"Signing grant…" → 🔒 grant
+11. **Manage-pot in the sidebar → /admin** — invite **@maya**, set a $40 cap. **"Signing grant…" → 🔒 grant
     signed & verified**. *"The owner just signed her 7702 spend cap, live."*
 
 Close line: *"One shared balance, real per-person limits, real privacy — no gas, no chains, no
