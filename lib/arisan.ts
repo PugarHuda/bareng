@@ -19,7 +19,7 @@ export type Arisan = {
 export function newArisan(members: string[], contribution: number): Arisan {
   if (members.length < 2) throw new Error("Arisan: need at least 2 members");
   if (new Set(members).size !== members.length) throw new Error("Arisan: duplicate member");
-  if (contribution <= 0) throw new Error("Arisan: contribution must be > 0");
+  if (!(contribution > 0)) throw new Error("Arisan: contribution must be > 0"); // !(>0) also rejects NaN
   return { members: [...members], contribution, round: 0, paidThisRound: [], received: [] };
 }
 

@@ -19,6 +19,7 @@ test("rejects bad rosters", () => {
   assert.throws(() => newArisan(["@solo"], 10), /at least 2/);
   assert.throws(() => newArisan(["@a", "@a"], 10), /duplicate/);
   assert.throws(() => newArisan(M, 0), /> 0/);
+  assert.throws(() => newArisan(M, NaN), /> 0/); // NaN <= 0 is false — must still reject
 });
 
 test("everyone (incl. the recipient) contributes; only then can it pay out", () => {

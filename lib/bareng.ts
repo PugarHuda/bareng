@@ -49,6 +49,10 @@ export async function spend(
     if (grant.owner.toLowerCase() !== expectedOwner.toLowerCase()) {
       throw new Error(`Bareng: grant not signed by the pot owner`);
     }
+    // ponytail: p.account (the pot the grant is for) is NOT cross-checked against this UA — fine
+    // for the single-pot demo (one owner, one pot). A multi-pot app must set p.account to each
+    // pot's UA address and add `if (p.account !== thisUaAddress) throw`, else a grant leaks
+    // across an owner's pots. Owner + member + token + period are already bound above/below.
     if (!verifyGrant(p, grant.signature, grant.owner)) {
       throw new Error(`Bareng: ${member.name} — invalid session-key grant`);
     }

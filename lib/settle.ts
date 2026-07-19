@@ -21,8 +21,9 @@ export type Transfer = { from: string; to: string; amount: number };
 export function netBalances(expenses: Expense[]): Record<string, number> {
   const cents: Record<string, number> = {};
   for (const e of expenses) {
-    if (e.amount <= 0) throw new Error("Settle: expense amount must be > 0");
+    if (!(e.amount > 0)) throw new Error("Settle: expense amount must be > 0"); // !(>0) also rejects NaN
     if (e.split.length === 0) throw new Error("Settle: expense needs at least one person to split among");
+    if (new Set(e.split).size !== e.split.length) throw new Error("Settle: duplicate member in split");
     const total = Math.round(e.amount * 100);
     const n = e.split.length;
     const base = Math.floor(total / n);

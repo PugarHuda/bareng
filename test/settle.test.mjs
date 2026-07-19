@@ -63,7 +63,9 @@ test("float dust never survives — thirds conserve to the exact cent", () => {
 
 test("rejects bad expenses", () => {
   assert.throws(() => netBalances([{ payer: "@a", amount: 0, split: ["@a"] }]), /> 0/);
+  assert.throws(() => netBalances([{ payer: "@a", amount: NaN, split: ["@a"] }]), /> 0/); // NaN <= 0 is false — must still reject
   assert.throws(() => netBalances([{ payer: "@a", amount: 5, split: [] }]), /at least one/);
+  assert.throws(() => netBalances([{ payer: "@a", amount: 5, split: ["@b", "@b"] }]), /duplicate/); // double-charge guard
 });
 
 test("nothing owed → no transfers", () => {

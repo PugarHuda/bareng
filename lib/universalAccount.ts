@@ -49,17 +49,19 @@ export async function build7702Authorizations(
   authorize: Authorize7702,
 ): Promise<{ userOpHash: string; signature: string }[]> {
   const authorizations: { userOpHash: string; signature: string }[] = [];
-  const byNonce = new Map<number, string>();
+  const seen = new Map<string, string>();
   for (const op of tx.userOps ?? []) {
     if (op.eip7702Auth && !op.eip7702Delegated) {
-      let signature = byNonce.get(op.eip7702Auth.nonce);
+      const a = op.eip7702Auth;
+      const chainId = a.chainId ?? op.chainId; // ?? keeps a genuine 0 (chain-agnostic)
+      // Key on the WHOLE tuple: a 7702 signature is valid only for its exact (chainId, address,
+      // nonce). Cross-chain userOps share nonce 0 but differ in chainId — keying on nonce alone
+      // would reuse chain A's signature on chain B (invalid → AA24).
+      const key = `${chainId}:${a.address}:${a.nonce}`;
+      let signature = seen.get(key);
       if (!signature) {
-        signature = await authorize({
-          address: op.eip7702Auth.address,
-          nonce: op.eip7702Auth.nonce,
-          chainId: op.eip7702Auth.chainId ?? op.chainId, // ?? keeps a genuine 0 (chain-agnostic)
-        });
-        byNonce.set(op.eip7702Auth.nonce, signature);
+        signature = await authorize({ address: a.address, nonce: a.nonce, chainId });
+        seen.set(key, signature);
       }
       authorizations.push({ userOpHash: op.userOpHash, signature });
     }
