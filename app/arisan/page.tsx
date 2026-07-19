@@ -9,14 +9,27 @@ import Link from "next/link";
 import {
   newArisan, potThisRound, recipientThisRound, roundReady, isComplete, contribute, payout, type Arisan,
 } from "@/lib/arisan";
+import { drawOrder } from "@/lib/draw";
 
 const MEMBERS = ["@budi", "@sari", "@dewi"];
 
 export default function ArisanPage() {
   const [a, setA] = useState<Arisan>(() => newArisan(MEMBERS, 10));
+  const [seed, setSeed] = useState<string | null>(null);
   const [note, setNote] = useState("Everyone chips in $10 a round. Each round one person takes the pot.");
   const recipient = recipientThisRound(a);
   const done = isComplete(a);
+  const canDraw = a.round === 0 && a.paidThisRound.length === 0; // only before the circle starts
+
+  // Verifiable fair draw: derive the collection order from a public seed (here a stand-in for a
+  // future Arbitrum block hash). Anyone recomputes drawOrder(MEMBERS, seed) to check it was fair.
+  function fairDraw() {
+    const s = `block#${Math.floor(Math.random() * 1e7)}`;
+    const order = drawOrder(MEMBERS, s);
+    setSeed(s);
+    setA(newArisan(order, 10));
+    setNote(`🎲 Fair draw → ${order.join(" → ")}. Recompute from the seed to verify nobody rigged it.`);
+  }
 
   function pay(member: string) {
     try {
@@ -39,6 +52,7 @@ export default function ArisanPage() {
 
   function reset() {
     setA(newArisan(MEMBERS, 10));
+    setSeed(null);
     setNote("Fresh circle. Everyone chips in $10 a round.");
   }
 
@@ -59,6 +73,29 @@ export default function ArisanPage() {
           {done ? "Circle complete" : `Round ${a.round + 1} of ${a.members.length}`} · pot ${potThisRound(a)} ·
           {" "}${a.contribution}/member
         </p>
+      </section>
+
+      <section className="rounded-2xl border border-fuchsia-800/30 bg-fuchsia-900/10 p-3 text-xs">
+        {seed ? (
+          <p className="text-fuchsia-200">
+            🎲 <b>Verifiable fair draw</b> · seed <span className="font-mono text-fuchsia-300">{seed}</span>
+            <span className="mt-1 block text-neutral-400">
+              Order: {a.members.join(" → ")}. Recompute <span className="font-mono">drawOrder(members, seed)</span>
+              {" "}to prove it — nobody chose who collects first.
+            </span>
+          </p>
+        ) : (
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-neutral-400">Order is fixed. Draw a <b>provably-fair</b> one from a public seed?</span>
+            <button
+              onClick={fairDraw}
+              disabled={!canDraw}
+              className="shrink-0 rounded-lg bg-fuchsia-600 px-3 py-1 font-semibold text-white disabled:bg-neutral-800 disabled:text-neutral-500"
+            >
+              🎲 Fair draw
+            </button>
+          </div>
+        )}
       </section>
 
       {!done && (

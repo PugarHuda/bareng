@@ -16,6 +16,7 @@ import { DEMO_OWNER } from "@/lib/demo";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import { useSession, MAGIC_CONFIGURED } from "@/lib/session";
 import { makeReceipt, CATEGORIES, type Receipt } from "@/lib/receipts";
+import { qrDataUrl } from "@/lib/qr";
 
 const NOW = 1_000_000; // ponytail: fixed clock for the demo; use Date.now()/1000 when wired
 const WEEK = 604800n;
@@ -73,6 +74,7 @@ export default function Home() {
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const [payee, setPayee] = useState("@sari");
   const [busy, setBusy] = useState(false); // in-flight lock: a double-click must not double-spend
+  const [showQr, setShowQr] = useState(false);
   const [srcChain, setSrcChain] = useState("Base");
   const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
   const session = useSession();
@@ -170,6 +172,7 @@ export default function Home() {
           <Link href="/agent" className="text-indigo-400">Agent wallet</Link>
           <Link href="/earn" className="text-indigo-400">Earn</Link>
           <Link href="/arisan" className="text-indigo-400">Arisan</Link>
+          <Link href="/split" className="text-indigo-400">Split</Link>
         </nav>
       </header>
 
@@ -229,13 +232,35 @@ export default function Home() {
             <p className="text-xs uppercase tracking-wide text-indigo-200">Group Pot</p>
             <p className="text-sm font-semibold text-white">@{POT_HANDLE}</p>
           </div>
-          <button
-            onClick={share}
-            className="rounded-lg bg-white/15 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/25"
-          >
-            {copied ? "Copied!" : "Share link"}
-          </button>
+          <div className="flex gap-1.5">
+            <button
+              onClick={() => setShowQr((v) => !v)}
+              aria-label="Show QR code to join the pot"
+              className="rounded-lg bg-white/15 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/25"
+            >
+              {showQr ? "Hide QR" : "QR"}
+            </button>
+            <button
+              onClick={share}
+              className="rounded-lg bg-white/15 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/25"
+            >
+              {copied ? "Copied!" : "Share link"}
+            </button>
+          </div>
         </div>
+        {showQr && (
+          <div className="mt-3 flex flex-col items-center gap-1 rounded-xl bg-white p-3">
+            {/* Rendered only after the user toggles (client-side), so window.location is defined. */}
+            <img
+              src={qrDataUrl(potLink(POT_HANDLE, window.location.origin))}
+              alt="Scan to join the pot"
+              width={160}
+              height={160}
+              className="[image-rendering:pixelated]"
+            />
+            <p className="text-[11px] font-medium text-neutral-600">Scan to join @{POT_HANDLE}</p>
+          </div>
+        )}
         <p className="mt-3 text-4xl font-bold">${balance.toFixed(2)}</p>
         <p className="mt-1 text-sm font-medium text-indigo-100">≈ {idr(balance)}</p>
         <p className="mt-1 text-xs text-indigo-200">unified balance · any token · any chain</p>

@@ -16,6 +16,7 @@ import {
   addressFromPrivateKey,
   type StealthPayment,
 } from "@/lib/stealth";
+import { qrDataUrl } from "@/lib/qr";
 
 const short = (a: string) => `${a.slice(0, 8)}…${a.slice(-6)}`;
 
@@ -64,16 +65,28 @@ export default function Receive() {
           <p className="text-xs text-neutral-500">Tap above — every address will be different.</p>
         )}
         {payments.map((pay) => (
-          <div key={pay.stealthAddress} className="rounded-xl border border-neutral-800 bg-neutral-900/40 p-3">
-            <p className="font-mono text-sm">{short(pay.stealthAddress)}</p>
-            <p className="text-xs text-neutral-500">view tag {pay.viewTag} · eph {short(pay.ephemeralPub)}</p>
-            <button onClick={() => verify(pay)} className="mt-2 text-xs text-indigo-400">
-              {verified[pay.stealthAddress] === undefined
-                ? "Verify pot can claim →"
-                : verified[pay.stealthAddress]
-                  ? "✓ pot controls this address"
-                  : "✗ verification failed"}
-            </button>
+          <div key={pay.stealthAddress} className="flex items-start justify-between gap-3 rounded-xl border border-neutral-800 bg-neutral-900/40 p-3">
+            <div className="min-w-0">
+              <p className="font-mono text-sm">{short(pay.stealthAddress)}</p>
+              <p className="text-xs text-neutral-500">view tag {pay.viewTag} · eph {short(pay.ephemeralPub)}</p>
+              <button onClick={() => verify(pay)} className="mt-2 text-xs text-indigo-400">
+                {verified[pay.stealthAddress] === undefined
+                  ? "Verify pot can claim →"
+                  : verified[pay.stealthAddress]
+                    ? "✓ pot controls this address"
+                    : "✗ verification failed"}
+              </button>
+            </div>
+            <div className="shrink-0 rounded-lg bg-white p-1.5">
+              {/* EIP-681 payment URI — a wallet scanning this opens a send to the one-time address. */}
+              <img
+                src={qrDataUrl(`ethereum:${pay.stealthAddress}`, 3, 2)}
+                alt="Scan to pay this one-time address"
+                width={84}
+                height={84}
+                className="[image-rendering:pixelated]"
+              />
+            </div>
           </div>
         ))}
       </section>

@@ -11,7 +11,7 @@
     "prove:crosschain": "node --env-file=.env.local scripts/prove-crosschain.mjs",
     "prove:zerodev": "node --env-file=.env.local scripts/prove-zerodev-sepolia.mjs",
     "prove:aave": "node --env-file=.env.local scripts/prove-aave.mjs",
-    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs"
+    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs test/settle.test.mjs test/draw.test.mjs"
   },
   "dependencies": {
     "@magic-ext/oauth2": "^15.8.0",
@@ -23,6 +23,7 @@
     "ethers": "^6.17.0",
     "magic-sdk": "^33.7.1",
     "next": "^16.2.9",
+    "qrcode-generator": "^2.0.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "viem": "^2.55.1"
