@@ -181,15 +181,18 @@ export default function Home() {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-5 p-5">
       <header className="pt-4">
-        <h1 className="text-2xl font-bold tracking-tight">Bareng</h1>
-        <p className="text-sm text-black/70">money, together — one balance, every chain</p>
-        <nav className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-          <Link href="/admin" className="text-blue-700 font-bold">Manage pot</Link>
-          <Link href="/receive" className="text-blue-700 font-bold">Receive privately</Link>
-          <Link href="/agent" className="text-blue-700 font-bold">Agent wallet</Link>
-          <Link href="/earn" className="text-blue-700 font-bold">Earn</Link>
-          <Link href="/arisan" className="text-blue-700 font-bold">Arisan</Link>
-          <Link href="/split" className="text-blue-700 font-bold">Split</Link>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-black tracking-tight">Bareng</h1>
+          <Link href="/" className="neo-btn rounded-lg bg-[var(--panel)] px-3 py-1.5 text-xs text-black">← Home</Link>
+        </div>
+        <p className="mt-1 text-sm font-medium text-black/70">money, together — one balance, every chain</p>
+        <nav className="mt-3 flex flex-wrap gap-2 text-xs">
+          <Link href="/admin" className="neo-btn rounded-lg bg-[var(--yellow)] px-3 py-1.5 text-black">Manage pot</Link>
+          <Link href="/receive" className="neo-btn rounded-lg bg-[var(--pink)] px-3 py-1.5 text-black">Receive</Link>
+          <Link href="/agent" className="neo-btn rounded-lg bg-[var(--blue)] px-3 py-1.5 text-black">Agent</Link>
+          <Link href="/earn" className="neo-btn rounded-lg bg-[var(--green)] px-3 py-1.5 text-black">Earn</Link>
+          <Link href="/arisan" className="neo-btn rounded-lg bg-[var(--purple)] px-3 py-1.5 text-black">Arisan</Link>
+          <Link href="/split" className="neo-btn rounded-lg bg-[var(--orange)] px-3 py-1.5 text-black">Split</Link>
         </nav>
       </header>
 
