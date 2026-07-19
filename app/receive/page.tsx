@@ -6,7 +6,7 @@
 // announcement, recovers the controlling key, and sweeps funds into the shared
 // balance. All derivation is real (lib/stealth) and runs live in the browser.
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   generateMetaAddress,
@@ -21,18 +21,21 @@ import { qrDataUrl } from "@/lib/qr";
 const short = (a: string) => `${a.slice(0, 8)}…${a.slice(-6)}`;
 
 export default function Receive() {
-  // Pot's meta-address: generated once. In production this is created at pot setup
-  // and only the public halves are published.
-  const pot = useMemo(() => generateMetaAddress(), []);
+  // Pot's meta-address: generated CLIENT-SIDE after mount. It uses randomness, so generating it
+  // during render (SSR + hydration) would mismatch the server HTML → React #418. null until mounted.
+  const [pot, setPot] = useState<ReturnType<typeof generateMetaAddress> | null>(null);
+  useEffect(() => setPot(generateMetaAddress()), []);
   const [payments, setPayments] = useState<StealthPayment[]>([]);
   const [verified, setVerified] = useState<Record<string, boolean>>({});
 
   function generate() {
+    if (!pot) return;
     setPayments((p) => [generateStealthAddress(pot.spendPub, pot.viewPub), ...p].slice(0, 5));
   }
 
   // Prove the pot can detect this payment and recover the key that controls it.
   function verify(pay: StealthPayment) {
+    if (!pot) return;
     const found = scan(pay.ephemeralPub, pay.viewTag, pot.viewPriv, pot.spendPub);
     const key = computeStealthPrivateKey(pay.ephemeralPub, pot.viewPriv, pot.spendPriv);
     const controls = found === pay.stealthAddress && addressFromPrivateKey(key) === pay.stealthAddress;
@@ -53,10 +56,10 @@ export default function Receive() {
           Each payment lands on a <b>fresh one-time address</b>. The pot&apos;s Universal Account
           stays unlinkable on-chain, then sweeps the funds into the shared balance.
         </p>
-        <p className="mt-2 text-xs text-neutral-500">Pot meta-address (public): {short(pot.spendPub)}</p>
+        <p className="mt-2 text-xs text-neutral-500">Pot meta-address (public): {pot ? short(pot.spendPub) : "generating…"}</p>
       </section>
 
-      <button onClick={generate} className="rounded-xl bg-indigo-600 py-3 font-semibold">
+      <button onClick={generate} disabled={!pot} className="rounded-xl bg-indigo-600 py-3 font-semibold disabled:opacity-50">
         Generate one-time receive address
       </button>
 
