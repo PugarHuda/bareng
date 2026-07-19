@@ -15,24 +15,33 @@ export type Expense = {
 export type Transfer = { from: string; to: string; amount: number };
 
 /** Net position per member: positive = is owed money (creditor), negative = owes (debtor).
- *  Sums to ~0 by construction. */
+ *  Computed in integer cents and sums to EXACTLY 0 — the indivisible remainder cents from an
+ *  uneven split (e.g. $10 / 3) are spread one-each across the first few consumers, never dropped,
+ *  so no value is created or destroyed. Returned in dollars (each value is a whole number of cents). */
 export function netBalances(expenses: Expense[]): Record<string, number> {
-  const bal: Record<string, number> = {};
+  const cents: Record<string, number> = {};
   for (const e of expenses) {
     if (e.amount <= 0) throw new Error("Settle: expense amount must be > 0");
     if (e.split.length === 0) throw new Error("Settle: expense needs at least one person to split among");
-    const share = e.amount / e.split.length;
-    bal[e.payer] = (bal[e.payer] ?? 0) + e.amount; // payer fronted the whole amount
-    for (const p of e.split) bal[p] = (bal[p] ?? 0) - share; // each consumer owes their share
+    const total = Math.round(e.amount * 100);
+    const n = e.split.length;
+    const base = Math.floor(total / n);
+    const extra = total - base * n; // leftover cents → the first `extra` consumers pay 1c more
+    cents[e.payer] = (cents[e.payer] ?? 0) + total; // payer fronted the whole amount
+    e.split.forEach((p, i) => {
+      cents[p] = (cents[p] ?? 0) - (base + (i < extra ? 1 : 0)); // shares sum exactly to `total`
+    });
   }
+  const bal: Record<string, number> = {};
+  for (const [k, c] of Object.entries(cents)) bal[k] = c / 100;
   return bal;
 }
 
 /**
  * Minimize the transfers that settle everyone back to zero. Greedy: the biggest debtor pays the
- * biggest creditor each step. Works in integer cents so float dust never leaves someone owing
- * $0.0000001. Not guaranteed the theoretical minimum (that's NP-hard) but always ≤ n−1 transfers
- * and optimal for the everyday cases. The final match absorbs any rounding remainder.
+ * biggest creditor each step. netBalances already returns exact-cent balances that sum to zero, so
+ * creditor cents and debtor cents match and nobody is left with a stray cent. Not guaranteed the
+ * theoretical minimum (that's NP-hard) but always ≤ n−1 transfers and optimal for the everyday cases.
  */
 export function settleUp(expenses: Expense[]): Transfer[] {
   const bal = netBalances(expenses);

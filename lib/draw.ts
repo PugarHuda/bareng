@@ -4,6 +4,12 @@
 // same order, so every member can recompute it and prove nobody rigged who collects the pot first.
 //
 // Pure keccak-seeded Fisher–Yates. No SDK/network. Tested (test/draw.test.mjs).
+//
+// SECURITY — the fairness rests ENTIRELY on the seed being unpredictable at the moment the circle
+// commits. drawOrder is a cheap offline hash, so a member who gets to CHOOSE the seed can grind it
+// (~n tries) to land themselves in position 0. Use a seed nobody can pick to their advantage: a
+// FUTURE Arbitrum block hash the circle agrees on in advance, or a commit-reveal nonce. Never a
+// caller-chosen string in production.
 
 import { keccak256, toUtf8Bytes } from "ethers";
 

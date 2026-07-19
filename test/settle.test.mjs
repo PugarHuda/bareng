@@ -48,13 +48,17 @@ test("uneven split (payer not in the split) still balances", () => {
   for (const t of ts) assert.equal(t.amount, 10);
 });
 
-test("float dust never survives — thirds settle to exact cents", () => {
-  // $10 split 3 ways = 3.333…; integer-cents math must not leave anyone owing a fraction of a cent.
+test("float dust never survives — thirds conserve to the exact cent", () => {
+  // $10 split 3 ways = 3.333…; the indivisible cent must be spread, not dropped. Value is
+  // conserved EXACTLY (residual 0), and budi (owed $6.66) is repaid $6.66 — no penny vanishes.
   const expenses = [{ payer: "@budi", amount: 10, split: ["@budi", "@sari", "@dewi"] }];
   for (const t of settleUp(expenses)) {
     assert.equal(Math.round(t.amount * 100), t.amount * 100, "amount is whole cents");
   }
-  assert.ok(residual(expenses) < 0.01);
+  assert.ok(residual(expenses) < 1e-9, "no rounding remainder left unsettled");
+  const bal = netBalances(expenses);
+  assert.ok(Math.abs(Object.values(bal).reduce((a, b) => a + b, 0)) < 1e-9, "balances sum to zero");
+  assert.equal(bal["@budi"], 6.66); // paid 10, share 3.34 → net +6.66, and it's fully repaid
 });
 
 test("rejects bad expenses", () => {
