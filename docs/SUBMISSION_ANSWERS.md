@@ -75,20 +75,26 @@ ZeroDev SDK. **66 unit tests** on the money paths; `next build` clean; runs keyl
 
 ---
 
-## Recording shot-list (≈2–3 min, follows DEMO.md)
-Record `bareng-jade.vercel.app` in demo mode. ~15s per beat.
+## Recording shot-list (≈3 min, follows DEMO.md's acts)
+Record `bareng-jade.vercel.app` in demo mode (keyless). ~12–15s per beat. Neobrutalism UI.
 
-1. **Dashboard** — pot @lunchsquad, balance + **Rp** line. Tap the green **✓ settled on Arbitrum**
-   badge → Arbiscan. Line: *"a real spend already settled on-chain."*
-2. **Where the pot goes** — point at the category breakdown. *"Transparent shared money."*
+**Act 0 — Landing (`/`)**
+1. Hero *"Money, together."* Scroll to **"proven on-chain"** → tap one of the **3 tx cards** →
+   explorer opens. *"Three things settled on-chain — most teams don't have one."* Then **Open the app →**.
+
+**Act 1 — The pot (`/app`)**
+2. Pot @lunchsquad — balance + **Rp** line, members + caps, **🔒 7702 grant** + green **✓ settled** badge.
 3. **Pay @dewi $30** as @budi → settles, remaining drops. *"Pay by handle."*
-4. **@sari → drag to $60 → Over limit**, blocked. *"Owner-signed 7702 cap, verified."*
-5. **Top up from Base +$50** → *"funds enter on any chain, land as one balance."*
-6. **Share / QR** → scan-to-join.
-7. **/split** — add an expense → *"nets to the fewest transfers."*
-8. **/arisan** — tap **🎲 Fair draw** → *"provably-fair order."* Then pay in → one collects. *"Arisan,
-   trustless on-chain — gotong royong itself."*
-9. **/receive** — Generate ×2 (two different one-time addresses + scan-to-pay QR) → Verify ✓.
-10. **/agent** — 402 → pays within cap → 200; over cap → refused before paying.
-11. **/earn** — keep-liquid slider → yield projection.
+4. **@sari → drag to $60 → Over limit**, blocked. *"Owner-signed 7702 cap."*
+5. **Top up from Base +$50** → *"any chain, one balance."*  ·  **QR** → scan-to-join  ·  point at **Where the pot goes**.
+
+**Act 2 — Gotong royong (nav chips)**
+6. **Arisan** chip → **🎲 Fair draw** → *"provably-fair order."* Pay in → one collects. *"Gotong royong, on-chain."*
+7. **Split** chip → add an expense → *"nets to the fewest transfers."*
+
+**Act 3 — The rest (one chip each)**
+8. **Receive** → Generate ×2 (different addresses + scan-to-pay QR) → Verify ✓.
+9. **Agent** → 402 → pays within cap → 200; over cap → refused before paying.
+10. **Earn** → keep-liquid slider → yield projection.  ·  **Manage pot** → invite @maya → grant signed.
+
 Close: *"One shared balance, real per-person limits, real privacy — no gas, no chains, no seed phrases."*

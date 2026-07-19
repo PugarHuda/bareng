@@ -3,65 +3,78 @@
 Open line: *"Crypto has the infra. It just doesn't use it. Bareng puts gotong royong —
 shared money — onchain, and you never feel the crypto."*
 
-## Runs today (demo mode, no keys)
-1. **Dashboard** — show the pot **@lunchsquad**, the balance (also in **Rupiah** — *"gotong
-   royong, so we show it in the money people actually think in"*), members **@budi ($100/wk)**,
-   **@sari ($50/wk)**, **@dewi ($25/wk)**. Point at **🔒 7702 session-key grant · owner-signed
-   & verified** under the spend box — *"each member's cap is a real signed authorization."*
-   Then tap the green **✓ Real shared-UA spend settled on Arbitrum ↗** badge → Arbiscan opens on
-   tx `0x40a4…`. *"This isn't a mockup — a real spend from this shared account already settled
-   on-chain. One tx hash beats five scaffolded integrations."* (Lead with this.)
-2. **Spend as @budi, pay to @dewi → $30.** Settles "on Arbitrum", his remaining drops to $70.
+The app is **separated for a clean demo**: `/` is the landing (the pitch), `/app` is the pot
+(the product), and each feature has its own screen reached from the colored nav chips — so you can
+jump straight to whatever a judge wants to see.
+
+---
+
+## Act 0 — The landing (`/`)  ·  the "not a mockup" opener
+Open on the landing page. Neobrutalism hero: *"Money, together."*
+- Scroll to **"Not a mockup — proven on-chain"**: three real, clickable transactions.
+  Tap one → an explorer opens. *"Three things have actually settled on-chain — a shared spend, a
+  7702 cap enforced, and a real DeFi lend. Most teams don't have one."*
+- Hit **"Open the app →"**.
+
+## Act 1 — One shared pot (`/app`, demo mode, no keys)
+1. **The pot @lunchsquad** — balance **$420** (also in **Rupiah** — *"gotong royong, so we show the
+   money people actually think in"*), members **@budi $100/wk · @sari $50/wk · @dewi $25/wk**, and
+   the **🔒 7702 session-key grant · owner-signed & verified** line. The green **✓ settled on
+   Arbitrum ↗** badge is right there too.
+2. **Spend as @budi → @dewi, $30.** Settles "on Arbitrum"; his remaining drops to $70.
    *"Pay by handle, never an address."*
-3. **Switch to @sari, drag to $60 → "Over limit"**, blocked. *"The cap is an owner-signed
-   7702 grant — real crypto the app verifies. `lib/zerodev.ts` is our working reference for
-   pushing that same cap on-chain."* (Honest — don't claim the UA enforces it on-chain; it's
-   single-owner with no session-key API. See docs/ARCHITECTURE.md.)
-4. **Top up from Base → +$50.** Balance jumps; feed says *"$50 from Base → unified on
-   Arbitrum."* *"Funds enter on any chain, land as one balance. That's the cross-chain
-   requirement — invisible."*
-5. **Share link / QR** — one tap copies the pot's invite link; tap **QR** to show a
-   scan-to-join code. *"No addresses. Just a handle — or scan to join the patungan."*
-6. **/admin** — invite **@maya**, set a $40 weekly cap. Watch **"Signing grant…" → 🔒 grant
-   signed & verified**. *"The owner just signed her 7702 spend cap, live."*
-7. **/agent** — the Openfort/x402 story. Agent fetches premium data → **402 → pays $20 (within
-   @budi's cap) → 200 unlocked**. Drag the charge past his cap and run again → **refused before
-   paying**. *"A capped key is a safe agent wallet — it pays per request via x402 and is bounded
-   by the cap."* (Reference demo: the cap guard is real + tested; settlement is abstracted.)
-8. **/receive** — tap **Generate** twice → two *different* one-time addresses, each with a
-   **scan-to-pay QR**. Hit **Verify pot can claim → ✓**. *"Outside payments land on fresh
-   stealth addresses; the pot's account stays unlinkable, then a backend wallet sweeps them in."*
-9. **/earn** — drag the keep-liquid slider; idle balance shows a live yield projection. *"The
-   shared fund earns in Aave v3 between spends — one tap from being spent."*
-10. **/split** — **Split & settle up.** Add an expense (**@sari paid $18, dinner**). The
-    *"Where everyone stands"* + *"Settle up"* panels recompute live: *"who owes whom, netted to
-    the fewest transfers — patungan without the spreadsheet, each settled through the same shared
-    account."*
-11. **/arisan** — the showstopper. First tap **🎲 Fair draw** → the collection order is derived
-    from a public seed. *"Who collects the pot first is a provably-fair draw — anyone recomputes
-    `drawOrder(members, seed)` to check nobody rigged it."* Then each member **pays in $10** and
-    **one collects the whole pot**. *"This is arisan — Indonesia's 500-year-old rotating savings
-    circle — trustless on-chain. We didn't build a shared wallet; we put gotong royong on-chain."*
+3. **Switch to @sari, drag to $60 → "Over limit"**, blocked. *"The cap is an owner-signed 7702
+   grant — real crypto the app verifies."* (Honest: enforced app-side; the UA is single-owner. The
+   on-chain-enforced version is the ZeroDev reference — see Act 3 / `docs/ARCHITECTURE.md`.)
+4. **Top up from Base → +$50.** *"Funds enter on any chain, land as one balance. That's the
+   cross-chain requirement — invisible."*
+5. **Where the pot goes** — the live category breakdown + group receipts. *"Shared money everyone
+   can see."* Tap **QR** on the pot card → *"scan to join the patungan."*
 
-Close line: *"One shared balance, real per-person limits, real privacy — no gas, no chains,
-no seed phrases. That's chain abstraction people would actually use."*
+## Act 2 — Gotong royong, made a primitive  ·  the differentiators
+6. **Arisan chip → /arisan** (the showstopper). Tap **🎲 Fair draw** → the collection order comes
+   from a public seed. *"Who collects first is a provably-fair draw — anyone recomputes it to check
+   nobody rigged it."* Each member **pays in $10**, one **collects the whole pot**. *"Arisan —
+   Indonesia's 500-year-old rotating savings circle — trustless on-chain. We didn't build a shared
+   wallet; we put gotong royong itself on-chain."*
+7. **Split chip → /split.** Add an expense (**@sari paid $18, dinner**). The *"Where everyone
+   stands"* + *"Settle up"* panels recompute live. *"Who owes whom, netted to the fewest transfers
+   — patungan without the spreadsheet, each settled through the same shared account."*
 
-## With keys (live path)
-- **Continue with Google** → Magic embedded wallet → Universal Account (7702 mode).
-- A spend routes through the UA and **settles on Arbitrum** for real (cross-chain).
-- Same screens, now backed by on-chain transactions.
+## Act 3 — The rest of the stack  ·  one chip each (show what the judge asks for)
+8. **Receive chip → /receive** — tap **Generate** twice → two *different* one-time addresses, each
+   with a **scan-to-pay QR**. **Verify pot can claim → ✓**. *"Payments land on fresh stealth
+   addresses; the pot stays unlinkable, then a backend wallet sweeps them in."*
+9. **Agent chip → /agent** (Openfort/x402) — agent fetches premium data → **402 → pays $20 within
+   @budi's cap → 200**. Drag past the cap, run again → **refused before paying**. *"A capped 7702
+   key is a safe agent wallet."* (Reference: cap guard real + tested; settlement abstracted.)
+10. **Earn chip → /earn** — drag the keep-liquid slider; idle balance shows a live Aave v3 yield
+    projection. *"The shared fund earns between spends."* (We settled a real Aave supply on-chain —
+    see the landing's 3rd proof.)
+11. **Manage-pot chip → /admin** — invite **@maya**, set a $40 cap. **"Signing grant…" → 🔒 grant
+    signed & verified**. *"The owner just signed her 7702 spend cap, live."*
+
+Close line: *"One shared balance, real per-person limits, real privacy — no gas, no chains, no
+seed phrases. That's chain abstraction people would actually use."*
+
+---
+
+## With keys — the live path (optional, for the "real onboarding" clip)
+- **Continue with Google** (top of `/app`) → Magic embedded wallet → a Universal Account (7702).
+  Verified working end-to-end: the OAuth flow reaches Google's consent, login returns a wallet.
+- A spend routes through the UA; a fresh account signs its EIP-7702 authorization inline
+  (`lib/magic.ts sign7702`, magic-sdk v33 supports chainId 0 — no pre-delegation, no ETH) and
+  **settles on Arbitrum**. Fund the Magic UA first (a new Google account's UA starts empty).
+- Keep the **deployed site keyless** for judging (best UX); use this only for a login clip.
 
 ## What to emphasize per judge
-- **Particle (UX 40% / 7702 30%):** the account IS 7702 (UA in 7702 mode) + the cross-chain
-  unified balance is the standout. The per-member cap is an owner-signed 7702 grant
-  (`lib/sessionKey.ts`), enforced app-side.
-- **ZeroDev (bounty):** `lib/zerodev.ts` — a working Kernel7702 call-policy (`USDC.transfer ≤
-  cap`) demonstrating on-chain 7702 enforcement. Present it as a reference impl / the path to
-  chain-enforced caps — NOT as something enforcing on the Particle UA (it doesn't; different
-  account). Honesty here survives a judge's follow-up; the collapsed claim doesn't.
-- **Openfort (bounty):** the `/agent` screen — a 7702-capped session key as a safe x402 agent
-  wallet (`lib/x402.ts`). "Autonomous agent that transacts, with on-chain guardrails" is
-  exactly the x402 theme, and it reuses the 7702 cap you already built.
-- **Arbitrum (creativity 30%):** it feels like a consumer app; Arbitrum is the invisible
-  backend. The **top up from Base** beat is your visible cross-chain proof. Never say "chain".
-- **Magic ($500):** the Google-login → instant wallet onboarding, no MetaMask, no seed phrase.
+- **Particle (UX 40% / 7702 30%):** the account IS 7702 (UA in 7702 mode) + the cross-chain unified
+  balance. Per-member cap = owner-signed 7702 grant (`lib/sessionKey.ts`), enforced app-side.
+  **Proven on-chain:** a real UA spend settled on Arbitrum (`0x40a4…`).
+- **ZeroDev (bounty):** `lib/zerodev.ts` — a Kernel7702 call-policy (`USDC.transfer ≤ cap`), and it's
+  **proven on-chain on Sepolia** (over-cap rejected at validation, within-cap settled `0x73ad50…`).
+  Present it as the standalone path to chain-enforced caps — NOT enforcing on the Particle UA.
+- **Openfort (bounty):** `/agent` — a 7702-capped key as a safe x402 agent (`lib/x402.ts`).
+- **Arbitrum (creativity 30%):** feels like a consumer app; Arbitrum is the invisible backend. The
+  **top up from Base** beat + the **Aave DeFi lend** (`0x7b5698c0…`) are your on-chain proof. Never say "chain".
+- **Magic ($500):** Google-login → instant wallet, no MetaMask, no seed phrase — wired + verified.
