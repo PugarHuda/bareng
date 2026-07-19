@@ -2,10 +2,11 @@
 // Owner = the Magic EOA. We build a transfer and sign its rootHash with the
 // owner's signer (Magic in the app, a Wallet in tests/scripts).
 //
-// The 7702-mode first-tx authorization is RESOLVED: a real spend settled on Arbitrum
-// (tx 0x40a4722a…d50f7) with plain 2-arg sendTransaction(tx, signature) — Particle
-// handles the EIP-7702 authorization server-side. The transfer/sign/send flow below
-// is verbatim from docs; see docs/ONCHAIN_PROOF.md.
+// SDK v2.0.3 (the supported version; v1.1.1 is deprecated and its contract-call path
+// returned a bogus "System maintenance" on Arbitrum). In v2's 7702 mode the account IS
+// the owner EOA — getSmartAccountOptions() resolves the owner address itself, and a real
+// spend settled on Arbitrum with plain 2-arg sendTransaction(tx, signature). See
+// docs/ONCHAIN_PROOF.md.
 
 import { CHAIN_ID, UniversalAccount } from "@particle-network/universal-account-sdk";
 
@@ -19,7 +20,9 @@ export function createUniversalAccount(ownerAddress: string): UniversalAccount {
     projectId: process.env.NEXT_PUBLIC_PARTICLE_PROJECT_ID!,
     projectClientKey: process.env.NEXT_PUBLIC_PARTICLE_CLIENT_KEY!,
     projectAppUuid: process.env.NEXT_PUBLIC_PARTICLE_APP_ID!,
-    ownerAddress,
+    // ponytail: SDK types mark name/version required, but the runtime defaults them (verified);
+    // in 7702 mode the account address is the owner EOA regardless, so cast the minimal options.
+    smartAccountOptions: { ownerAddress, useEIP7702: true } as never,
     tradeConfig: { slippageBps: 100 },
   });
 }

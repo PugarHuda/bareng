@@ -6,13 +6,11 @@
 //
 // Run: node --env-file=.env.local scripts/prove-aave.mjs [amountUSDC]   (default 0.3)
 //
-// STATUS (2026-07-19): BLOCKED by Particle server-side, not by this code. createUniversalTransaction
-// (the ONLY SDK method for arbitrary contract calls — createTransfer/Buy/Convert/Sell can't call
-// Aave's supply) returns "System maintenance, use SEND/TRANSFER/SELL". Diagnosed: tested WITH and
-// WITHOUT expectTokens — both fail identically, so the whole universal-transaction engine is gated,
-// not our payload. The UA holds 1.7 USDC on Arbitrum (verified on-chain), so it is NOT a funds or
-// routing issue. No client-side workaround exists (contract calls only go through this one gated
-// method). Rerun when Particle lifts maintenance.
+// Requires SDK v2.0.3 (v1.1.1's contract-call path returned a bogus "System maintenance" on
+// Arbitrum — a deprecated-SDK bug, not an outage; confirmed against Particle's own devrel + demo).
+// In v2's 7702 mode the account IS the owner EOA, which starts undelegated — so the first tx signs
+// an EIP-7702 authorization (address+nonce+chainId from tx.userOps[].eip7702Auth) and passes it as
+// sendTransaction's 3rd arg. Mirrors Particle's ua-7702-magic-demo signAndSend, ethers not Magic.
 
 import { Wallet, getBytes } from "ethers";
 import { createUniversalAccount, ARBITRUM_USDC } from "../lib/universalAccount.ts";
@@ -35,12 +33,46 @@ console.log(`UA: ${UA}\nSupplying ${amountUSD} USDC into Aave v3 on Arbitrum (ap
 const batch = buildSupply(ARBITRUM_USDC, amountBase, UA); // { chainId, transactions: [approve, supply] }
 
 try {
-  const tx = await ua.createUniversalTransaction({
-    chainId: batch.chainId,
-    expectTokens: [{ type: "usdc", amount: String(amountUSD) }], // ensure the UA has the USDC on-chain
-    transactions: batch.transactions,
-  });
-  const res = await ua.sendTransaction(tx, await sign(tx.rootHash));
+  // Particle's Arbitrum backend is intermittently flaky (returns "Invalid parameters" at random).
+  // Retry the BUILD only — sending stays a single call after a good build, so no double-spend.
+  let tx;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      tx = await ua.createUniversalTransaction({
+        chainId: batch.chainId,
+        expectTokens: [{ type: "usdc", amount: String(amountUSD) }], // ensure the UA has the USDC on-chain
+        transactions: batch.transactions,
+      });
+      break;
+    } catch (e) {
+      if (attempt >= 8) throw e;
+      console.log(`  build attempt ${attempt} failed (${e.message}) — retrying…`);
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  }
+  // EIP-7702 authorizations: the account (owner EOA) is undelegated, so each undelegated userOp
+  // needs a signed 7702 authorization delegating the EOA to Particle's UA implementation.
+  const authorizations = [];
+  const byNonce = new Map();
+  for (const op of tx.userOps ?? []) {
+    if (op.eip7702Auth && !op.eip7702Delegated) {
+      let serialized = byNonce.get(op.eip7702Auth.nonce);
+      if (!serialized) {
+        const a = await wallet.authorize({
+          address: op.eip7702Auth.address,
+          nonce: op.eip7702Auth.nonce,
+          // Sign the chain-agnostic chainId 0 that Particle actually returns (ethers can, unlike
+          // Magic — the demo's `|| chainId` fallback was only a Magic workaround). `??` keeps the 0.
+          chainId: op.eip7702Auth.chainId ?? op.chainId,
+        });
+        serialized = a.signature.serialized;
+        byNonce.set(op.eip7702Auth.nonce, serialized);
+      }
+      authorizations.push({ userOpHash: op.userOpHash, signature: serialized });
+    }
+  }
+  if (authorizations.length) console.log(`  Signing EIP-7702 delegation for ${authorizations.length} userOp(s)…`);
+  const res = await ua.sendTransaction(tx, await sign(tx.rootHash), authorizations.length ? authorizations : undefined);
   const txId = res?.transactionId ?? res?.hash;
   console.log(`✓ Sent. Particle transactionId: ${txId ?? JSON.stringify(res)}`);
   process.stdout.write(`  Waiting for on-chain settlement`);

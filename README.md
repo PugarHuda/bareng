@@ -5,11 +5,14 @@
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
 **▶ Live demo:** [bareng-jade.vercel.app](https://bareng-jade.vercel.app) (runs keyless — no wallet needed).
-**✅ Proven on-chain (2 artifacts):** (1) a real shared-UA spend settled on Arbitrum One —
+**✅ Proven on-chain (3 artifacts):** (1) a real shared-UA spend settled on Arbitrum One —
 [tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7);
-(2) the per-member **7702 cap enforced on-chain** via ZeroDev Kernel7702 — an over-cap transfer is
-**rejected at validation**, a within-cap one **settled on Sepolia**
-[tx `0x73ad50…b34036`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036).
+(2) the per-member **7702 cap enforced on-chain** via ZeroDev Kernel7702 — over-cap
+**rejected at validation**, within-cap **settled on Sepolia**
+[tx `0x73ad50…b34036`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036);
+(3) a real **DeFi contract call** — the UA supplied USDC into **Aave v3 on Arbitrum** (approve+supply
+batched, 7702-delegated in place), [tx `0x7b5698c0…606dad`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad).
+Runs on Particle UA SDK **v2.0.3** (the supported version; v1.1.1's contract-call path had a bug).
 Uses all five featured partners — Particle, Magic, Arbitrum as the real core; ZeroDev and
 Openfort/x402 as working reference impls + bounty targets. **Read `docs/ARCHITECTURE.md` for the
 honest account model** (the UA is single-owner; per-member caps are owner-signed + app-side, not
@@ -78,7 +81,7 @@ only the on-chain call is stubbed.
 | `app/arisan/page.tsx` | Arisan — rotating savings circle + verifiable fair draw | ✅ runs visually |
 | `app/split/page.tsx` | Split & settle up — debt netting to fewest UA transfers | ✅ runs visually |
 | `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
-| `scripts/prove-aave.mjs` | UA Aave v3 supply harness (real DeFi call, Arbitrum) | 🟡 ready · Particle DeFi routing under maintenance |
+| `scripts/prove-aave.mjs` | UA Aave v3 supply (real DeFi call, Arbitrum) | ✅ **settled** ([tx `0x7b5698c0…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad)) |
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | ✅ over-cap **rejected**, within-cap **settled** ([tx `0x73ad50…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036)) |
 
