@@ -2,9 +2,10 @@
 // Owner = the Magic EOA. We build a transfer and sign its rootHash with the
 // owner's signer (Magic in the app, a Wallet in tests/scripts).
 //
-// ponytail: 7702-mode init flags are NOT in the public web quickstart yet — this
-// uses the documented constructor and is the ONE thing to confirm at Particle
-// Office Hours (29 Jun). The transfer/sign/send flow below is verbatim from docs.
+// The 7702-mode first-tx authorization is RESOLVED: a real spend settled on Arbitrum
+// (tx 0x40a4722a…d50f7) with plain 2-arg sendTransaction(tx, signature) — Particle
+// handles the EIP-7702 authorization server-side. The transfer/sign/send flow below
+// is verbatim from docs; see docs/ONCHAIN_PROOF.md.
 
 import { CHAIN_ID, UniversalAccount } from "@particle-network/universal-account-sdk";
 

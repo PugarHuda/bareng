@@ -17,8 +17,9 @@ Real primitive: `UniversalAccount`, `createTransferTransaction`, `sendTransactio
   primitive and it's the spine of Bareng — a shared pot with one balance across chains
   is impossible without it. Top up on any chain, spend, settle on Arbitrum.
 - **EIP-7702 mode:** the SDK calls are real; the explicit 7702-mode enablement (EOA
-  upgraded in place) is the documented capability we target. **Status: confirm the exact
-  7702-mode init at Particle Office Hours (Jun 29).**
+  upgraded in place) is confirmed working — a real spend settled on Arbitrum
+  (tx `0x40a4722a…d50f7`) with plain 2-arg `sendTransaction`, Particle handling the
+  first-tx authorization server-side. **Status: resolved, no open 7702-init question.**
 - **Per-member session keys (the 30% "prominent 7702 use" criterion):** each member has a
   real session key (`createSessionKey`) and an **owner-signed EIP-712 `SpendPermission`**
   binding that key to a cap + period (`lib/sessionKey.ts`, real ethers signing, tested). A

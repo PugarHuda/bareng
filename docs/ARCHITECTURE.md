@@ -50,5 +50,6 @@ the UA") is not — don't say it on stage.
 ## Open at Office Hours
 1. Does/will the Particle UA SDK expose a **session-key / delegation** primitive that consumes an
    owner-signed grant on-chain? (Would close the gap natively.)
-2. Confirm the exact **7702-mode init** on `UniversalAccount` (open `ponytail:` in `lib/universalAccount.ts`).
+2. ~~Confirm the exact **7702-mode init**~~ — **RESOLVED:** a real spend settled on Arbitrum with
+   plain 2-arg `sendTransaction`; Particle handles the first-tx authorization server-side.
 3. Bounty **stacking** rules — since ZeroDev/Openfort are reference demos, not UA-composed.

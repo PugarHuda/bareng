@@ -1,4 +1,4 @@
-# Demo flow (finale pitch — ~45s)
+# Demo flow (finale pitch — ~2 min)
 
 Open line: *"Crypto has the infra. It just doesn't use it. Bareng puts gotong royong —
 shared money — onchain, and you never feel the crypto."*

@@ -65,6 +65,7 @@ only the on-chain call is stubbed.
 | `app/earn/page.tsx` | Earn on idle balance (Aave v3, keep-liquid slider) | ✅ runs visually |
 | `app/arisan/page.tsx` | Arisan — rotating savings circle (gotong royong onchain) | ✅ runs visually |
 | `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
+| `scripts/prove-aave.mjs` | UA Aave v3 supply harness (real DeFi call, Arbitrum) | 🟡 ready · Particle DeFi routing under maintenance |
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | 🟡 ready · needs free ZeroDev RPC |
 
@@ -90,8 +91,9 @@ Two layers, both built:
    (block 485190402, SUCCESS, via EntryPoint 4337 v0.7). The UA is no longer just wired — it spends
    on-chain. See `docs/ONCHAIN_PROOF.md`.
 2. **Add keys** to `.env.local` (Particle + Magic) → the login → UA → spend path goes live.
-3. **Particle Office Hours:** confirm the **EIP-7702 authorization** for the first tx per chain
-   and whether the UA exposes native session keys (would close the on-chain-cap gap).
+3. **Particle Office Hours:** the EIP-7702 first-tx authorization is **resolved** (the settled tx
+   used plain 2-arg `sendTransaction`; Particle handles it server-side). Still worth asking:
+   whether the UA exposes native session keys (would close the on-chain-cap gap).
 4. Wire the stealth sweep tx (detection is done in `lib/sweep.ts`) and real cross-chain top-up
    (the dashboard button is currently a labeled demo).
 5. Record a demo video; confirm Milestone 2 status + submission format.

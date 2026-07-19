@@ -19,10 +19,9 @@ vague to-do into one command.
 
 ## Why this matters
 A judge asking "show me a real tx" is the fastest way to expose a scaffolded submission. One
-settled UA transfer on Arbitrum answers it. `scripts/prove-onchain.mjs` reuses the exact
-`lib/universalAccount.ts` the app uses, so it's the right starting point — **but it has never
-touched the network.** Treat the first run as debugging, not a guaranteed green: expect to
-iterate on the 7702 authorization (below), the signer contract, and the response shape.
+settled UA transfer on Arbitrum answers it — **and one has settled** (see the result banner above).
+`scripts/prove-onchain.mjs` reuses the exact `lib/universalAccount.ts` the app uses; it now runs
+green end-to-end. The steps below are the reproducible runbook.
 
 ## Prereqs (the part that needs you)
 1. Particle keys in `.env.local` (`NEXT_PUBLIC_PARTICLE_PROJECT_ID/_CLIENT_KEY/_APP_ID`).
@@ -37,11 +36,11 @@ npm run prove:onchain 0xRecipient 0.5 # pay someone 0.5 USDC
 ```
 Success prints `✓ Sent. transactionId: 0x…`. Screenshot that **and** the settled tx on Arbiscan.
 
-## If it fails on "7702 authorization"
-The first tx per chain in 7702 mode needs an EIP-7702 authorization (`sendTransaction`'s 3rd
-arg, `authorizations?: EIP7702Authorization[]`). That exact API is the **one documented unknown**
-(`docs/ARCHITECTURE.md`, open `ponytail:` in `lib/universalAccount.ts`). Confirm it at Particle
-Office Hours, add the authorization, re-run. Everything else in the path is already wired.
+## The 7702 authorization — RESOLVED
+The open question *was* whether the first tx per chain in 7702 mode needs an explicit EIP-7702
+authorization (`sendTransaction`'s 3rd arg, `authorizations?: EIP7702Authorization[]`). It does
+not: the settled tx above went through with plain 2-arg `sendTransaction(tx, signature)` —
+Particle's infra handles the authorization server-side. No 3rd arg needed.
 
 ## Then prove it in the UI (for the demo video)
 1. `npm run dev` → the login card replaces the demo banner.
@@ -50,6 +49,6 @@ Office Hours, add the authorization, re-run. Everything else in the path is alre
 4. Record the screen with the tx confirming. That clip is your submission's proof.
 
 ## Definition of done for gap #1
-- [ ] `npm run prove:onchain` prints a real `transactionId`.
-- [ ] Tx visible/settled on Arbiscan.
-- [ ] One UI spend recorded on video with the real settlement.
+- [x] `npm run prove:onchain` prints a real `transactionId`.
+- [x] Tx visible/settled on Arbiscan (`0x40a4722a…d50f7`, block 485190402, SUCCESS).
+- [ ] One UI spend recorded on video with the real settlement (for the demo clip).
