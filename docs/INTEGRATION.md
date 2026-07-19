@@ -18,8 +18,9 @@ Real primitive: `UniversalAccount`, `createTransferTransaction`, `sendTransactio
   is impossible without it. Top up on any chain, spend, settle on Arbitrum.
 - **EIP-7702 mode:** the SDK calls are real; the explicit 7702-mode enablement (EOA
   upgraded in place) is confirmed working — a real spend settled on Arbitrum
-  (tx `0x40a4722a…d50f7`) with plain 2-arg `sendTransaction`, Particle handling the
-  first-tx authorization server-side. **Status: resolved, no open 7702-init question.**
+  (tx `0x40a4722a…d50f7`). On SDK v2.0.3 the first tx from an undelegated EOA carries a signed
+  EIP-7702 authorization (`sendTransaction`'s 3rd arg, chainId 0); once delegated, 2 args suffice.
+  **Status: resolved, no open 7702-init question.**
 - **Per-member session keys (the 30% "prominent 7702 use" criterion):** each member has a
   real session key (`createSessionKey`) and an **owner-signed EIP-712 `SpendPermission`**
   binding that key to a cap + period (`lib/sessionKey.ts`, real ethers signing, tested). A
@@ -34,8 +35,9 @@ Real primitive: `UniversalAccount`, `createTransferTransaction`, `sendTransactio
   `toECDSASigner` (`lib/zerodev.ts`). A **working demonstration** of on-chain 7702 spend-cap
   enforcement (per-tx `USDC.transfer <= cap`) that targets the ZeroDev bounty. It does **not**
   compose with the Particle UA — ZeroDev's kernel is a different account; real on-chain caps
-  would require making the pot a ZeroDev kernel (losing UA cross-chain balance). Gated behind
-  `NEXT_PUBLIC_ZERODEV_RPC`; pure policy shape tested.
+  would require making the pot a ZeroDev kernel (losing UA cross-chain balance). **Proven on
+  Sepolia:** over-cap `USDC.transfer` rejected at validation, within-cap settled
+  (tx `0x73ad508a…`). Gated behind `NEXT_PUBLIC_ZERODEV_RPC`.
 
 ### 2. Magic — Embedded wallet · **Core (onboarding + signer)**
 Real primitive: `magic-sdk` + `@magic-ext/oauth2` (`lib/magic.ts`). Google/email login →

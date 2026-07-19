@@ -5,7 +5,8 @@
 // key and the pot owner signs an EIP-712 SpendPermission binding that key to the cap
 // (lib/sessionKey). Signed by the admin's Magic EOA when live, by a demo owner wallet
 // otherwise — either way the grant is verified on the spot, so the cap is cryptographic,
-// not an app-side promise. On-chain validator enforcement is the last step (Office Hours).
+// not an app-side promise. On-chain validator enforcement is PROVEN standalone via ZeroDev
+// Kernel7702 on Sepolia (over-cap rejected, within-cap settled — see README / prove:zerodev).
 
 import { useState } from "react";
 import Link from "next/link";

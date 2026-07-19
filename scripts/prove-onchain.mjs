@@ -1,7 +1,7 @@
-// First attempt at ONE real on-chain Universal Account spend — the harness for gap #1 (nothing
-// has run on-chain yet). Reuses the SAME lib the app uses (lib/universalAccount.ts). NOTE: this
-// has never touched the network — it's the starting point for the first live run, not a proven
-// path. Expect to iterate on the 7702 authorization, the signer contract, and the return shape.
+// A real on-chain Universal Account spend. Reuses the SAME lib the app uses (lib/universalAccount.ts)
+// on SDK v2.0.3. PROVEN: settled multiple transfers on Arbitrum One (e.g. 0x40a4722a…, 0x15d08077…).
+// Passes an ethers-backed EIP-7702 authorizer so it works even on a fresh (undelegated) account's
+// first tx; once the account is delegated, no authorization is needed.
 //
 // Run (Node 23+ strips TS; your Node 26 does):
 //   node --env-file=.env.local scripts/prove-onchain.mjs [receiverAddress] [amountUSDC]
@@ -37,12 +37,16 @@ console.log(`Amount:     ${amount} USDC · settling on Arbitrum One\n`);
 const ua = createUniversalAccount(wallet.address);
 // Same signer contract as Magic (lib/magic.ts): sign the tx rootHash as an eth message.
 const sign = async (rootHash) => wallet.signMessage(getBytes(rootHash));
+// EIP-7702 authorizer for a fresh (undelegated) account's first tx.
+const authorize = async ({ address, nonce, chainId }) =>
+  (await wallet.authorize({ address, nonce, chainId })).signature.serialized;
 
 try {
   const res = await sendShared(
     ua,
     { amount: String(amount), receiver, tokenAddress: ARBITRUM_USDC },
     sign,
+    authorize,
   );
   // sendTransaction returns Particle's internal transactionId; the settled Arbitrum txHash lands a
   // few seconds later. Poll getTransaction until a userOp exposes its on-chain txHash.
@@ -72,8 +76,7 @@ try {
   }
 } catch (e) {
   console.error(`✗ Send failed: ${e.message}`);
-  console.error(`  If it mentions 7702 authorization: the FIRST tx per chain needs an EIP-7702`);
-  console.error(`  authorization (sendTransaction's 3rd arg). That exact API is the one documented`);
-  console.error(`  unknown — confirm it at Particle Office Hours (see docs/ARCHITECTURE.md).`);
+  console.error(`  If "Invalid parameters": Particle's Arbitrum backend is intermittently flaky — rerun.`);
+  console.error(`  If "AA24": the EIP-7702 authorization is off (must sign the chainId Particle returns).`);
   process.exit(1);
 }

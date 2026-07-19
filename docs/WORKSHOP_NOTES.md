@@ -7,7 +7,7 @@ anything concretely implementable in Bareng. Honest mapping — done, pending fu
 | Workshop insight | Where it lives |
 |---|---|
 | **Particle UA in EIP-7702 mode, unified balance** | `lib/universalAccount.ts` — **proven on-chain** (tx `0x40a4722a…d50f7`, Arbitrum). |
-| **Single-signature spend from the unified balance** | `sendShared` → `sendTransaction(tx, signature)`. Particle handles the 7702 authorization server-side (no 3rd-arg auth needed — confirmed empirically). |
+| **Single-signature spend from the unified balance** | `sendShared` → `sendTransaction`. On v2.0.3 an undelegated EOA's first tx adds a signed EIP-7702 authorization (3rd arg, chainId 0); once delegated, 2-arg. Both proven on-chain. |
 | **ZeroDev: validation-logic-as-code, per-key spend cap** | `lib/zerodev.ts` — Kernel7702 call-policy `USDC.transfer ≤ cap` (reference impl). |
 | **ZeroDev: batching multiple calls into one tx** | `lib/yield.ts` — `approve` + `supply` batched into one `createUniversalTransaction` call; the batch shape is unit-tested (`test/yield.test.mjs`). |
 | **Openfort/x402: capped agent wallet, HTTP-402 pay-per-request** | `lib/x402.ts` + `/agent` — agent pays per request, physically bounded by the cap. |

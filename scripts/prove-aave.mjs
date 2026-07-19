@@ -13,7 +13,7 @@
 // sendTransaction's 3rd arg. Mirrors Particle's ua-7702-magic-demo signAndSend, ethers not Magic.
 
 import { Wallet, getBytes } from "ethers";
-import { createUniversalAccount, ARBITRUM_USDC } from "../lib/universalAccount.ts";
+import { createUniversalAccount, build7702Authorizations, ARBITRUM_USDC } from "../lib/universalAccount.ts";
 import { buildSupply } from "../lib/yield.ts";
 
 const need = ["NEXT_PUBLIC_PARTICLE_PROJECT_ID", "NEXT_PUBLIC_PARTICLE_CLIENT_KEY", "NEXT_PUBLIC_PARTICLE_APP_ID", "OWNER_PRIVATE_KEY"];
@@ -50,27 +50,10 @@ try {
       await new Promise((r) => setTimeout(r, 3000));
     }
   }
-  // EIP-7702 authorizations: the account (owner EOA) is undelegated, so each undelegated userOp
-  // needs a signed 7702 authorization delegating the EOA to Particle's UA implementation.
-  const authorizations = [];
-  const byNonce = new Map();
-  for (const op of tx.userOps ?? []) {
-    if (op.eip7702Auth && !op.eip7702Delegated) {
-      let serialized = byNonce.get(op.eip7702Auth.nonce);
-      if (!serialized) {
-        const a = await wallet.authorize({
-          address: op.eip7702Auth.address,
-          nonce: op.eip7702Auth.nonce,
-          // Sign the chain-agnostic chainId 0 that Particle actually returns (ethers can, unlike
-          // Magic — the demo's `|| chainId` fallback was only a Magic workaround). `??` keeps the 0.
-          chainId: op.eip7702Auth.chainId ?? op.chainId,
-        });
-        serialized = a.signature.serialized;
-        byNonce.set(op.eip7702Auth.nonce, serialized);
-      }
-      authorizations.push({ userOpHash: op.userOpHash, signature: serialized });
-    }
-  }
+  // EIP-7702 authorizations for any undelegated userOp (shared with the app's sendShared).
+  const authorize = async ({ address, nonce, chainId }) =>
+    (await wallet.authorize({ address, nonce, chainId })).signature.serialized;
+  const authorizations = await build7702Authorizations(tx, authorize);
   if (authorizations.length) console.log(`  Signing EIP-7702 delegation for ${authorizations.length} userOp(s)…`);
   const res = await ua.sendTransaction(tx, await sign(tx.rootHash), authorizations.length ? authorizations : undefined);
   const txId = res?.transactionId ?? res?.hash;

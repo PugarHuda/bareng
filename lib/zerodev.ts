@@ -86,7 +86,8 @@ export async function buildMemberSessionValidator(
  *
  * ponytail: 7702 sudo + a `regular` permission validator is the composition we want; the
  * published createKernelAccount types don't yet expose both fields together, so the options
- * are cast. Confirm the exact field at Particle/ZeroDev Office Hours before mainnet.
+ * are cast. The composition is validated on-chain (Sepolia): over-cap rejected at validation,
+ * within-cap settled (tx 0x73ad508a…) — see scripts/prove-zerodev-sepolia.mjs.
  */
 export async function createMemberKernel(
   publicClient: PublicClient,

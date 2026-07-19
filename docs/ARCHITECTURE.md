@@ -26,9 +26,9 @@ no session-key, policy, delegation, or spend-limit API in the UA SDK.** One owne
 They are **standalone, working reference implementations**, not composed into the Particle UA:
 
 - **`lib/zerodev.ts`** — a real ZeroDev Kernel7702 permission validator whose call-policy caps
-  `USDC.transfer ≤ limit`. It is a **working reference implementation** of on-chain 7702
-  enforcement (built + unit-tested, but not yet executed on-chain — see the on-chain-proof gap)
-  and targets the ZeroDev bounty. It does **not** enforce anything on the Particle UA — ZeroDev's kernel is a
+  `USDC.transfer ≤ limit`. On-chain 7702 enforcement is **proven on Sepolia** (over-cap rejected at
+  validation, within-cap settled — tx `0x73ad508a…`) and targets the ZeroDev bounty. It does
+  **not** enforce anything on the Particle UA — ZeroDev's kernel is a
   *different* account. To get real on-chain per-member caps you would make the pot a **ZeroDev
   kernel account instead of a Particle UA**, trading away UA's cross-chain unified balance.
 - **`lib/x402.ts` / `/agent`** — demonstrates that a 7702-capped key is a safe agent wallet,
@@ -50,6 +50,6 @@ the UA") is not — don't say it on stage.
 ## Open at Office Hours
 1. Does/will the Particle UA SDK expose a **session-key / delegation** primitive that consumes an
    owner-signed grant on-chain? (Would close the gap natively.)
-2. ~~Confirm the exact **7702-mode init**~~ — **RESOLVED:** a real spend settled on Arbitrum with
-   plain 2-arg `sendTransaction`; Particle handles the first-tx authorization server-side.
+2. ~~Confirm the exact **7702-mode init**~~ — **RESOLVED:** spends settled on Arbitrum. On v2.0.3 an
+   undelegated EOA's first tx signs the EIP-7702 auth (3rd arg, chainId 0); delegated → 2-arg.
 3. Bounty **stacking** rules — since ZeroDev/Openfort are reference demos, not UA-composed.

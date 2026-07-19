@@ -68,7 +68,7 @@ only the on-chain call is stubbed.
 | `lib/receipts.ts` | Transparent group receipts (tagged, auditable spends) | ✅ done + tested |
 | `lib/insights.ts` | "Where the pot goes" — spend aggregated by category / member | ✅ done + tested |
 | `lib/yield.ts` | Idle-balance yield → Aave v3 approve+supply batch (via UA) | ✅ done + tested |
-| `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ tested · gated |
+| `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ proven on Sepolia |
 | `lib/x402.ts` | x402 agent payments bounded by the cap (reference) | ✅ tested · gated |
 | `lib/sweep.ts` | Stealth-sweep detection + ready-to-broadcast sweep tx (Openfort) | ✅ done + tested |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
@@ -107,8 +107,8 @@ Two layers, both built:
    (block 485190402, SUCCESS, via EntryPoint 4337 v0.7). The UA is no longer just wired — it spends
    on-chain. See `docs/ONCHAIN_PROOF.md`.
 2. **Add keys** to `.env.local` (Particle + Magic) → the login → UA → spend path goes live.
-3. **Particle Office Hours:** the EIP-7702 first-tx authorization is **resolved** (the settled tx
-   used plain 2-arg `sendTransaction`; Particle handles it server-side). Still worth asking:
+3. **Particle Office Hours:** the EIP-7702 first-tx authorization is **resolved** (on v2.0.3 an
+   undelegated EOA's first tx signs the auth as `sendTransaction`'s 3rd arg; delegated → 2-arg). Still worth asking:
    whether the UA exposes native session keys (would close the on-chain-cap gap).
 4. Wire the stealth sweep tx (detection is done in `lib/sweep.ts`) and real cross-chain top-up
    (the dashboard button is currently a labeled demo).

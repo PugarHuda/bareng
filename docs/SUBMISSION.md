@@ -7,8 +7,12 @@ integration depth in `INTEGRATION.md`.
 - ✅ **Live:** https://bareng-jade.vercel.app (public, demo mode) · repo https://github.com/PugarHuda/bareng
 - ✅ Builds clean (`next build`), typechecks (`tsc`), tests pass (`npm test`, 66/66).
 - ✅ Runs in demo mode with no keys — all seven routes (`/`, `/admin`, `/agent`, `/receive`, `/earn`, `/arisan`, `/split`) serve.
-- ✅ **Proven on-chain** — `prove:onchain` settled a real shared-UA spend on Arbitrum One:
-  [tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7).
+- ✅ **Proven on-chain — 3 settled artifacts:** (1) shared-UA spend on Arbitrum
+  [`0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7);
+  (2) ZeroDev 7702 cap enforced on Sepolia (over-cap rejected, within-cap settled)
+  [`0x73ad508a…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036);
+  (3) UA DeFi call — Aave v3 supply on Arbitrum
+  [`0x7b5698c0…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad). SDK v2.0.3.
 - ✅ Core spine, real + coherent: **Particle** UA (single-owner, chain-abstracted balance,
   7702 mode + Arbitrum settle), **Magic** (social login → EOA/signer), **Arbitrum** (settlement).
 - 🟡 **ZeroDev** + **Openfort/x402** are working **reference implementations + bounty targets**,
@@ -29,10 +33,9 @@ integration depth in `INTEGRATION.md`.
 4. To run an interactive login yourself in this session, type: `! npm run dev`
 
 ## Confirm at Particle/ZeroDev Office Hours (the only open questions)
-1. ~~**7702-mode init** / first-tx authorization~~ — **RESOLVED by preflight.** A real
-   `sendTransaction(tx, signature)` against the funded-keys UA was accepted by Particle's infra
-   (only failed on "insufficient balance for gas"); the EIP-7702 authorization is handled
-   server-side, no 3rd arg needed. No longer an open question.
+1. ~~**7702-mode init** / first-tx authorization~~ — **RESOLVED.** On SDK v2.0.3 an undelegated
+   EOA's first tx per chain signs the EIP-7702 authorization (`sendTransaction`'s 3rd arg,
+   chainId 0); once delegated, 2 args suffice. Proven on-chain (the Aave tx needed it). Closed.
 2. **Composition** — does the ZeroDev Kernel7702 `regular` permission validator compose with
    the Particle UA? `createMemberKernel` currently casts the options (`lib/zerodev.ts`).
 3. **Bounty stacking** — does the ZeroDev bounty stack with the UA track? Exact per-partner
@@ -53,10 +56,10 @@ integration depth in `INTEGRATION.md`.
 The Particle UA is **single-owner with no on-chain session-key API**. So per-member caps are
 owner-signed grants enforced **app-side**, not chain-enforced on the UA. ZeroDev/x402 are
 standalone reference impls. The honest, winning story leans on **UX (40%) + the 7702 account +
-cross-chain balance** — all real — not on chain-enforced per-member caps. **Before finale, prove
-ONE real on-chain spend end-to-end (one tx hash) — that beats five scaffolded integrations.**
-Harness `npm run prove:onchain` (runbook in `docs/ONCHAIN_PROOF.md`) is **network-tested against
-real Particle keys** — the full path runs; it just needs the UA deposit to settle.
+cross-chain balance** — all real — not on chain-enforced per-member caps. **This is done: three
+real on-chain artifacts have settled** (UA spend + Aave DeFi call on Arbitrum, ZeroDev cap on
+Sepolia) — that beats five scaffolded integrations. Harnesses: `npm run prove:onchain`,
+`prove:aave`, `prove:zerodev` (SDK v2.0.3; runbook in `docs/ONCHAIN_PROOF.md`).
 
 ## Known ceilings (say them if asked — they read as intent, not gaps)
 - On-chain cap is **per-transaction** (ZeroDev call-policy); the **rolling weekly total** is
