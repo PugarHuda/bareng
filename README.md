@@ -77,7 +77,7 @@ only the on-chain call is stubbed.
 | `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
 | `scripts/prove-aave.mjs` | UA Aave v3 supply harness (real DeFi call, Arbitrum) | 🟡 ready · Particle DeFi routing under maintenance |
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
-| `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | 🟡 ready · needs free ZeroDev RPC |
+| `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | ✅ run — over-cap **rejected** at validation, within-cap admitted by the policy |
 
 `npm test` → 66 passing (pure logic + money path). `next build` clean · routes `/ /admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
 
