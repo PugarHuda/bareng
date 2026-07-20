@@ -94,10 +94,11 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [grants, setGrants] = useState<Record<string, SignedGrant>>({});
   const [payee, setPayee] = useState("@sari");
-  const [busy, setBusy] = useState(false); // in-flight lock: a double-click must not double-spend
+  const [busy, setBusy] = useState(false); // drives the button label/disabled state only
   const [showQr, setShowQr] = useState(false);
   const [showSra, setShowSra] = useState(false);
   const seq = useRef(0); // monotonic id so prepended feed rows get a STABLE key (fixed demo clock → ts alone collides)
+  const inFlight = useRef(false); // the REAL re-entrancy lock — `busy` state lags a render, so two clicks in one tick both pass a state check and double-spend; a ref flips synchronously.
   const [srcChain, setSrcChain] = useState("Base");
   const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
   const session = useSession();
@@ -140,11 +141,13 @@ export default function Home() {
   }
 
   async function doSpend() {
-    if (!ok || busy) return; // busy: the live spend awaits before state updates — block re-entry
+    if (!ok || inFlight.current) return; // ref, not `busy`: two clicks in one tick both see busy===false
+    inFlight.current = true;
     setBusy(true);
     try {
       await doSpendInner();
     } finally {
+      inFlight.current = false;
       setBusy(false);
     }
   }
@@ -181,6 +184,9 @@ export default function Home() {
       setNotice("spend blocked: invalid 7702 grant");
       return;
     }
+    // Simulate settlement: holds the in-flight lock across the gesture (so an accidental double-click
+    // pays once, matching the live path) and makes the demo feel real instead of instant.
+    await new Promise((r) => setTimeout(r, 450));
     logSpend(recordSpend(me, amount, now), grant ? "7702 grant-authorized · Arbitrum (demo)" : "Arbitrum (demo)");
   }
 

@@ -34,9 +34,12 @@ export default function Agent() {
   const [log, setLog] = useState<Line[]>([]);
   const [busy, setBusy] = useState(false);
   const seq = useRef(0); // stable ids for the prepended log (index keys mis-reconcile on prepend)
+  const inFlight = useRef(false); // synchronous re-entrancy lock (busy state lags a render)
   const left = remaining(member, NOW);
 
   async function run() {
+    if (inFlight.current) return;
+    inFlight.current = true;
     setBusy(true);
     const add = (l: Omit<Line, "id">) => setLog((ls) => [{ ...l, id: seq.current++ }, ...ls].slice(0, 8));
     add({ text: `Agent GETs ${RESOURCE}?price=${charge} → expect 402 Payment Required`, kind: "info" });
@@ -71,6 +74,7 @@ export default function Agent() {
     } catch (e) {
       add({ text: `${(e as Error).message}`, kind: "block" });
     } finally {
+      inFlight.current = false;
       setBusy(false);
     }
   }
