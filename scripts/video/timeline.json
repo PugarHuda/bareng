@@ -1,6 +1,6 @@
 {
   "voice": "en-US-AndrewNeural",
-  "total": 153.16,
+  "total": 266.904,
   "scenes": [
     {
       "id": "landing",
@@ -107,12 +107,92 @@
       "mp3": "seg12.mp3"
     },
     {
-      "id": "deck",
-      "text": "The full story lives in the pitch deck, at slash deck. Problem, solution, the seven on-chain proofs, and why this wins. Bareng — money, together. Gotong royong, on-chain.",
+      "id": "deck_open",
+      "text": "And here's the full pitch — eleven slides, at slash deck. Let's walk through it. Bareng: money, together — a shared group wallet on a real 7702 account.",
       "start": 140.3,
-      "narr": 11.76,
-      "dur": 12.86,
+      "narr": 11.544,
+      "dur": 12.644,
       "mp3": "seg13.mp3"
+    },
+    {
+      "id": "deck_problem",
+      "text": "Slide one, the problem. Group money is everywhere — but on-chain, it's a mess of separate wallets and manual transfers. And every product is single-user; nobody has built the shared account.",
+      "start": 152.944,
+      "narr": 11.904,
+      "dur": 13.004,
+      "mp3": "seg14.mp3"
+    },
+    {
+      "id": "deck_solution",
+      "text": "The solution: one shared account, real per-person limits, and a Web2 feel — Google login, no gas, no seed phrase, no chain to pick.",
+      "start": 165.948,
+      "narr": 9.912,
+      "dur": 11.012,
+      "mp3": "seg15.mp3"
+    },
+    {
+      "id": "deck_7702",
+      "text": "How it uses EIP-7702: the account is the owner's own wallet, upgraded in place — no new address. And every cap is an owner-signed grant, verified on each spend.",
+      "start": 176.96,
+      "narr": 12.72,
+      "dur": 13.82,
+      "mp3": "seg16.mp3"
+    },
+    {
+      "id": "deck_proof",
+      "text": "This isn't a mockup — seven real transactions have settled on-chain, and every one is clickable to verify on the explorer.",
+      "start": 190.78,
+      "narr": 7.488,
+      "dur": 8.588,
+      "mp3": "seg17.mp3"
+    },
+    {
+      "id": "deck_features",
+      "text": "Gotong royong as a primitive: arisan, split and settle, private receive, a capped agent wallet, pay-by-handle, and idle-balance earn.",
+      "start": 199.368,
+      "narr": 9.408,
+      "dur": 10.508,
+      "mp3": "seg18.mp3"
+    },
+    {
+      "id": "deck_partners",
+      "text": "All five featured partners — Particle, Magic, Arbitrum, ZeroDev, and Openfort — each a real, working integration, not a logo on a slide.",
+      "start": 209.876,
+      "narr": 10.584,
+      "dur": 11.684,
+      "mp3": "seg19.mp3"
+    },
+    {
+      "id": "deck_honest",
+      "text": "And it's honest: what's real, what runs in demo mode, and the one thing that still needs funds. This is the pitch that survives a judge's follow-up.",
+      "start": 221.56,
+      "narr": 9.072,
+      "dur": 10.172,
+      "mp3": "seg20.mp3"
+    },
+    {
+      "id": "deck_crosschain",
+      "text": "Cross-chain, honestly: Particle's path is bugged upstream, so we shipped a ZeroDev Smart Routing Address that actually works — a deposit rail from any chain.",
+      "start": 231.732,
+      "narr": 10.152,
+      "dur": 11.252,
+      "mp3": "seg21.mp3"
+    },
+    {
+      "id": "deck_win",
+      "text": "Why this wins: prominent 7702, a UX that hides the chain, genuine white space no one else fills, and a real regional fit with arisan and gotong royong.",
+      "start": 242.984,
+      "narr": 11.496,
+      "dur": 12.596,
+      "mp3": "seg22.mp3"
+    },
+    {
+      "id": "deck_ask",
+      "text": "And the ask: the Universal Accounts Track, plus the Arbitrum and Magic bonuses. Bareng — money, together. Gotong royong, on-chain. Thanks for watching.",
+      "start": 255.58,
+      "narr": 10.224,
+      "dur": 11.324,
+      "mp3": "seg23.mp3"
     }
   ]
 }

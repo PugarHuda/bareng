@@ -36,6 +36,11 @@ const safe = async (fn) => { try { await fn(); } catch (e) { console.log("  skip
 const scene = async (id, fn) => { const t0 = Date.now(); console.log(`▶ ${id} (${dur(id)}s)`); await safe(fn); const rem = dur(id) * 1000 - (Date.now() - t0); if (rem > 0) await wait(rem); else console.log(`  ⚠ overran ${-rem}ms`); };
 const L = (name) => page.getByRole("link", { name, exact: false }).first();
 const B = (name) => page.getByRole("button", { name, exact: false }).first();
+// One deck slide: advance one slide, then point at its heading and hold for the narration.
+const deckSlide = (id) => scene(id, async () => {
+  await page.keyboard.press("ArrowRight"); await wait(550);
+  await point(page.getByRole("heading").first(), 800);
+});
 
 await scene("landing", async () => {
   await page.goto(BASE + "/", { waitUntil: "networkidle" }); await wait(400);
@@ -103,12 +108,21 @@ await scene("earn", async () => {
   await clickIt(B(/Put \$\d+ to work/)); await wait(500);
   await point(page.getByText(/Real Aave v3 batch/i).first(), 900);
 });
-await scene("deck", async () => {
+await scene("deck_open", async () => {
   await clickIt(L("Home")); await wait(750);
-  await clickIt(L("Pitch")); await wait(750);
-  for (let i = 0; i < 4; i++) { await page.keyboard.press("ArrowRight"); await wait(500); }
-  await point(page.getByText("Shared-UA spend").first(), 800); await wait(400);
+  await clickIt(L("Pitch")); await wait(800);
+  await point(page.locator("h1").first(), 800);
 });
+await deckSlide("deck_problem");
+await deckSlide("deck_solution");
+await deckSlide("deck_7702");
+await deckSlide("deck_proof");
+await deckSlide("deck_features");
+await deckSlide("deck_partners");
+await deckSlide("deck_honest");
+await deckSlide("deck_crosschain");
+await deckSlide("deck_win");
+await deckSlide("deck_ask");
 
 const vid = await page.video();
 await ctx.close();

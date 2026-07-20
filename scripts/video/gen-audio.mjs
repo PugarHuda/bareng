@@ -18,17 +18,36 @@ const SCENES = [
   { id: "receive", text: "Receiving privately? Each payment lands on a fresh, one-time stealth address, and the pot quietly sweeps it in — completely unlinkable on-chain." },
   { id: "agent", text: "A member's capped key can even become an A I agent wallet. It pays per request over x four-oh-two — signing a real payment the server verifies — but it physically cannot exceed the cap." },
   { id: "earn", text: "Idle funds don't sit still. One tap supplies them into Aave v three — the real approve-and-supply batch — kept one tap away from being spent." },
-  { id: "deck", text: "The full story lives in the pitch deck, at slash deck. Problem, solution, the seven on-chain proofs, and why this wins. Bareng — money, together. Gotong royong, on-chain." },
+  // ---- pitch deck, slide by slide (/deck) ----
+  { id: "deck_open", text: "And here's the full pitch — eleven slides, at slash deck. Let's walk through it. Bareng: money, together — a shared group wallet on a real 7702 account." },
+  { id: "deck_problem", text: "Slide one, the problem. Group money is everywhere — but on-chain, it's a mess of separate wallets and manual transfers. And every product is single-user; nobody has built the shared account." },
+  { id: "deck_solution", text: "The solution: one shared account, real per-person limits, and a Web2 feel — Google login, no gas, no seed phrase, no chain to pick." },
+  { id: "deck_7702", text: "How it uses EIP-7702: the account is the owner's own wallet, upgraded in place — no new address. And every cap is an owner-signed grant, verified on each spend." },
+  { id: "deck_proof", text: "This isn't a mockup — seven real transactions have settled on-chain, and every one is clickable to verify on the explorer." },
+  { id: "deck_features", text: "Gotong royong as a primitive: arisan, split and settle, private receive, a capped agent wallet, pay-by-handle, and idle-balance earn." },
+  { id: "deck_partners", text: "All five featured partners — Particle, Magic, Arbitrum, ZeroDev, and Openfort — each a real, working integration, not a logo on a slide." },
+  { id: "deck_honest", text: "And it's honest: what's real, what runs in demo mode, and the one thing that still needs funds. This is the pitch that survives a judge's follow-up." },
+  { id: "deck_crosschain", text: "Cross-chain, honestly: Particle's path is bugged upstream, so we shipped a ZeroDev Smart Routing Address that actually works — a deposit rail from any chain." },
+  { id: "deck_win", text: "Why this wins: prominent 7702, a UX that hides the chain, genuine white space no one else fills, and a real regional fit with arisan and gotong royong." },
+  { id: "deck_ask", text: "And the ask: the Universal Accounts Track, plus the Arbitrum and Magic bonuses. Bareng — money, together. Gotong royong, on-chain. Thanks for watching." },
 ];
 
 const dur = (f) => parseFloat(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]).toString().trim());
+const sleep = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+// edge-tts hits Microsoft's online endpoint and is occasionally flaky — retry a few times.
+const tts = (text, mp3) => {
+  for (let a = 0; a < 5; a++) {
+    try { execFileSync("python", ["-m", "edge_tts", "--voice", VOICE, "--text", text, "--write-media", mp3], { stdio: "ignore" }); return; }
+    catch (e) { if (a === 4) throw e; sleep(2500); }
+  }
+};
 
 const scenes = [];
 let t = 0;
 for (let i = 0; i < SCENES.length; i++) {
   const s = SCENES[i];
   const mp3 = `seg${String(i).padStart(2, "0")}.mp3`;
-  execFileSync("python", ["-m", "edge_tts", "--voice", VOICE, "--text", s.text, "--write-media", mp3], { stdio: "ignore" });
+  tts(s.text, mp3);
   const narr = dur(mp3);
   const slot = narr + TAIL;
   scenes.push({ id: s.id, text: s.text, start: Math.round(t * 1000) / 1000, narr: Math.round(narr * 1000) / 1000, dur: Math.round(slot * 1000) / 1000, mp3 });
