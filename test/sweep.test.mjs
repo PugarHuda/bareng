@@ -3,8 +3,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { generateMetaAddress, generateStealthAddress, addressFromPrivateKey } from "../lib/stealth.ts";
-import { findSweepable, buildSweepTransfer } from "../lib/sweep.ts";
-import { Interface, getAddress } from "ethers";
+import { findSweepable, buildSweepTransfer, buildSweepAuthorization } from "../lib/sweep.ts";
+import { Interface, getAddress, verifyTypedData } from "ethers";
 
 test("finds only the pot's receives, each with the controlling key", () => {
   const pot = generateMetaAddress();
@@ -47,4 +47,31 @@ test("buildSweepTransfer signs a transfer INTO the UA from the controlling key",
   const decoded = erc20.decodeFunctionData("transfer", tx.data);
   assert.equal(decoded[0], getAddress(UA));
   assert.equal(decoded[1], 5_000000n);
+});
+
+test("buildSweepAuthorization: a gasless EIP-3009 sweep the stealth key really signed", async () => {
+  const pot = generateMetaAddress();
+  const [s] = findSweepable([generateStealthAddress(pot.spendPub, pot.viewPub)], pot);
+  const UA = "0x14eB5B6A11C6Dd3e5f5a1AeeB126ab3a2fe0a22c";
+  const USDC = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831";
+
+  const { authorization, signature, domain } = await buildSweepAuthorization(s, UA, USDC, 5_000000n, 42161, {
+    now: 1_700_000_000,
+    nonce: "0x2222222222222222222222222222222222222222222222222222222222222222",
+  });
+
+  // It moves the funds INTO the pot's UA...
+  assert.equal(authorization.to, getAddress(UA));
+  assert.equal(authorization.value, "5000000");
+  // ...and the signature really recovers the stealth address the pot controls (broadcast-ready).
+  const recovered = verifyTypedData(
+    domain,
+    { TransferWithAuthorization: [
+      { name: "from", type: "address" }, { name: "to", type: "address" }, { name: "value", type: "uint256" },
+      { name: "validAfter", type: "uint256" }, { name: "validBefore", type: "uint256" }, { name: "nonce", type: "bytes32" },
+    ] },
+    { ...authorization, value: 5_000000n, validAfter: BigInt(authorization.validAfter), validBefore: BigInt(authorization.validBefore) },
+    signature,
+  );
+  assert.equal(recovered.toLowerCase(), s.stealthAddress.toLowerCase());
 });

@@ -152,11 +152,11 @@ export default function Home() {
     if (session.ua) {
       // Real path: route the spend through the Universal Account, settle on Arbitrum.
       // The signed 7702 grant gates it — spend() refuses without a valid owner signature.
-      // KNOWN LIVE-PATH GAP: on SDK v2.0.3 a brand-new Magic account's FIRST spend needs a one-time
-      // EIP-7702 pre-delegation (Particle's ua-7702-magic-demo `ensureDelegated`) — Magic can't sign
-      // the chainId-0 authorization inline the way our ethers scripts do. The on-chain UA spend
-      // mechanism itself is proven (prove:onchain/aave, which handle the auth); wiring the Magic
-      // pre-delegation is the remaining live-login step (untestable here without a Magic key).
+      // A fresh Magic account's FIRST spend needs an inline EIP-7702 authorization; sign7702
+      // (lib/magic) provides it via magic-sdk v33's chainId-0 sign7702Authorization — the SAME inline
+      // path the ethers harnesses use, no separate pre-delegation tx, no ETH (UA paymaster sponsors
+      // gas from USDC). The on-chain UA spend is proven (prove:onchain/aave); a fully live
+      // fresh-account settlement just needs an interactive Google login + funds to demo end to end.
       try {
         const res = await spend(
           session.ua,

@@ -1,18 +1,32 @@
 // Backend auto-sweep of stealth receives into the shared Universal Account.
 //
-// Private receive (lib/stealth) lands outside funds on fresh one-time addresses. Something
-// must detect those and move them into the pot — a BACKEND automation, exactly Openfort's
-// policy-driven backend wallet (gated behind NEXT_PUBLIC_OPENFORT_FACILITATOR). The detection
-// here is ours (reuses stealth scan + key derivation) and is tested; the send-into-UA is the
-// backend wallet's job. Completes the "stealth sweep" to-do while claiming the Openfort angle.
+// Private receive (lib/stealth) lands outside funds on fresh one-time addresses. Something must
+// detect those and move them into the pot — a BACKEND automation, exactly Openfort's policy-driven
+// backend wallet. Both halves are real here: detection (stealth scan + key derivation) AND the move
+// — buildSweepAuthorization signs a real EIP-3009 transferWithAuthorization so a gasless relayer can
+// broadcast it (the stealth address holds no ETH). Only that final broadcast needs a relayer.
 
-import { Wallet, Interface, getAddress } from "ethers";
+import { Wallet, Interface, getAddress, hexlify, randomBytes } from "ethers";
 import { scan, computeStealthPrivateKey } from "./stealth.ts";
 import type { StealthPayment, MetaAddress } from "./stealth.ts";
 
 export type Sweepable = { stealthAddress: string; privateKey: string };
 
 const ERC20 = new Interface(["function transfer(address to, uint256 amount) returns (bool)"]);
+
+// EIP-3009 — same authorization USDC accepts (and the x402 rail uses). Lets a stealth address with
+// ZERO ETH be swept gaslessly: it signs, a relayer/Openfort backend broadcasts
+// `transferWithAuthorization` and pays the gas. Real signature, no funds needed to produce it.
+const EIP3009_TYPES = {
+  TransferWithAuthorization: [
+    { name: "from", type: "address" },
+    { name: "to", type: "address" },
+    { name: "value", type: "uint256" },
+    { name: "validAfter", type: "uint256" },
+    { name: "validBefore", type: "uint256" },
+    { name: "nonce", type: "bytes32" },
+  ],
+};
 
 /**
  * Turn a detected receive into a READY-TO-BROADCAST sweep: an ERC20 `transfer(ua, amount)` from
@@ -34,6 +48,41 @@ export function buildSweepTransfer(
     signer: wallet.address, // == s.stealthAddress; proves the recovered key controls the funds
     tx: { to: getAddress(token), data, value: 0n, chainId },
   };
+}
+
+/**
+ * A REAL, gasless, broadcast-ready sweep: the recovered stealth key signs an EIP-3009
+ * `transferWithAuthorization` moving `amount` USDC from the stealth address into the pot's UA. The
+ * stealth address needs no ETH — a relayer broadcasts the returned authorization + signature and
+ * pays gas. Signing is real crypto (ethers signTypedData); only the broadcast needs a relayer.
+ * Deterministic when `opts.nonce`/`opts.now` are given (tests).
+ */
+export async function buildSweepAuthorization(
+  s: Sweepable,
+  ua: string,
+  usdc: string,
+  amount: bigint,
+  chainId = 42161,
+  opts: { now?: number; ttl?: number; nonce?: string } = {},
+) {
+  const wallet = new Wallet(s.privateKey);
+  const now = opts.now ?? Math.floor(Date.now() / 1000);
+  const authorization = {
+    from: wallet.address, // == the stealth address
+    to: getAddress(ua),
+    value: amount.toString(),
+    validAfter: String(now - 60),
+    validBefore: String(now + (opts.ttl ?? 3600)),
+    nonce: opts.nonce ?? hexlify(randomBytes(32)),
+  };
+  const domain = { name: "USD Coin", version: "2", chainId, verifyingContract: getAddress(usdc) };
+  const signature = await wallet.signTypedData(domain, EIP3009_TYPES, {
+    ...authorization,
+    value: amount,
+    validAfter: BigInt(authorization.validAfter),
+    validBefore: BigInt(authorization.validBefore),
+  });
+  return { authorization, signature, domain }; // hand to a relayer → USDC.transferWithAuthorization
 }
 
 /** The pot only needs its private view/spend keys to detect and control its receives. */
