@@ -99,12 +99,12 @@ cross-chain settlement).
 
 ## Tech
 Next.js 16 · React 19 · TypeScript · viem + ethers · Particle Universal Account SDK · Magic SDK ·
-ZeroDev SDK. **66 unit tests** on the money paths; `next build` clean; runs keyless in demo mode.
+ZeroDev SDK. **73 unit tests** + a 38-case Playwright QA sweep; `next build` clean; runs keyless in demo mode.
 
 ## Links
 - **Live demo:** https://bareng-jade.vercel.app (runs keyless — no wallet needed)
 - **Code:** https://github.com/PugarHuda/bareng
-- **Pitch page:** https://claude.ai/code/artifact/087c0710-fe26-402f-b3d1-41211ebe6065
+- **Pitch deck:** https://bareng-jade.vercel.app/deck (11 slides, keyboard-navigable)
 - **On-chain proof:** the Arbiscan link above
 
 ---

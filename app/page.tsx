@@ -34,9 +34,10 @@ export default function Landing() {
           <span className="neo-flat grid h-9 w-9 place-items-center rounded-lg bg-[var(--yellow)] text-lg font-black">B</span>
           <span className="text-xl font-black tracking-tight">Bareng</span>
         </div>
-        <Link href="/app" className="neo-btn rounded-lg bg-[var(--blue)] px-4 py-2 text-sm text-black">
-          Open app →
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/deck" className="neo-btn rounded-lg bg-[var(--panel)] px-4 py-2 text-sm text-black">Pitch ↗</Link>
+          <Link href="/app" className="neo-btn rounded-lg bg-[var(--blue)] px-4 py-2 text-sm text-black">Open app →</Link>
+        </div>
       </nav>
 
       {/* Hero */}

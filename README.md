@@ -4,19 +4,27 @@
 > Top up from any token on any chain, spend, and **settle on Arbitrum** — no gas, no seed phrase.
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
-**▶ Live demo:** [bareng-jade.vercel.app](https://bareng-jade.vercel.app) (runs keyless — no wallet needed).
-**✅ Proven on-chain (3 artifacts):** (1) a real shared-UA spend settled on Arbitrum One —
-[tx `0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7);
-(2) the per-member **7702 cap enforced on-chain** via ZeroDev Kernel7702 — over-cap
-**rejected at validation**, within-cap **settled on Sepolia**
-[tx `0x73ad50…b34036`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036);
-(3) a real **DeFi contract call** — the UA supplied USDC into **Aave v3 on Arbitrum** (approve+supply
-batched, 7702-delegated in place), [tx `0x7b5698c0…606dad`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad).
-Runs on Particle UA SDK **v2.0.3** (the supported version; v1.1.1's contract-call path had a bug).
-Uses all five featured partners — Particle, Magic, Arbitrum as the real core; ZeroDev and
-Openfort/x402 as working reference impls + bounty targets. **Read `docs/ARCHITECTURE.md` for the
-honest account model** (the UA is single-owner; per-member caps are owner-signed + app-side, not
-chain-enforced on the UA — don't overclaim that).
+**▶ Live demo:** [bareng-jade.vercel.app](https://bareng-jade.vercel.app) (runs keyless — no wallet needed) ·
+**🖥️ Pitch deck:** [`/deck`](https://bareng-jade.vercel.app/deck) (keyboard-navigable).
+
+**✅ Proven on-chain — 7 real artifacts** (every partner mechanism settles on-chain, not a mockup):
+
+| # | What | Where | Tx |
+|---|---|---|---|
+| 1 | Shared-UA spend | Arbitrum | [`0x40a4722a…`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7) |
+| 2 | 7702 cap enforced (ZeroDev Kernel7702) | Sepolia | [`0x73ad50…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036) |
+| 3 | Aave v3 DeFi supply (approve+supply) | Arbitrum | [`0x7b5698c0…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad) |
+| 4 | x402 agent payment (EIP-3009) | Arbitrum | [`0x4870c99a…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e) |
+| 5 | Private stealth sweep (gasless EIP-3009) | Arbitrum | [`0xb338f36d…`](https://arbiscan.io/tx/0xb338f36d10db2af93df49db33181c469c6ea552e782618fe25e78ac92e7f3ebe) |
+| 6 | Dashboard receipts (×4, real settlements) | Arbitrum | [`0x4a5d673b…`](https://arbiscan.io/tx/0x4a5d673b7bc109372a68264d83888124749338e21f58b97eb814faae3d0176e1) |
+| 7 | Cross-chain rail (ZeroDev SRA, registered) | Arbitrum | [`0x0b72F6cD…`](https://arbiscan.io/address/0x0b72F6cD65c80CD9003128746B42c7dAe738D895) |
+
+Runs on Particle UA SDK **v2.0.3**. Uses all five featured partners — Particle, Magic, Arbitrum as the
+real core; ZeroDev (SRA + Kernel7702 cap) and Openfort/x402 (real EIP-3009 handshake, settled) as real
+integrations + bounty targets. **Read `docs/ARCHITECTURE.md` for the honest account model** (the UA is
+single-owner; per-member caps are owner-signed + app-side, not chain-enforced on the UA — don't
+overclaim that; ZeroDev/x402 don't compose into the UA, but every one is a real, tested, on-chain-settled
+mechanism).
 
 **Docs:** [`ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`INTEGRATION.md`](docs/INTEGRATION.md) ·
 [`DEMO.md`](docs/DEMO.md) · [`ONCHAIN_PROOF.md`](docs/ONCHAIN_PROOF.md) ·
@@ -77,7 +85,8 @@ only the on-chain call is stubbed.
 | `lib/sweep.ts` | Stealth-sweep detection + **gasless EIP-3009 sweep authorization** (Openfort) | ✅ done + tested (4) |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
 | `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | ✅ proven on-chain |
-| `app/page.tsx` | Landing page (neobrutalism — hero, on-chain proofs, features, CTA) | ✅ runs visually |
+| `app/page.tsx` | Landing page (neobrutalism — hero, 6-card proof wall, features, CTA) | ✅ runs visually |
+| `app/deck/page.tsx` | **Pitch deck** (`/deck`) — 11 keyboard-navigable neobrutalism slides | ✅ QA'd (nav, dots, mobile) |
 | `app/app/page.tsx` | Dashboard (balance, members, pay-by-handle, receipts, top-up) | ✅ runs visually |
 | `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
 | `app/agent/page.tsx` | x402 agent wallet — hits the real `/api/x402`, signs EIP-3009, cap-bounded | ✅ real handshake, runs live |
@@ -93,7 +102,11 @@ only the on-chain call is stubbed.
 | `scripts/seed-receipts.mjs` | Seeds the dashboard feed with **real** UA settlements (self-transfers) | ✅ **4/4 settled** on Arbitrum · each receipt links to Arbiscan |
 | `scripts/prove-sra-deposit.mjs` | **End-to-end cross-chain deposit** via the SRA (deposit + monitor + recover) | ✅ built · validated live (SRA verified, status/preflight work) · 🟡 one command from a settled cross-chain tx — needs ~1 USDC + gas on Base/Optimism |
 
-`npm test` → 66 passing (pure logic + money path). `next build` clean · **neobrutalism** UI · routes `/` (landing) `/app` (dashboard) `/admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
+`npm test` → **73 passing** (pure logic + money path). `next build` clean · **neobrutalism** UI ·
+routes `/` (landing) `/deck` (pitch) `/app` (dashboard) `/admin /agent /receive /earn /arisan /split` ·
+`/api/x402` (real x402 endpoint) · custom error + 404 boundaries. **QA:** a 38-case Playwright sweep
+(outcome assertions + adversarial inputs + responsive + a11y) passes clean; it caught and we fixed a
+real double-click double-spend (re-entrancy guarded with a ref, not lagging React state).
 
 ### Borrowed from PIVY (Sui Overflow 2025 payment-track winner)
 
@@ -107,20 +120,26 @@ Two layers, both built:
    derivation via audited `@noble` libs — `npm test` proves the recipient recovers the
    controlling key and a stranger cannot.
 
-## To do (in priority order)
+## Status
 
-1. ✅ **DONE — a real UA spend settled on Arbitrum One.** `npm run prove:onchain` sent 0.01 USDC
-   from the shared Universal Account; tx
-   [`0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7)
-   (block 485190402, SUCCESS, via EntryPoint 4337 v0.7). The UA is no longer just wired — it spends
-   on-chain. See `docs/ONCHAIN_PROOF.md`.
-2. **Add keys** to `.env.local` (Particle + Magic) → the login → UA → spend path goes live.
-3. **Particle Office Hours:** the EIP-7702 first-tx authorization is **resolved** (on v2.0.3 an
-   undelegated EOA's first tx signs the auth as `sendTransaction`'s 3rd arg; delegated → 2-arg). Still worth asking:
-   whether the UA exposes native session keys (would close the on-chain-cap gap).
-4. Wire the stealth sweep tx (detection is done in `lib/sweep.ts`) and real cross-chain top-up
-   (the dashboard button is currently a labeled demo).
-5. Record a demo video; confirm Milestone 2 status + submission format.
+Every partner mechanism that can settle on-chain **does** (7 artifacts above). x402 is a real
+EIP-3009 handshake settled on-chain; the stealth sweep is a real gasless EIP-3009 sweep settled
+on-chain; `/earn` builds the real Aave v3 batch; the ZeroDev SRA cross-chain rail is registered. Magic
+login is wired + verified. 73 unit tests + a Playwright QA sweep, all green.
+
+**The one remaining on-chain step** is a *settled* cross-chain deposit — blocked only by source funds
+on another chain (all funds are Arbitrum-only). The harness is one command away:
+`npm run prove:sra-deposit base 1` fires the moment `~1 USDC` + a little gas lands on Base/Optimism at
+the owner EOA. Also open: record the demo video (shot-list in `docs/SUBMISSION_ANSWERS.md`).
+
+**Known upstream issue:** Particle v2.0.3's UA cross-chain balance check is bugged (counts only the
+destination chain for 7702 accounts) — reproduced, corroborated in the hackathon Discord. We route
+cross-chain through the ZeroDev SRA instead.
+
+## On-chain proof harnesses
+
+`npm run prove:onchain` · `prove:aave` · `prove:zerodev` · `prove:x402` · `prove:sweep` · `prove:sra` ·
+`prove:sra-deposit` — each settles or registers a real artifact (see the table up top).
 
 ## Deadlines
 

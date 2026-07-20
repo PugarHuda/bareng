@@ -76,7 +76,7 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
   the capped agent signs an EIP-3009 `transferWithAuthorization`, the server verifies it → 200, and the
   UA broadcasts it as the facilitator — a real 0.01 USDC payment settled on Arbitrum
   ([`0x4870c99a…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e)).
-- Stack: Next.js 16 · React 19 · TypeScript · viem + ethers · 66 unit tests on the money paths · neobrutalism UI, keyless demo.
+- Stack: Next.js 16 · React 19 · TypeScript · viem + ethers · 73 unit tests + a 38-case Playwright QA sweep · neobrutalism UI, keyless demo.
 
 ## On-chain proof (verify on the explorers)
 1. **Shared-UA spend** — Arbitrum One, [`0x40a4722a…d50f7`](https://arbiscan.io/tx/0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7)
@@ -93,7 +93,7 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
 ## Links
 - **Live demo:** https://bareng-jade.vercel.app (runs keyless — no wallet needed)
 - **Code:** https://github.com/PugarHuda/bareng
-- **Pitch page:** https://claude.ai/code/artifact/087c0710-fe26-402f-b3d1-41211ebe6065
+- **Pitch deck:** https://bareng-jade.vercel.app/deck (11 slides, keyboard-navigable)
 - **Demo video:** _[paste your recording — follow the shot-list in SUBMISSION_ANSWERS.md]_
 
 ## Honest note (say it before a judge asks)
