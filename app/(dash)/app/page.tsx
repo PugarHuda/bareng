@@ -281,6 +281,13 @@ export default function Home() {
         <p className="mt-3 text-4xl font-bold">${balance.toFixed(2)}</p>
         <p className="mt-1 text-sm font-medium text-black/80">≈ {idr(balance)}</p>
         <p className="mt-1 text-xs text-black/70">unified balance · any token · any chain</p>
+        {/* Make the chain-abstraction visible, not buried in a dropdown — one balance across chains. */}
+        <div className="mt-2 flex flex-wrap items-center gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-black/70">works across</span>
+          {["Arbitrum", "Base", "Ethereum", "BNB"].map((c) => (
+            <span key={c} className="neo-tag rounded bg-white px-1.5 py-0.5 text-[10px] text-black">{c}</span>
+          ))}
+        </div>
         <div className="mt-4 flex items-center gap-2">
           <span className="text-xs text-black/70">Top up from</span>
           <select

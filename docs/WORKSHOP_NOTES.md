@@ -17,7 +17,7 @@ anything concretely implementable in Bareng. Honest mapping — done, pending fu
 ## 🟡 Built, ready — needs more funds to run
 | Insight | Harness |
 |---|---|
-| **Cross-chain from a single balance** (WS02's headline: USDC on one chain → asset on another) | `scripts/prove-crosschain.mjs` (`npm run prove:crosschain`) — delivers USDC on **Base**, funded from the UA's **Arbitrum** balance, one signature. Code validated up to the funds boundary; the on-hand balance isn't enough after cross-chain bridge minimums/fees. Fund the account with ~$3–4 more and it settles a real Base tx → cross-chain criterion hit directly. (Note: SDK 2.0.3 has intermittent cross-chain issues per the hackathon Discord — same-chain is solid.) |
+| **Cross-chain from a single balance** (WS02's headline: USDC on one chain → asset on another) | `scripts/prove-crosschain.mjs` (`npm run prove:crosschain`) — delivers USDC on **Base**, funded from the UA's **Arbitrum** balance, one signature. **BLOCKED by a Particle v2.0.3 bug, not funds:** delivering 0.3 USDC while the UA holds 1.12 on Arbitrum still returns "Insufficient primary token balance" — the v2 cross-chain balance check counts only the *destination*-chain holdings for 7702 accounts. Reproduced by other teams in the Discord (savage.eth via raw JSON-RPC, ruling out SDK version; AlexUrsol's -32653). Same-chain settles fine. Rerun when Particle fixes it. |
 
 > The Aave "System maintenance" that blocked this earlier was a **deprecated-SDK (1.1.1) bug**, not
 > an outage — confirmed on the hackathon Discord and fixed by moving to **SDK v2.0.3**. The Aave

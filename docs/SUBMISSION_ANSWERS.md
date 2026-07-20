@@ -63,6 +63,20 @@ Built on Particle UA SDK **v2.0.3** (the supported version). Confirmed on the ha
 per-member spend rules can't be *universally* enforced on-chain in the UA path — matching our honest
 architecture (caps are owner-signed + app-side; ZeroDev shows the chain-enforced path standalone).
 
+### Cross-chain (the UA Track requirement) — honest status
+The UA is chain-abstracted by design (one balance across Arbitrum/Base/Ethereum/BNB; the app's
+"top up from any chain → unified on Arbitrum" flow shows it). A *settled* cross-chain transfer is
+**blocked by a Particle v2.0.3 bug, not our code or funds**: `prove:crosschain` delivering just
+0.3 USDC to Base while the UA holds 1.12 on Arbitrum still returns "Insufficient primary token
+balance" — v2's cross-chain balance check counts only the destination-chain holdings for 7702
+accounts. Reproduced by other teams in the Discord (savage.eth via raw JSON-RPC ruling out the SDK
+version; AlexUrsol's -32653). The harness is ready; it settles the moment Particle fixes it. Same-chain
+settles fine (proofs above). If asked "show a cross-chain tx": be honest — the mechanism is built and
+the UA is cross-chain by design, but Particle's v2 routing is bugged this week (Discord corroborates).
+
+**Recommended track:** Universal Accounts Track (prominent, real 7702 + UA — our core), plus the
+Arbitrum ($2000, consumer app on Arbitrum) and Magic ($500, Google-login onboarding) bonuses.
+
 ## Tech
 Next.js 16 · React 19 · TypeScript · viem + ethers · Particle Universal Account SDK · Magic SDK ·
 ZeroDev SDK. **66 unit tests** on the money paths; `next build` clean; runs keyless in demo mode.

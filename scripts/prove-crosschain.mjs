@@ -1,6 +1,15 @@
-// SECOND on-chain proof — the CROSS-CHAIN thesis, for real. The UA holds USDC on Arbitrum; this
-// buys native ETH on BASE, sourced from that unified balance in one signature. Source chain (42161)
-// != destination chain (8453) → this is chain abstraction, not a same-chain transfer.
+// The CROSS-CHAIN thesis: the UA holds USDC on Arbitrum; this delivers USDC on another chain,
+// sourced from that unified balance in one signature. Source != destination → chain abstraction.
+//
+// STATUS (2026-07-20): BLOCKED by a Particle SDK v2.0.3 bug, NOT by our funds or code. Reproduced:
+// delivering just 0.3 USDC to Base while the UA holds 1.12 USDC on Arbitrum still returns
+// "Insufficient primary token balance" — so it is NOT a funds/minimum issue. The v2 cross-chain
+// balance check counts only the DESTINATION-chain holdings for 7702 accounts (destination = 0 → it
+// wrongly says insufficient). Confirmed by other teams in the hackathon Discord (savage.eth reproduced
+// it via raw JSON-RPC, ruling out the SDK version; AlexUrsol hit the same -32653). Note: v2 also only
+// supports a subset of chains (Optimism/Polygon return "not supported by universal account 2.0.1";
+// supported = Ethereum/BNB/Base/X-Layer/Arbitrum). Same-chain settles fine (see prove:onchain/aave).
+// Rerun when Particle fixes the v2 cross-chain balance check.
 //
 // Run: node --env-file=.env.local scripts/prove-crosschain.mjs [amountUSD] [destChainId]
 // Needs the same env as prove-onchain (Particle keys + funded OWNER_PRIVATE_KEY / UA).
