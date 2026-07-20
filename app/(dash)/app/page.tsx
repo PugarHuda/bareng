@@ -275,7 +275,7 @@ export default function Home() {
               height={160}
               className="[image-rendering:pixelated]"
             />
-            <p className="text-[11px] font-medium text-black/50">Scan to join @{POT_HANDLE}</p>
+            <p className="text-[11px] font-medium text-black/60">Scan to join @{POT_HANDLE}</p>
           </div>
         )}
         <p className="mt-3 text-4xl font-bold">${balance.toFixed(2)}</p>
@@ -464,7 +464,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/60">
         Particle UA · EIP-7702 session keys · Magic login · settled on Arbitrum
       </footer>
     </main>

@@ -138,7 +138,7 @@ export default function Agent() {
         </section>
       )}
 
-      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/60">
         Openfort x402 · bounded by a 7702 spend cap · reference demo
       </footer>
     </main>

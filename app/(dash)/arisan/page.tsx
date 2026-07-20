@@ -144,7 +144,7 @@ export default function ArisanPage() {
 
       <p className="rounded-xl neo-sm bg-[var(--panel)] p-2 text-center text-xs text-black/70">{note}</p>
 
-      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/60">
         Gotong royong onchain · rotating savings · one shared Universal Account
       </footer>
     </main>

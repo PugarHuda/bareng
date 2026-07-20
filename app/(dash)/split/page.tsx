@@ -142,7 +142,7 @@ export default function SplitPage() {
         )}
       </section>
 
-      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/60">
         Debt netting · fewest transfers · settled on one shared Universal Account
       </footer>
     </main>

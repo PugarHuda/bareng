@@ -73,7 +73,7 @@ export default function Earn() {
         <p className="rounded-xl neo-sm bg-[var(--green)] p-2 text-center text-xs text-black">{note}</p>
       )}
 
-      <footer className="pb-6 pt-2 text-center text-xs text-black/50">
+      <footer className="pb-6 pt-2 text-center text-xs text-black/60">
         Aave v3 · Arbitrum · idle-balance yield · reference demo
       </footer>
     </main>
