@@ -47,6 +47,17 @@ export default function Receive() {
         <h1 className="text-xl font-bold">Receive privately</h1>
       </header>
 
+      {/* Proof: a real private receive was auto-swept into the pot on-chain (gasless EIP-3009). */}
+      <a
+        href="https://arbiscan.io/tx/0xb338f36d10db2af93df49db33181c469c6ea552e782618fe25e78ac92e7f3ebe"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between rounded-xl border border-black bg-[var(--green)] px-3 py-2 text-xs text-black"
+      >
+        <span>✓ Real stealth receive swept into the pot on Arbitrum</span>
+        <span className="font-mono text-green-700">0xb338f3…3ebe ↗</span>
+      </a>
+
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
           Each payment lands on a <b>fresh one-time address</b>. The pot&apos;s Universal Account

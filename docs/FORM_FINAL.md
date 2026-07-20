@@ -87,6 +87,8 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
    (e.g. [`0x4a5d673b…`](https://arbiscan.io/tx/0x4a5d673b7bc109372a68264d83888124749338e21f58b97eb814faae3d0176e1)); each row links to Arbiscan. Seeded via `scripts/seed-receipts.mjs` (self-transfers, only gas spent).
 6. **x402 payment settled on-chain** — EIP-3009 `transferWithAuthorization`, agent → service, via the
    UA facilitator, [`0x4870c99a…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e) (`scripts/prove-x402.mjs`).
+7. **Stealth sweep settled on-chain** — a private receive (ERC-5564) auto-swept into the pot via a
+   gasless EIP-3009 sweep, [`0xb338f36d…`](https://arbiscan.io/tx/0xb338f36d10db2af93df49db33181c469c6ea552e782618fe25e78ac92e7f3ebe) (`scripts/prove-sweep.mjs`).
 
 ## Links
 - **Live demo:** https://bareng-jade.vercel.app (runs keyless — no wallet needed)

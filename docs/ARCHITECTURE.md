@@ -41,9 +41,11 @@ for a final on-chain broadcast that needs funds; ZeroDev's on-chain cap runs on 
   **Finding worth stating on stage:** EIP-3009 needs a *plain* (undelegated) EOA payer — a 7702-delegated
   account has code, so USDC routes its signature through EIP-1271 and the plain ECDSA sig is rejected. So
   the agent is a separate throwaway EOA, funded by a tiny UA transfer; the UA relays the settlement.
-- **`lib/sweep.ts`** — the Openfort backend-sweep angle, real on both halves: it detects the pot's own
-  stealth receives (scan + key derivation) AND `buildSweepAuthorization` signs a real, gasless EIP-3009
-  authorization to move them into the UA (a relayer broadcasts it — the stealth address holds no ETH).
+- **`lib/sweep.ts` / `scripts/prove-sweep.mjs`** — the Openfort backend-sweep angle, **settled on-chain**:
+  it detects the pot's own stealth receives (scan + key derivation), `buildSweepAuthorization` signs a
+  gasless EIP-3009 authorization, and the UA broadcasts it as the backend sweeper. A real private receive
+  auto-swept into the pot on Arbitrum (`0xb338f36d…`). A stealth address is a plain EOA, so EIP-3009 works
+  where it can't for the delegated UA (see the x402 finding above).
 
 ## The decision (recommended before finale)
 
