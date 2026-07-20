@@ -41,8 +41,9 @@ limits stop being decorative and become essential.
 - **ZeroDev · Kernel7702** *(reference)* — a working Kernel7702 call-policy (`USDC.transfer ≤ cap`)
   showing the path to chain-enforced caps. **Standalone reference — a different account from the
   UA; it does not enforce on the UA itself.**
-- **Openfort · x402** *(reference)* — the capped key as a safe agent wallet. Cap guard is real +
-  tested; settlement is abstracted.
+- **Openfort · x402** — a **real** x402 handshake (`app/api/x402` + `lib/x402pay`): the capped agent
+  gets a 402, signs an EIP-3009 `transferWithAuthorization`, and the server **verifies the signature**
+  → 200 (verified end-to-end; a tampered header → 402). Only the final on-chain broadcast needs funds.
 
 ## Honest architecture note (say it before a judge asks)
 The Particle UA is **single-owner with no on-chain session-key API**, so per-member caps are

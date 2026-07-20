@@ -48,7 +48,10 @@ test("payAndRetry: within cap → pays once and retries to 200", async () => {
     return { status: 200, json: async () => ({ ok: true }) };
   };
   const res = await payAndRetry(fetchLike, "https://api/x", budi, WANT, NOW, pay);
-  assert.deepEqual(res, { status: 200, paid: true, charge: 2 });
+  assert.equal(res.status, 200);
+  assert.equal(res.paid, true);
+  assert.equal(res.charge, 2);
+  assert.deepEqual(res.body, { ok: true }); // the retried 200's body is returned
   assert.equal(calls, 2); // 402 then retry
 });
 

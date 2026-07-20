@@ -69,14 +69,16 @@ only the on-chain call is stubbed.
 | `lib/insights.ts` | "Where the pot goes" — spend aggregated by category / member | ✅ done + tested |
 | `lib/yield.ts` | Idle-balance yield → Aave v3 approve+supply batch (via UA) | ✅ done + tested |
 | `lib/zerodev.ts` | ZeroDev Kernel7702 spend-cap call-policy (standalone reference) | ✅ proven on Sepolia |
-| `lib/x402.ts` | x402 agent payments bounded by the cap (reference) | ✅ tested · gated |
+| `lib/x402.ts` | x402 flow: 402 → pay → retry, bounded by the cap | ✅ done + tested |
+| `lib/x402pay.ts` | **Real** x402 payment: EIP-3009 `transferWithAuthorization` sign + verify | ✅ done + tested (5) |
+| `app/api/x402/route.ts` | **Real x402 endpoint** — 402, then verifies the signed payment → 200 | ✅ verified e2e (402→sign→200; tampered→402) |
 | `lib/sweep.ts` | Stealth-sweep detection + ready-to-broadcast sweep tx (Openfort) | ✅ done + tested |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
 | `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | ✅ proven on-chain |
 | `app/page.tsx` | Landing page (neobrutalism — hero, on-chain proofs, features, CTA) | ✅ runs visually |
 | `app/app/page.tsx` | Dashboard (balance, members, pay-by-handle, receipts, top-up) | ✅ runs visually |
 | `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
-| `app/agent/page.tsx` | x402 agent wallet bounded by the cap | ✅ runs visually |
+| `app/agent/page.tsx` | x402 agent wallet — hits the real `/api/x402`, signs EIP-3009, cap-bounded | ✅ real handshake, runs live |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
 | `app/earn/page.tsx` | Earn on idle balance (Aave v3, keep-liquid slider) | ✅ runs visually |
 | `app/arisan/page.tsx` | Arisan — rotating savings circle + verifiable fair draw | ✅ runs visually |

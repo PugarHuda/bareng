@@ -1,26 +1,32 @@
 "use client";
 
-// x402 agent demo — the headline of the Openfort angle.
-// A member's 7702-capped session key is a SAFE agent wallet: it pays per-request for a
-// service via x402, and PHYSICALLY cannot exceed the member's cap. Runs live against a
-// mock endpoint (no network) so it works in demo mode; wire the real Openfort facilitator
-// behind NEXT_PUBLIC_OPENFORT_FACILITATOR to settle for real.
+// x402 agent — the Openfort angle, implemented for real.
+// A member's 7702-capped session key is a SAFE agent wallet: it pays per-request for a service via
+// x402 and PHYSICALLY cannot exceed the member's cap. This hits a REAL x402 endpoint (/api/x402):
+// the agent gets a 402, signs a real EIP-3009 `transferWithAuthorization` (lib/x402pay), and the
+// server verifies the signature before returning 200. The signed authorization is settlement-ready
+// (a facilitator broadcasts it to USDC to settle). Only the final on-chain broadcast needs funds.
 
 import { useRef, useState } from "react";
 import { newMember } from "@/lib/bareng";
 import { recordSpend, remaining, type Member } from "@/lib/limits";
-import { payAndRetry, type FetchLike, type PaymentRequirement } from "@/lib/x402";
+import { payAndRetry } from "@/lib/x402";
+import { signPayment } from "@/lib/x402pay";
 import { ARBITRUM_USDC } from "@/lib/universalAccount";
+import type { Hex } from "viem";
 
 const NOW = 1_000_000;
 const WANT = { asset: ARBITRUM_USDC, network: "arbitrum" };
-const RESOURCE = "https://api.premium.example/insight";
+const RESOURCE = "/api/x402";
+// The agent's 7702-capped session key. A throwaway, well-known Anvil key (public) → its address is
+// @budi's. The EIP-3009 signature it makes is real and verified server-side.
+const AGENT_KEY: Hex = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
 
 type Line = { id: number; text: string; kind: "info" | "pay" | "ok" | "block" };
 
 export default function Agent() {
-  // The agent spends as @budi, capped at $100/week. Reference demo (mock endpoint, settlement
-  // abstracted) — the cap guard is real; see docs/ARCHITECTURE.md for scope.
+  // The agent spends as @budi, capped at $100/week. Real x402 handshake against /api/x402 with a
+  // real EIP-3009 signature; only on-chain settlement (broadcasting it) needs funds.
   const [member, setMember] = useState<Member>(() => newMember("0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "Budi", 100, NOW));
   const [charge, setCharge] = useState(20);
   const [log, setLog] = useState<Line[]>([]);
@@ -28,47 +34,38 @@ export default function Agent() {
   const seq = useRef(0); // stable ids for the prepended log (index keys mis-reconcile on prepend)
   const left = remaining(member, NOW);
 
-  // Mock x402 server: first request 402s with a price; retry-with-payment returns 200.
-  function mockServer(price: number): FetchLike {
-    const req: PaymentRequirement = {
-      scheme: "exact",
-      network: "arbitrum",
-      maxAmountRequired: String(Math.round(price * 1_000_000)),
-      asset: ARBITRUM_USDC,
-      payTo: "0xServiceProvider",
-      resource: RESOURCE,
-      description: "Premium market insight",
-    };
-    return async (_url, init) =>
-      init?.headers?.["X-PAYMENT"]
-        ? { status: 200, json: async () => ({ insight: "BTC regime: risk-on" }) }
-        : { status: 402, json: async () => ({ x402Version: 1, accepts: [req] }) };
-  }
-
   async function run() {
     setBusy(true);
     const add = (l: Omit<Line, "id">) => setLog((ls) => [{ ...l, id: seq.current++ }, ...ls].slice(0, 8));
-    add({ text: `Agent requests ${RESOURCE} → 402 Payment Required ($${charge})`, kind: "info" });
+    add({ text: `Agent GETs ${RESOURCE}?price=${charge} → expect 402 Payment Required`, kind: "info" });
     try {
       const res = await payAndRetry(
-        mockServer(charge),
-        RESOURCE,
+        // Real fetch to the real x402 endpoint. Response has .status + .json() — the FetchLike shape.
+        (url, init) => fetch(url, init),
+        `${RESOURCE}?price=${charge}`,
         member,
         WANT,
         NOW,
-        // The pay step: settle via the capped session key (Openfort facilitator in prod).
-        async () => "0xPAYMENT_PROOF",
+        // The pay step, for real: sign an EIP-3009 transferWithAuthorization with the capped key.
+        async (req) => {
+          add({ text: `Signing EIP-3009 authorization for $${charge} (capped key)…`, kind: "pay" });
+          return (await signPayment(req, AGENT_KEY)).header;
+        },
       );
       if (!res.paid) {
         add({ text: `${res.status} — resource was free, nothing to pay`, kind: "ok" });
         return;
       }
-      // ponytail: only charge the cap when we actually paid. Real settlement can still fail
-      // after X-PAYMENT (res.status !== 200); wire that refusal here once Openfort is live.
+      const body = res.body as { paidBy?: string; settlementReady?: boolean } | undefined;
+      if (res.status !== 200) {
+        add({ text: `${res.status} — server rejected the payment, cap untouched`, kind: "block" });
+        return;
+      }
+      // Only charge the cap once the server actually accepted (verified) the payment.
       const updated = recordSpend(member, res.charge, NOW);
       setMember(updated);
-      add({ text: `Paid $${res.charge} via 7702 session key · X-PAYMENT sent`, kind: "pay" });
-      add({ text: `${res.status} OK — resource unlocked. Cap left: $${remaining(updated, NOW)}`, kind: "ok" });
+      add({ text: `Server verified the signature · paidBy ${body?.paidBy?.slice(0, 10)}…${body?.paidBy?.slice(-4)}`, kind: "pay" });
+      add({ text: `200 OK — resource unlocked${body?.settlementReady ? " · settlement-ready" : ""}. Cap left: $${remaining(updated, NOW)}`, kind: "ok" });
     } catch (e) {
       add({ text: `${(e as Error).message}`, kind: "block" });
     } finally {
@@ -139,7 +136,7 @@ export default function Agent() {
       )}
 
       <footer className="pb-6 pt-2 text-center text-xs text-black/60">
-        Openfort x402 · bounded by a 7702 spend cap · reference demo
+        Real x402 handshake (/api/x402) · EIP-3009 signed · bounded by a 7702 spend cap
       </footer>
     </main>
   );

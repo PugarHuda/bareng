@@ -72,7 +72,9 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
 - **Magic** (core) — Google/email login mints the seedless EOA that owns the account; wired + verified end-to-end (OAuth reaches Google consent, returns a wallet).
 - **Arbitrum** (core) — every spend settles here; a real UA spend + a real Aave v3 supply settled on Arbitrum One.
 - **ZeroDev** — Kernel7702 spend-cap call-policy (proven on Sepolia) + Smart Routing Address (working cross-chain deposit).
-- **Openfort / x402** — a 7702-capped key as a safe x402 agent wallet (`/agent`).
+- **Openfort / x402** — a **real** x402 handshake: `/api/x402` returns 402, the capped agent signs an
+  EIP-3009 `transferWithAuthorization`, the server verifies the signature → 200 (verified e2e; tampered
+  header → 402). The signed authorization is settlement-ready; only the final broadcast needs funds.
 - Stack: Next.js 16 · React 19 · TypeScript · viem + ethers · 66 unit tests on the money paths · neobrutalism UI, keyless demo.
 
 ## On-chain proof (verify on the explorers)

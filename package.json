@@ -13,7 +13,7 @@
     "prove:aave": "node --env-file=.env.local scripts/prove-aave.mjs",
     "prove:sra": "node --env-file=.env.local scripts/prove-sra.mjs",
     "prove:sra-deposit": "node --env-file=.env.local scripts/prove-sra-deposit.mjs",
-    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs test/settle.test.mjs test/draw.test.mjs test/insights.test.mjs"
+    "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/x402pay.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs test/settle.test.mjs test/draw.test.mjs test/insights.test.mjs"
   },
   "dependencies": {
     "@magic-ext/oauth2": "^15.8.0",

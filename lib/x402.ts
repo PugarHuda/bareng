@@ -4,11 +4,12 @@
 // service via x402 while being bounded by a spend cap — it can't drain the pot. The cap guard
 // (chargeWithinCap) is ours and tested; it mirrors the SHAPE of a 7702 policy.
 //
-// HONEST SCOPE (see docs/ARCHITECTURE.md): this is a reference demonstration. The on-chain cap
-// via ZeroDev (lib/zerodev.ts) is itself standalone, NOT composed with the Particle UA, and the
-// `pay` step (settlement drawing from the pot balance) is abstracted, not wired to either account
-// system. Settlement would ride Openfort's x402 facilitator (gated behind
-// NEXT_PUBLIC_OPENFORT_FACILITATOR). Schema = x402 v1 PaymentRequirements (x402 Foundation).
+// SCOPE (see docs/ARCHITECTURE.md): the protocol is implemented for real — the `pay` step signs a
+// real EIP-3009 authorization (lib/x402pay) and /api/x402 verifies it server-side (full 402→pay→200
+// handshake, tested). The ONLY unwired piece is the final on-chain broadcast of that signed
+// `transferWithAuthorization` (needs the payer to hold USDC + a facilitator/relayer). The on-chain
+// cap via ZeroDev (lib/zerodev.ts) is standalone, NOT composed with the Particle UA. Schema = x402
+// v1 PaymentRequirements (x402 Foundation).
 
 import { canSpend, type Member } from "./limits.ts";
 
@@ -85,7 +86,7 @@ export async function payAndRetry(
   want: { asset: string; network: string },
   now: number,
   pay: (req: PaymentRequirement) => Promise<string>,
-): Promise<{ status: number; paid: boolean; charge: number }> {
+): Promise<{ status: number; paid: boolean; charge: number; body?: unknown }> {
   const first = await fetchLike(url);
   if (first.status !== 402) return { status: first.status, paid: false, charge: 0 };
 
@@ -98,5 +99,6 @@ export async function payAndRetry(
   }
   const header = await pay(req);
   const retried = await fetchLike(url, { headers: { "X-PAYMENT": header } });
-  return { status: retried.status, paid: true, charge };
+  const body = await retried.json().catch(() => undefined);
+  return { status: retried.status, paid: true, charge, body };
 }
