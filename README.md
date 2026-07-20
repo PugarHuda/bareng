@@ -5,7 +5,10 @@
 
 UXmaxx Hackathon submission. **Main track: Universal Accounts (EIP-7702).**
 **▶ Live demo:** [bareng-jade.vercel.app](https://bareng-jade.vercel.app) (runs keyless — no wallet needed) ·
-**🖥️ Pitch deck:** [`/deck`](https://bareng-jade.vercel.app/deck) (keyboard-navigable).
+**🖥️ Pitch deck:** [`/deck`](https://bareng-jade.vercel.app/deck) (keyboard-navigable) ·
+**🎬 Demo video:** `demo/bareng-demo.mp4` — a scripted 2.6-min walkthrough with a natural neural
+voiceover + burned-in subtitles, covering the landing, every feature, and the deck. Reproduce it with
+`scripts/video/` (`gen-audio` → `record` → `assemble`; needs ffmpeg + edge-tts + the app running).
 
 **✅ Proven on-chain — 7 real artifacts** (every partner mechanism settles on-chain, not a mockup):
 

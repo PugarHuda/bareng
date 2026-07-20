@@ -1,0 +1,118 @@
+{
+  "voice": "en-US-AndrewNeural",
+  "total": 153.16,
+  "scenes": [
+    {
+      "id": "landing",
+      "text": "Meet Bareng — a shared group wallet. One account, one balance, and every member gets their own spending limit. It feels like a normal money app, but it runs on-chain.",
+      "start": 0,
+      "narr": 10.008,
+      "dur": 11.108,
+      "mp3": "seg00.mp3"
+    },
+    {
+      "id": "proof",
+      "text": "And this isn't a mockup. Seven real transactions have already settled on-chain — a shared spend, a DeFi deposit, an agent payment, a private sweep — each one clickable to verify on the block explorer.",
+      "start": 11.108,
+      "narr": 12.936,
+      "dur": 14.036,
+      "mp3": "seg01.mp3"
+    },
+    {
+      "id": "openapp",
+      "text": "Let's open it. Here's a shared pot: four hundred and twenty dollars, held in one Universal Account that works across Arbitrum, Base, Ethereum, and B N B.",
+      "start": 25.144,
+      "narr": 10.584,
+      "dur": 11.684,
+      "mp3": "seg02.mp3"
+    },
+    {
+      "id": "members",
+      "text": "Three members, each with a weekly limit. And every limit is a real, owner-signed E I P seventy-seven-oh-two grant — cryptography, not just an app rule.",
+      "start": 36.828,
+      "narr": 10.584,
+      "dur": 11.684,
+      "mp3": "seg03.mp3"
+    },
+    {
+      "id": "pay",
+      "text": "Paying is simple. Pick a member, pay someone by their handle — no addresses to copy — add a note, and it settles on Arbitrum.",
+      "start": 48.512,
+      "narr": 8.04,
+      "dur": 9.14,
+      "mp3": "seg04.mp3"
+    },
+    {
+      "id": "overcap",
+      "text": "But nobody can overspend. Push past the cap, and the button locks — over limit — blocked before a single cent moves.",
+      "start": 57.652,
+      "narr": 7.536,
+      "dur": 8.636,
+      "mp3": "seg05.mp3"
+    },
+    {
+      "id": "receipts",
+      "text": "Every receipt in this feed is a real settlement. Tap one, and it opens the actual transaction on Arbiscan.",
+      "start": 66.288,
+      "narr": 7.368,
+      "dur": 8.468,
+      "mp3": "seg06.mp3"
+    },
+    {
+      "id": "deposit",
+      "text": "Topping up from another chain is one tap. This is a ZeroDev Smart Routing Address — send USDC from any chain, and it lands right in the pot.",
+      "start": 74.756,
+      "narr": 9.648,
+      "dur": 10.748,
+      "mp3": "seg07.mp3"
+    },
+    {
+      "id": "arisan",
+      "text": "Bareng also brings Indonesian money rituals on-chain. Arisan — a rotating savings circle — with a verifiable fair draw. The order comes from a public seed anyone can recompute, so it can't be rigged.",
+      "start": 85.504,
+      "narr": 13.152,
+      "dur": 14.252,
+      "mp3": "seg08.mp3"
+    },
+    {
+      "id": "split",
+      "text": "Split a bill, and Bareng nets who owes whom down to the fewest possible transfers.",
+      "start": 99.756,
+      "narr": 5.136,
+      "dur": 6.236,
+      "mp3": "seg09.mp3"
+    },
+    {
+      "id": "receive",
+      "text": "Receiving privately? Each payment lands on a fresh, one-time stealth address, and the pot quietly sweeps it in — completely unlinkable on-chain.",
+      "start": 105.992,
+      "narr": 9.312,
+      "dur": 10.412,
+      "mp3": "seg10.mp3"
+    },
+    {
+      "id": "agent",
+      "text": "A member's capped key can even become an A I agent wallet. It pays per request over x four-oh-two — signing a real payment the server verifies — but it physically cannot exceed the cap.",
+      "start": 116.404,
+      "narr": 11.976,
+      "dur": 13.076,
+      "mp3": "seg11.mp3"
+    },
+    {
+      "id": "earn",
+      "text": "Idle funds don't sit still. One tap supplies them into Aave v three — the real approve-and-supply batch — kept one tap away from being spent.",
+      "start": 129.48,
+      "narr": 9.72,
+      "dur": 10.82,
+      "mp3": "seg12.mp3"
+    },
+    {
+      "id": "deck",
+      "text": "The full story lives in the pitch deck, at slash deck. Problem, solution, the seven on-chain proofs, and why this wins. Bareng — money, together. Gotong royong, on-chain.",
+      "start": 140.3,
+      "narr": 11.76,
+      "dur": 12.86,
+      "mp3": "seg13.mp3"
+    }
+  ]
+}

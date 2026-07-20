@@ -1,0 +1,83 @@
+1
+00:00:00,000 --> 00:00:10,008
+Meet Bareng - a shared group wallet. One
+account, one balance, and every member gets
+their own spending limit. It feels like a
+
+2
+00:00:11,108 --> 00:00:24,044
+And this isn't a mockup. Seven real
+transactions have already settled on-chain - a
+shared spend, a DeFi deposit, an agent
+
+3
+00:00:25,144 --> 00:00:35,728
+Let's open it. Here's a shared pot: four
+hundred and twenty dollars, held in one
+Universal Account that works across Arbitrum,
+
+4
+00:00:36,828 --> 00:00:47,412
+Three members, each with a weekly limit. And
+every limit is a real, owner-signed E I P
+seventy-seven-oh-two grant - cryptography, not
+
+5
+00:00:48,512 --> 00:00:56,552
+Paying is simple. Pick a member, pay someone
+by their handle - no addresses to copy - add a
+note, and it settles on Arbitrum.
+
+6
+00:00:57,652 --> 00:01:05,188
+But nobody can overspend. Push past the cap,
+and the button locks - over limit - blocked
+before a single cent moves.
+
+7
+00:01:06,288 --> 00:01:13,656
+Every receipt in this feed is a real
+settlement. Tap one, and it opens the actual
+transaction on Arbiscan.
+
+8
+00:01:14,756 --> 00:01:24,404
+Topping up from another chain is one tap. This
+is a ZeroDev Smart Routing Address - send USDC
+from any chain, and it lands right in the pot.
+
+9
+00:01:25,504 --> 00:01:38,656
+Bareng also brings Indonesian money rituals
+on-chain. Arisan - a rotating savings circle -
+with a verifiable fair draw. The order comes
+
+10
+00:01:39,756 --> 00:01:44,892
+Split a bill, and Bareng nets who owes whom
+down to the fewest possible transfers.
+
+11
+00:01:45,992 --> 00:01:55,304
+Receiving privately? Each payment lands on a
+fresh, one-time stealth address, and the pot
+quietly sweeps it in - completely unlinkable
+
+12
+00:01:56,404 --> 00:02:08,380
+A member's capped key can even become an A I
+agent wallet. It pays per request over x
+four-oh-two - signing a real payment the
+
+13
+00:02:09,480 --> 00:02:19,200
+Idle funds don't sit still. One tap supplies
+them into Aave v three - the real
+approve-and-supply batch - kept one tap away
+
+14
+00:02:20,300 --> 00:02:32,060
+The full story lives in the pitch deck, at
+slash deck. Problem, solution, the seven
+on-chain proofs, and why this wins. Bareng -
+

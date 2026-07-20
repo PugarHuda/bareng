@@ -5,3 +5,8 @@ next-env.d.ts
 *.tsbuildinfo
 
 .vercel
+
+# Demo video (host externally; keep repo light)
+_vid/
+*.webm
+demo/*.mp4
