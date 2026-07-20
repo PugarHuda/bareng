@@ -79,8 +79,12 @@ Where Particle's v2 cross-chain is bugged, **ZeroDev SRA works** — and it's a 
 shared pot. `prove:sra` creates a **real, registered** Smart Routing Address for the pot
 (`0x0b72F6cD65c80CD9003128746B42c7dAe738D895`, 3 source routes Base/Optimism/Arbitrum → the pot on
 Arbitrum). Send USDC to it from any of those chains and it lands in the pot, no bridging. It's
-surfaced in the dashboard pot card ("Deposit from any chain →" with a scan-to-deposit QR). (A full
-end-to-end deposit needs source funds on another chain to demo; the address + routes are live.)
+surfaced in the dashboard pot card ("Deposit from any chain →" with a scan-to-deposit QR). A full
+end-to-end **deposit + monitor + recovery** harness is built (`scripts/prove-sra-deposit.mjs`,
+`npm run prove:sra-deposit`) and validated live against ZeroDev's server (SRA verified, status +
+preflight work). It's **one command from a settled cross-chain tx** — it just needs ~1 USDC + a few
+cents of gas on Base/Optimism to fire (that's the only thing standing between us and a live
+cross-chain settlement).
 
 **Track options:**
 - **Universal Accounts Track (recommended main):** prominent, real 7702 + UA — our core, proven

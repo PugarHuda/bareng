@@ -61,7 +61,11 @@ not our code: delivering 0.3 USDC to Base while the UA holds 1.12 on Arbitrum st
 "Insufficient primary token balance" (v2 counts only destination-chain holdings for 7702 accounts —
 reproduced by other teams in the hackathon Discord). So we also shipped a **working** cross-chain
 rail: a real, registered **ZeroDev Smart Routing Address** for the pot
-(`0x0b72F6cD65c80CD9003128746B42c7dAe738D895`, routes from Base/Optimism/Arbitrum → the pot).
+(`0x0b72F6cD65c80CD9003128746B42c7dAe738D895`, routes from Base/Optimism/Arbitrum → the pot), plus a
+full end-to-end **deposit + monitor + recovery** harness (`scripts/prove-sra-deposit.mjs`) — it
+verifies the live SRA, sends USDC to it on a source chain, and follows the deposit → bridge →
+delivery lifecycle to the pot on Arbitrum. Validated live against ZeroDev's server; it's **one
+command from a settled cross-chain tx**, gated only on ~1 USDC of source funds on Base/Optimism.
 
 ## Tech / integrations (all five partners)
 - **Particle Universal Accounts** (core) — UA in EIP-7702 mode, cross-chain unified balance, Arbitrum settle.
