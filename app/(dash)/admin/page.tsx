@@ -90,13 +90,13 @@ export default function Admin() {
       <section className="flex flex-col gap-3 rounded-2xl neo-sm p-4">
         <h2 className="text-sm font-semibold">Invite a member</h2>
         <label className="text-xs text-black/70">Handle</label>
-        <div className="flex items-center rounded-xl bg-[var(--panel)] px-3">
+        <div className="flex items-center rounded-xl neo-input px-3">
           <span className="text-black/60">@</span>
           <input
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
             placeholder="budi"
-            className="flex-1 bg-transparent py-3 pl-1 outline-none neo-input"
+            className="flex-1 bg-transparent py-3 pl-1 outline-none"
           />
         </div>
         <label className="text-xs text-black/70">Weekly limit: ${limit}</label>

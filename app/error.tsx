@@ -5,19 +5,21 @@
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <main className="mx-auto flex max-w-md flex-col items-center gap-4 p-8 text-center">
-      <p className="text-4xl">🤝</p>
-      <h1 className="text-xl font-bold">Something hiccuped</h1>
-      <p className="text-sm text-neutral-400">
-        The pot&apos;s fine — this screen just tripped. {error.message ? `(${error.message.slice(0, 120)})` : ""}
-      </p>
-      <div className="flex gap-2">
-        <button onClick={reset} className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold">
-          Try again
-        </button>
-        <a href="/" className="rounded-xl border border-neutral-700 px-4 py-2 text-sm font-semibold">
-          Back to dashboard
-        </a>
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-5 p-8 text-center">
+      <p className="text-5xl">🤝</p>
+      <div className="neo w-full rounded-2xl bg-[var(--yellow)] p-6">
+        <h1 className="text-2xl font-black">Something hiccuped</h1>
+        <p className="mt-2 text-sm font-medium text-black/70">
+          The pot&apos;s fine — this screen just tripped.{error.message ? ` (${error.message.slice(0, 120)})` : ""}
+        </p>
+        <div className="mt-4 flex justify-center gap-2">
+          <button onClick={reset} className="neo-btn rounded-lg bg-[var(--panel)] px-4 py-2 text-sm font-bold text-black">
+            Try again
+          </button>
+          <a href="/app" className="neo-btn rounded-lg bg-[var(--panel)] px-4 py-2 text-sm font-bold text-black">
+            Back to app
+          </a>
+        </div>
       </div>
     </main>
   );
