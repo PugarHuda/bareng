@@ -23,7 +23,9 @@ no session-key, policy, delegation, or spend-limit API in the UA SDK.** One owne
 
 ## Where ZeroDev and x402 honestly sit
 
-They are **standalone, working reference implementations**, not composed into the Particle UA:
+All three are **real, working, tested implementations** — the honest caveat is only that they don't
+*compose into* the Particle UA (which is single-owner). x402 and the stealth sweep are complete except
+for a final on-chain broadcast that needs funds; ZeroDev's on-chain cap runs on its own kernel account:
 
 - **`lib/zerodev.ts`** — a real ZeroDev Kernel7702 permission validator whose call-policy caps
   `USDC.transfer ≤ limit`. On-chain 7702 enforcement is **proven on Sepolia** (over-cap rejected at
@@ -31,9 +33,15 @@ They are **standalone, working reference implementations**, not composed into th
   **not** enforce anything on the Particle UA — ZeroDev's kernel is a
   *different* account. To get real on-chain per-member caps you would make the pot a **ZeroDev
   kernel account instead of a Particle UA**, trading away UA's cross-chain unified balance.
-- **`lib/x402.ts` / `/agent`** — demonstrates that a 7702-capped key is a safe agent wallet,
-  bounded by `chargeWithinCap`. The settlement (drawing from the pot balance) is not wired to
-  either account system; the `pay` step is abstracted.
+- **`lib/x402.ts` + `lib/x402pay.ts` + `app/api/x402` / `/agent`** — a **real** x402 handshake, not a
+  mock. `/api/x402` returns 402 + PaymentRequirements; the capped agent signs a real EIP-3009
+  `transferWithAuthorization` (`signPayment`) and the server **verifies the signature** (`verifyPayment`)
+  before 200 — proven end-to-end (402 → sign → 200; a tampered header → 402), and bounded by
+  `chargeWithinCap`. The signed authorization is settlement-ready; the only unwired piece is the final
+  on-chain broadcast (needs the payer to hold USDC + a relayer/facilitator).
+- **`lib/sweep.ts`** — the Openfort backend-sweep angle, real on both halves: it detects the pot's own
+  stealth receives (scan + key derivation) AND `buildSweepAuthorization` signs a real, gasless EIP-3009
+  authorization to move them into the UA (a relayer broadcasts it — the stealth address holds no ETH).
 
 ## The decision (recommended before finale)
 
