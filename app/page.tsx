@@ -36,7 +36,7 @@ export default function Landing() {
 
       {/* Hero */}
       <section className="grid gap-6 md:grid-cols-[1.3fr_1fr] md:items-center">
-        <div>
+        <div className="neo-rise">
           <span className="neo-tag inline-block rounded-md bg-[var(--lime)] px-2 py-1 text-xs">UXmaxx · Universal Accounts (7702)</span>
           <h1 className="mt-4 text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl">
             Money,<br />
@@ -57,7 +57,7 @@ export default function Landing() {
           </div>
         </div>
         {/* Hero card — the pot */}
-        <div className="neo rotate-1 rounded-2xl bg-[var(--panel)] p-5">
+        <div className="neo neo-rise rotate-1 rounded-2xl bg-[var(--panel)] p-5" style={{ animationDelay: "0.12s" }}>
           <p className="neo-label text-xs text-[var(--ink)]/60">Group pot · @lunchsquad</p>
           <p className="mt-2 text-4xl font-black">$420.00</p>
           <p className="text-sm font-bold text-[var(--ink)]/60">≈ Rp 6.846.000</p>
@@ -76,7 +76,7 @@ export default function Landing() {
       <section className="mt-14">
         <h2 className="text-2xl font-black tracking-tight">Not a mockup — <span className="bg-[var(--green)] px-1">proven on-chain</span></h2>
         <p className="mt-1 font-medium text-[var(--ink)]/70">Three real transactions have settled. Click any to verify on the explorer.</p>
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+        <div className="neo-stagger mt-5 grid gap-4 sm:grid-cols-3">
           {PROOFS.map((p) => (
             <a key={p.hash} href={p.url + p.hash} target="_blank" rel="noopener noreferrer" className="neo-btn rounded-xl bg-[var(--panel)] p-4 text-black">
               <span className="neo-tag inline-block rounded px-2 py-0.5 text-[10px]" style={{ background: p.color }}>{p.chain}</span>
@@ -90,7 +90,7 @@ export default function Landing() {
       {/* Features */}
       <section className="mt-14">
         <h2 className="text-2xl font-black tracking-tight">Gotong royong, as a primitive</h2>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="neo-stagger mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
             <div key={f.t} className="neo rounded-xl p-4" style={{ background: f.c }}>
               <div className="neo-flat grid h-11 w-11 place-items-center rounded-lg bg-[var(--panel)] text-xl">{f.emoji}</div>
