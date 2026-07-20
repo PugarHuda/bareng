@@ -3,10 +3,13 @@ import Link from "next/link";
 const ARB = "https://arbiscan.io/tx/";
 const SEP = "https://sepolia.etherscan.io/tx/";
 
+const ADDR = "https://arbiscan.io/address/";
+
 const PROOFS = [
   { color: "var(--green)", label: "Shared-UA spend", chain: "Arbitrum One", hash: "0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7", short: "0x40a4…d50f7", url: ARB },
   { color: "var(--blue)", label: "7702 cap enforced", chain: "Sepolia", hash: "0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036", short: "0x73ad…b34036", url: SEP },
   { color: "var(--pink)", label: "Aave v3 DeFi lend", chain: "Arbitrum One", hash: "0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad", short: "0x7b56…606dad", url: ARB },
+  { color: "var(--purple)", label: "Cross-chain rail", chain: "ZeroDev SRA", hash: "0x0b72F6cD65c80CD9003128746B42c7dAe738D895", short: "0x0b72…D895", url: ADDR },
 ];
 
 const FEATURES = [
@@ -75,8 +78,8 @@ export default function Landing() {
       {/* Proof strip */}
       <section className="mt-14">
         <h2 className="text-2xl font-black tracking-tight">Not a mockup — <span className="bg-[var(--green)] px-1">proven on-chain</span></h2>
-        <p className="mt-1 font-medium text-[var(--ink)]/70">Three real transactions have settled. Click any to verify on the explorer.</p>
-        <div className="neo-stagger mt-5 grid gap-4 sm:grid-cols-3">
+        <p className="mt-1 font-medium text-[var(--ink)]/70">Three transactions settled, plus a live cross-chain deposit rail. Click any to verify on the explorer.</p>
+        <div className="neo-stagger mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {PROOFS.map((p) => (
             <a key={p.hash} href={p.url + p.hash} target="_blank" rel="noopener noreferrer" className="neo-btn rounded-xl bg-[var(--panel)] p-4 text-black">
               <span className="neo-tag inline-block rounded px-2 py-0.5 text-[10px]" style={{ background: p.color }}>{p.chain}</span>
