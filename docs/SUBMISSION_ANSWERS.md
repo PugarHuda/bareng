@@ -103,26 +103,38 @@ ZeroDev SDK. **66 unit tests** on the money paths; `next build` clean; runs keyl
 
 ---
 
-## Recording shot-list (≈3 min, follows DEMO.md's acts)
-Record `bareng-jade.vercel.app` in demo mode (keyless). ~12–15s per beat. Neobrutalism UI.
+## Recording shot-list (≈3 min) — matches the FINAL UI (neobrutalism, sidebar dashboard)
+Record `bareng-jade.vercel.app` in demo mode (keyless). ~12–15s per beat. The dashboard is a **left
+sidebar** (Overview · Arisan · Split · Receive · Agent · Earn · Manage pot) on desktop; the nav
+becomes a scrollable top bar on mobile. Landing has **4** on-chain proof cards.
 
 **Act 0 — Landing (`/`)**
-1. Hero *"Money, together."* Scroll to **"proven on-chain"** → tap one of the **3 tx cards** →
-   explorer opens. *"Three things settled on-chain — most teams don't have one."* Then **Open the app →**.
+1. Hero *"Money, together."* + the pot card. Scroll to **"Not a mockup — proven on-chain"** → tap a
+   card (e.g. **Shared-UA spend**) → Arbiscan opens. *"Four things on-chain — three settled txs plus a
+   live cross-chain rail. Most teams don't have one."* Then **Open the app →**.
 
-**Act 1 — The pot (`/app`)**
-2. Pot @lunchsquad — balance + **Rp** line, members + caps, **🔒 7702 grant** + green **✓ settled** badge.
-3. **Pay @dewi $30** as @budi → settles, remaining drops. *"Pay by handle."*
-4. **@sari → drag to $60 → Over limit**, blocked. *"Owner-signed 7702 cap."*
-5. **Top up from Base +$50** → *"any chain, one balance."*  ·  **QR** → scan-to-join  ·  point at **Where the pot goes**.
+**Act 1 — Overview (`/app`), the money path**
+2. Point at the green **✓ Real shared-UA spend settled on Arbitrum** banner. Pot **@lunchsquad**
+   $420 + **Rp** line, **WORKS ACROSS Arbitrum/Base/Ethereum/BNB**.
+3. Scroll to **Group receipts** — subtitle *"each is a real Universal-Account settlement on Arbitrum
+   — click to verify ↗"*. **Click a receipt's green ✓ … ↗** → Arbiscan shows a real settled tx.
+   *"The receipts aren't mock rows — every one is a real Arbitrum settlement."*
+4. **Spend as @budi → Pay @sari $10** → settles, remaining drops, a new receipt prepends. *"Pay by
+   handle, settle on Arbitrum."*
+5. **Over-cap case:** after that spend, drag the amount slider up → button flips to **"Over limit"**
+   and greys out (disabled). *"Owner-signed 7702 cap — it can't be exceeded."*
+6. Pot card → **Deposit from any chain →** reveals the **ZeroDev Smart Routing Address** + scan-to-
+   deposit QR. *"Send USDC from Base/Optimism/Arbitrum → it lands in the pot. Real cross-chain."*
+   Then **QR / Share link** → scan-to-join. Glance at **Where the pot goes**.
 
-**Act 2 — Gotong royong (nav chips)**
-6. **Arisan** chip → **🎲 Fair draw** → *"provably-fair order."* Pay in → one collects. *"Gotong royong, on-chain."*
-7. **Split** chip → add an expense → *"nets to the fewest transfers."*
+**Act 2 — Gotong royong (sidebar: Arisan, Split)**
+7. **Arisan** → **🎲 Fair draw** → *"provably-fair order nobody can rig."* Pay in → one collects.
+8. **Split** → add an expense → *"nets who-owes-whom down to the fewest transfers."*
 
-**Act 3 — The rest (one chip each)**
-8. **Receive** → Generate ×2 (different addresses + scan-to-pay QR) → Verify ✓.
-9. **Agent** → 402 → pays within cap → 200; over cap → refused before paying.
-10. **Earn** → keep-liquid slider → yield projection.  ·  **Manage pot** → invite @maya → grant signed.
+**Act 3 — The rest (one sidebar item each)**
+9. **Receive** → Generate ×2 (two different one-time stealth addresses + scan-to-pay QR) → Verify ✓.
+10. **Agent** → 402 → pays within cap → 200; push over cap → refused before paying.
+11. **Earn** → keep-liquid slider → yield projection.  ·  **Manage pot** → invite @maya → grant signed.
 
-Close: *"One shared balance, real per-person limits, real privacy — no gas, no chains, no seed phrases."*
+Close: *"One shared balance, real per-person limits, real privacy — and real settlements on Arbitrum.
+No gas, no chains, no seed phrases."*

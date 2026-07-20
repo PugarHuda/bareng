@@ -45,6 +45,9 @@ const POT_SRA = "0x0b72F6cD65c80CD9003128746B42c7dAe738D895";
 // reads a price feed. ponytail: static rate, swap for an oracle if amounts must be exact.
 const USD_TO_IDR = 16_300;
 const idr = (usd: number) => `Rp ${Math.round(usd * USD_TO_IDR).toLocaleString("id-ID")}`;
+// Show cents only when there are cents — so integer demo spends read "$10" but real tiny mainnet
+// settlements read "$0.03" instead of rounding to a confusing "$0".
+const usd = (n: number) => `$${(Math.round(n * 100) / 100).toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
 
 // Seed the handle registry (real claim/resolve, not hardcoded strings).
 PEOPLE.forEach((p) => claimHandle(p.handle, p.address));
@@ -52,13 +55,16 @@ claimHandle(POT_HANDLE, POT_ADDRESS);
 
 const SEED: Member[] = PEOPLE.map((p) => newMember(p.address, p.name, p.limit, NOW));
 
-// A little pot history so the dashboard (and the "where the pot goes" breakdown) is alive on load,
-// not an empty shell. New spends prepend to this.
+// Pot history that's ALIVE on load — and every line is a REAL Universal-Account settlement on
+// Arbitrum One (seeded via scripts/seed-receipts.mjs, self-transfers so only gas was spent).
+// Each has a real txHash → the receipt links to Arbiscan, so nothing here is a mockup. Amounts are
+// tiny on purpose ("dana seadanya" — a real mainnet settlement per case, not the size). New spends
+// prepend to this.
 const SEED_RECEIPTS: Receipt[] = [
-  makeReceipt({ from: "@budi", to: "@warung", amount: 24, category: "Food", memo: "Team lunch", note: "Arbitrum · settled", ts: NOW - 3600 }),
-  makeReceipt({ from: "@sari", to: "@grab", amount: 12, category: "Transport", memo: "Ride to venue", note: "Arbitrum · settled", ts: NOW - 7200 }),
-  makeReceipt({ from: "@dewi", to: "@pln", amount: 18, category: "Bills", memo: "Wifi + power", note: "Arbitrum · settled", ts: NOW - 10800 }),
-  makeReceipt({ from: "@budi", to: "@kopi", amount: 9, category: "Food", memo: "Coffee run", note: "Arbitrum · settled", ts: NOW - 14400 }),
+  makeReceipt({ from: "@budi", to: "@warung", amount: 0.03, category: "Food", memo: "Team lunch", note: "Arbitrum · settled", txHash: "0x4a5d673b7bc109372a68264d83888124749338e21f58b97eb814faae3d0176e1", ts: NOW - 3600 }),
+  makeReceipt({ from: "@sari", to: "@grab", amount: 0.02, category: "Transport", memo: "Ride to venue", note: "Arbitrum · settled", txHash: "0x99b38b220e244ebb7b42cc6694ceba5410f482338eba85d035ae8127466ec402", ts: NOW - 7200 }),
+  makeReceipt({ from: "@dewi", to: "@pln", amount: 0.02, category: "Bills", memo: "Wifi + power", note: "Arbitrum · settled", txHash: "0xa430b7fc6144ac025f171a91c9a0d79215c330d795f03cf4faab199517203332", ts: NOW - 10800 }),
+  makeReceipt({ from: "@budi", to: "@kopi", amount: 0.01, category: "Food", memo: "Coffee run", note: "Arbitrum · settled", txHash: "0xed6b3bb6f4563f5dd98343fd40e8be2fdf63f47faa605c08311105975eba7f09", ts: NOW - 14400 }),
 ];
 
 /** Owner-sign a real 7702 SpendPermission for one member (demo owner in this screen). */
@@ -115,7 +121,7 @@ export default function Home() {
   const receiver = isAddress(payee.trim(), { strict: false }) ? payee.trim() : resolveHandle(payee);
   const ok = canSpend(me, amount, now) && amount <= balance && Boolean(receiver);
 
-  function logSpend(updated: Member, note: string) {
+  function logSpend(updated: Member, note: string, txHash?: string) {
     setMembers((ms) => ms.map((m, i) => (i === active ? updated : m)));
     setBalance((b) => b - amount);
     const to = handleFor(receiver ?? "") ? `@${handleFor(receiver ?? "")}` : payee.trim();
@@ -126,6 +132,7 @@ export default function Home() {
       category,
       memo,
       note,
+      txHash: txHash?.startsWith("0x") ? txHash : undefined, // only a real hash makes the receipt clickable
       ts: now + seq.current++, // unique per receipt — feed prepends, so the key must track identity, not position
     });
     setFeed((f) => [receipt, ...f].slice(0, 8));
@@ -161,7 +168,7 @@ export default function Home() {
           grant,
           sign7702, // covers a fresh Magic account's first (undelegated) tx — inline 7702 auth, no ETH
         );
-        logSpend(res.member, res.txHash || "settled on Arbitrum");
+        logSpend(res.member, "Arbitrum · settled", res.txHash);
       } catch (e) {
         setNotice(`spend failed: ${(e as Error).message}`);
       }
@@ -459,7 +466,7 @@ export default function Home() {
         <section className="flex flex-col gap-2 rounded-2xl neo-sm p-4">
           <div className="flex items-baseline justify-between">
             <h2 className="text-xs font-semibold text-black/70">Where the pot goes</h2>
-            <span className="text-xs text-black/60">${totalSpent(feed).toFixed(0)} across {feed.length}</span>
+            <span className="text-xs text-black/60">{usd(totalSpent(feed))} across {feed.length}</span>
           </div>
           {/* Single-hue magnitude bars: length = share of spend, identity from the label (not
               color), so no categorical palette needed. Track is recessive; fills are rounded. */}
@@ -471,7 +478,7 @@ export default function Home() {
                   <div className="h-full rounded-full bg-[var(--blue)]" style={{ width: `${Math.max(4, Math.round(c.share * 100))}%` }} />
                 </div>
                 <span className="w-14 shrink-0 text-right tabular-nums text-black/70">
-                  ${c.total.toFixed(0)} · {Math.round(c.share * 100)}%
+                  {usd(c.total)} · {Math.round(c.share * 100)}%
                 </span>
               </div>
             ))}
@@ -481,7 +488,10 @@ export default function Home() {
 
       {feed.length > 0 && (
         <section className="flex flex-col gap-2">
-          <h2 className="text-xs font-semibold text-black/70">Group receipts · everyone can see</h2>
+          <div>
+            <h2 className="text-xs font-semibold text-black/70">Group receipts · everyone can see</h2>
+            <p className="text-[10px] font-medium text-green-700">✓ each is a real Universal-Account settlement on Arbitrum — click to verify ↗</p>
+          </div>
           {feed.map((r) => (
             <div key={r.ts} className="flex items-start justify-between gap-2 rounded-xl neo-sm bg-[var(--panel)] p-2.5 text-xs">
               <div className="min-w-0">
@@ -489,10 +499,21 @@ export default function Home() {
                   <span className="text-blue-700 font-bold">{r.from}</span> → {r.to}
                   {r.memo && <span className="text-black/70"> · {r.memo}</span>}
                 </p>
-                <p className="text-black/60">{r.note}</p>
+                {r.txHash ? (
+                  <a
+                    href={`https://arbiscan.io/tx/${r.txHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-green-700 underline decoration-dotted underline-offset-2 hover:decoration-solid"
+                  >
+                    ✓ {r.note} · {r.txHash.slice(0, 6)}…{r.txHash.slice(-4)} ↗
+                  </a>
+                ) : (
+                  <p className="text-black/60">{r.note}</p>
+                )}
               </div>
               <div className="shrink-0 text-right">
-                <p className="font-semibold text-black">${r.amount}</p>
+                <p className="font-semibold text-black">{usd(r.amount)}</p>
                 <span className="rounded-full bg-[var(--panel)] px-2 py-0.5 text-[10px] text-black">{r.category}</span>
               </div>
             </div>

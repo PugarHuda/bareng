@@ -24,3 +24,10 @@ test("formatReceipt omits the dash when there is no memo", () => {
   const r = makeReceipt({ from: "@budi", to: "@dewi", amount: 12, category: "Fun", ts: 1 });
   assert.equal(formatReceipt(r), "@budi paid $12 → @dewi · Fun");
 });
+
+test("makeReceipt carries a real txHash through, and omits the key when absent", () => {
+  const withHash = makeReceipt({ from: "@budi", to: "@warung", amount: 0.03, category: "Food", txHash: "0xabc", ts: 1 });
+  assert.equal(withHash.txHash, "0xabc"); // clickable → Arbiscan
+  const noHash = makeReceipt({ from: "@budi", to: "@warung", amount: 0.03, category: "Food", ts: 1 });
+  assert.ok(!("txHash" in noHash)); // demo/no-settlement receipts stay plain
+});

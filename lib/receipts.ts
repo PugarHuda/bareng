@@ -12,7 +12,8 @@ export type Receipt = {
   amount: number;
   category: Category;
   memo: string; // free text, e.g. "team lunch"
-  note: string; // settlement note or tx hash, e.g. "Arbitrum (demo)" / "0x…"
+  note: string; // settlement note, e.g. "Arbitrum · settled"
+  txHash?: string; // on-chain settlement hash (Arbitrum) — makes the receipt verifiable on Arbiscan
   ts: number; // unix seconds — caller supplies (keeps this testable / deterministic)
 };
 
@@ -24,6 +25,7 @@ export function makeReceipt(r: {
   category?: string;
   memo?: string;
   note?: string;
+  txHash?: string;
   ts: number;
 }): Receipt {
   const category = (CATEGORIES as readonly string[]).includes(r.category ?? "")
@@ -36,6 +38,7 @@ export function makeReceipt(r: {
     category,
     memo: (r.memo ?? "").trim().slice(0, 80),
     note: r.note ?? "",
+    ...(r.txHash ? { txHash: r.txHash } : {}),
     ts: r.ts,
   };
 }

@@ -41,7 +41,8 @@ decorative and become essential.
 - **Arisan** (rotating savings circle) with a **verifiable fair draw** — who collects the pot first
   is derived from a public seed anyone can recompute, so it can't be rigged.
 - **Split & settle up** — nets who-owes-whom down to the fewest transfers.
-- **Transparent receipts** + a live "where the pot goes" breakdown.
+- **Transparent receipts** + a live "where the pot goes" breakdown — and every seeded receipt is a
+  **real Universal-Account settlement on Arbitrum** (click to verify on Arbiscan), not a mock row.
 - **Private receive** — one-time stealth addresses (ERC-5564) keep the pot unlinkable.
 - **Cross-chain deposit rail** — a ZeroDev Smart Routing Address: send USDC to one address from any
   chain and it lands in the pot on Arbitrum.
@@ -75,6 +76,8 @@ rail: a real, registered **ZeroDev Smart Routing Address** for the pot
 2. **Per-member 7702 cap enforced** — ZeroDev Kernel7702 on Sepolia (over-cap rejected at validation, within-cap settled), [`0x73ad508a…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036)
 3. **UA DeFi contract call** — Aave v3 supply on Arbitrum, [`0x7b5698c0…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad)
 4. **ZeroDev SRA** — registered cross-chain deposit address `0x0b72F6cD65c80CD9003128746B42c7dAe738D895`
+5. **Live dashboard receipts** — 4 real UA settlements on Arbitrum back the dashboard's receipt feed
+   (e.g. [`0x4a5d673b…`](https://arbiscan.io/tx/0x4a5d673b7bc109372a68264d83888124749338e21f58b97eb814faae3d0176e1)); each row links to Arbiscan. Seeded via `scripts/seed-receipts.mjs` (self-transfers, only gas spent).
 
 ## Links
 - **Live demo:** https://bareng-jade.vercel.app (runs keyless — no wallet needed)

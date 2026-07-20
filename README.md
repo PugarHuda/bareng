@@ -86,6 +86,7 @@ only the on-chain call is stubbed.
 | `scripts/prove-crosschain.mjs` | Cross-chain harness (USDC Arbitrum→Base) | 🟡 ready · needs ~$3–4 |
 | `scripts/prove-zerodev-sepolia.mjs` | ZeroDev cap enforced on-chain (Sepolia, gasless) | ✅ over-cap **rejected**, within-cap **settled** ([tx `0x73ad50…`](https://sepolia.etherscan.io/tx/0x73ad508a14d435a652ebb402de5bc25a4748a43d20700e48a80239b14db34036)) |
 | `scripts/prove-sra.mjs` | ZeroDev **Smart Routing Address** — the pot's cross-chain deposit rail | ✅ **created + registered** (`0x0b72F6cD…`, 3 routes → Arbitrum) · shown in the pot card |
+| `scripts/seed-receipts.mjs` | Seeds the dashboard feed with **real** UA settlements (self-transfers) | ✅ **4/4 settled** on Arbitrum · each receipt links to Arbiscan |
 
 `npm test` → 66 passing (pure logic + money path). `next build` clean · **neobrutalism** UI · routes `/` (landing) `/app` (dashboard) `/admin /agent /receive /earn /arisan /split` · custom error + 404 boundaries.
 
