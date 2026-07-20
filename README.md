@@ -80,7 +80,7 @@ only the on-chain call is stubbed.
 | `app/admin/page.tsx` | Invite by @handle + sign the 7702 grant | ✅ runs visually |
 | `app/agent/page.tsx` | x402 agent wallet — hits the real `/api/x402`, signs EIP-3009, cap-bounded | ✅ real handshake, runs live |
 | `app/receive/page.tsx` | Private receive — live one-time stealth addresses | ✅ runs visually |
-| `app/earn/page.tsx` | Earn on idle balance (Aave v3, keep-liquid slider) | ✅ runs visually |
+| `app/earn/page.tsx` | Earn on idle balance — builds the **real** Aave v3 approve+supply batch | ✅ real batch shown · same one settled ([tx `0x7b56…`](https://arbiscan.io/tx/0x7b5698c055a7d583e024805d48ac5c55e54c8da0c23bcc08a707730d85606dad)) |
 | `app/arisan/page.tsx` | Arisan — rotating savings circle + verifiable fair draw | ✅ runs visually |
 | `app/split/page.tsx` | Split & settle up — debt netting to fewest UA transfers | ✅ runs visually |
 | `scripts/prove-onchain.mjs` | On-chain UA spend harness — **proven, settled a real tx** | ✅ done |
