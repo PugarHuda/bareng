@@ -179,7 +179,7 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex max-w-md flex-col gap-5 p-5 md:pt-1">
+    <main className="mx-auto flex max-w-3xl flex-col gap-5 p-5 md:pt-1">
       <header>
         <h1 className="text-2xl font-black tracking-tight">Overview</h1>
         <p className="text-sm font-medium text-black/70">Your shared pot at a glance.</p>
@@ -240,6 +240,9 @@ export default function Home() {
         </div>
       )}
 
+      {/* Desktop: two columns — left = pot + members, right = spend + activity. Mobile stacks. */}
+      <div className="grid gap-5 md:grid-cols-2 md:items-start">
+        <div className="flex flex-col gap-5">
       <section className="rounded-2xl bg-[var(--blue)] p-5">
         <div className="flex items-start justify-between">
           <div>
@@ -338,6 +341,8 @@ export default function Home() {
           );
         })}
       </section>
+        </div>
+        <div className="flex flex-col gap-5">
 
       <section className="flex flex-col gap-3 rounded-2xl neo-sm p-4">
         <h2 className="text-sm font-semibold">
@@ -456,6 +461,8 @@ export default function Home() {
           ))}
         </section>
       )}
+        </div>
+      </div>
 
       <footer className="pb-6 pt-2 text-center text-xs text-black/50">
         Particle UA · EIP-7702 session keys · Magic login · settled on Arbitrum
