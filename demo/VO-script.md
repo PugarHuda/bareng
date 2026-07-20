@@ -1,76 +1,70 @@
 # Bareng — demo video VO script
 
-Voice: en-US-AndrewNeural (edge-tts neural) · total 4:27 · 24 scenes (app walkthrough + full pitch-deck narration). Regenerate: scripts/video/.
+Voice: en-US-AndrewNeural (edge-tts neural) · total 2:58 · 20 scenes. Structure: pitch up front → live demo → close. Regenerate: scripts/video/.
 
-**[0:00] landing**  
-Meet Bareng — a shared group wallet. One account, one balance, and every member gets their own spending limit. It feels like a normal money app, but it runs on-chain.
+## PART 1 · PITCH
 
-**[0:11] proof**  
-And this isn't a mockup. Seven real transactions have already settled on-chain — a shared spend, a DeFi deposit, an agent payment, a private sweep — each one clickable to verify on the block explorer.
+**[0:00] p_title**  
+Bareng — money, together. A shared group wallet where one account holds the money, and every member gets their own spending limit.
 
-**[0:25] openapp**  
-Let's open it. Here's a shared pot: four hundred and twenty dollars, held in one Universal Account that works across Arbitrum, Base, Ethereum, and B N B.
+**[0:09] p_problem**  
+The problem: group money is everywhere — patungan, arisan, a shared trip — but on-chain it's a mess of separate wallets. And every crypto product is single-user. Nobody has built the shared account.
 
-**[0:37] members**  
-Three members, each with a weekly limit. And every limit is a real, owner-signed E I P seventy-seven-oh-two grant — cryptography, not just an app rule.
+**[0:22] p_solution**  
+So we did. One Universal Account, real per-person limits, and a Web2 feel — Google login, no gas, no seed phrase, no chain to pick.
 
-**[0:49] pay**  
-Paying is simple. Pick a member, pay someone by their handle — no addresses to copy — add a note, and it settles on Arbitrum.
+**[0:34] p_7702**  
+The account itself is E I P seventy-seven-oh-two: the owner's own wallet, upgraded in place. Each cap is an owner-signed grant, verified on every spend.
 
-**[0:58] overcap**  
-But nobody can overspend. Push past the cap, and the button locks — over limit — blocked before a single cent moves.
+**[0:46] p_proof**  
+And it's not a mockup — seven real transactions have already settled on-chain, each one verifiable. Now let's see it live.
 
-**[1:06] receipts**  
-Every receipt in this feed is a real settlement. Tap one, and it opens the actual transaction on Arbiscan.
+## PART 2 · LIVE DEMO
 
-**[1:15] deposit**  
-Topping up from another chain is one tap. This is a ZeroDev Smart Routing Address — send USDC from any chain, and it lands right in the pot.
+**[0:54] d_pot**  
+Here's a shared pot: four hundred and twenty dollars, in one account that works across Arbitrum, Base, Ethereum, and B N B.
 
-**[1:26] arisan**  
-Bareng also brings Indonesian money rituals on-chain. Arisan — a rotating savings circle — with a verifiable fair draw. The order comes from a public seed anyone can recompute, so it can't be rigged.
+**[1:04] d_pay**  
+Paying is by handle — no addresses to copy — and it settles on Arbitrum. Watch the balance drop.
 
-**[1:40] split**  
-Split a bill, and Bareng nets who owes whom down to the fewest possible transfers.
+**[1:11] d_overcap**  
+But push past your cap, and it locks — over limit — before a single cent moves.
 
-**[1:46] receive**  
-Receiving privately? Each payment lands on a fresh, one-time stealth address, and the pot quietly sweeps it in — completely unlinkable on-chain.
+**[1:18] d_receipts**  
+And every receipt here is one of those real settlements — tap to open it on Arbiscan.
 
-**[1:56] agent**  
-A member's capped key can even become an A I agent wallet. It pays per request over x four-oh-two — signing a real payment the server verifies — but it physically cannot exceed the cap.
+**[1:24] d_deposit**  
+Topping up from another chain is one address — send from anywhere, and it lands in the pot.
 
-**[2:09] earn**  
-Idle funds don't sit still. One tap supplies them into Aave v three — the real approve-and-supply batch — kept one tap away from being spent.
+**[1:31] d_arisan**  
+Arisan — a rotating savings circle — with a fair draw from a public seed anyone can recompute, so it can't be rigged.
 
-**[2:20] deck_open**  
-And here's the full pitch — eleven slides, at slash deck. Let's walk through it. Bareng: money, together — a shared group wallet on a real 7702 account.
+**[1:40] d_split**  
+Split a bill, and it nets who owes whom down to the fewest transfers.
 
-**[2:33] deck_problem**  
-Slide one, the problem. Group money is everywhere — but on-chain, it's a mess of separate wallets and manual transfers. And every product is single-user; nobody has built the shared account.
+**[1:46] d_receive**  
+Receive privately on fresh, one-time stealth addresses — auto-swept into the pot, unlinkable on-chain.
 
-**[2:46] deck_solution**  
-The solution: one shared account, real per-person limits, and a Web2 feel — Google login, no gas, no seed phrase, no chain to pick.
+**[1:54] d_agent**  
+That capped key even works as an x four-oh-two A I agent wallet — it pays per request, but physically can't exceed the cap.
 
-**[2:57] deck_7702**  
-How it uses EIP-7702: the account is the owner's own wallet, upgraded in place — no new address. And every cap is an owner-signed grant, verified on each spend.
+**[2:03] d_earn**  
+And idle funds earn in Aave v three — one tap away from being spent.
 
-**[3:11] deck_proof**  
-This isn't a mockup — seven real transactions have settled on-chain, and every one is clickable to verify on the explorer.
+## PART 3 · CLOSE
 
-**[3:19] deck_features**  
-Gotong royong as a primitive: arisan, split and settle, private receive, a capped agent wallet, pay-by-handle, and idle-balance earn.
+**[2:10] c_partners**  
+Under the hood, all five featured partners are real integrations — Particle, Magic, Arbitrum, ZeroDev, and Openfort.
 
-**[3:30] deck_partners**  
-All five featured partners — Particle, Magic, Arbitrum, ZeroDev, and Openfort — each a real, working integration, not a logo on a slide.
+**[2:19] c_honest**  
+And we're honest about scope — what's real, what runs in demo mode, and the one thing that still needs funds. It survives a judge's follow-up.
 
-**[3:42] deck_honest**  
-And it's honest: what's real, what runs in demo mode, and the one thing that still needs funds. This is the pitch that survives a judge's follow-up.
+**[2:29] c_crosschain**  
+On cross-chain, Particle's path is bugged upstream — so we shipped a ZeroDev routing address that actually works.
 
-**[3:52] deck_crosschain**  
-Cross-chain, honestly: Particle's path is bugged upstream, so we shipped a ZeroDev Smart Routing Address that actually works — a deposit rail from any chain.
+**[2:38] c_win**  
+Why it wins: a prominent 7702 account, a UX that hides the chain, real white space no one else fills, and a regional fit with gotong royong.
 
-**[4:03] deck_win**  
-Why this wins: prominent 7702, a UX that hides the chain, genuine white space no one else fills, and a real regional fit with arisan and gotong royong.
-
-**[4:16] deck_ask**  
-And the ask: the Universal Accounts Track, plus the Arbitrum and Magic bonuses. Bareng — money, together. Gotong royong, on-chain. Thanks for watching.
+**[2:49] c_ask**  
+The ask: the Universal Accounts Track, plus the Arbitrum and Magic bonuses. Bareng — money, together. Thanks for watching.
 

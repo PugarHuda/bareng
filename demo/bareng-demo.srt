@@ -1,143 +1,115 @@
 1
-00:00:00,000 --> 00:00:10,008
-Meet Bareng - a shared group wallet. One
-account, one balance, and every member gets
-their own spending limit. It feels like a
+00:00:00,000 --> 00:00:07,488
+Bareng - money, together. A shared group
+wallet where one account holds the money, and
+every member gets their own spending limit.
 
 2
-00:00:11,108 --> 00:00:24,044
-And this isn't a mockup. Seven real
-transactions have already settled on-chain - a
-shared spend, a DeFi deposit, an agent
+00:00:08,588 --> 00:00:21,380
+The problem: group money is everywhere -
+patungan, arisan, a shared trip - but on-chain
+it's a mess of separate wallets. And every
 
 3
-00:00:25,144 --> 00:00:35,728
-Let's open it. Here's a shared pot: four
-hundred and twenty dollars, held in one
-Universal Account that works across Arbitrum,
-
-4
-00:00:36,828 --> 00:00:47,412
-Three members, each with a weekly limit. And
-every limit is a real, owner-signed E I P
-seventy-seven-oh-two grant - cryptography, not
-
-5
-00:00:48,512 --> 00:00:56,552
-Paying is simple. Pick a member, pay someone
-by their handle - no addresses to copy - add a
-note, and it settles on Arbitrum.
-
-6
-00:00:57,652 --> 00:01:05,188
-But nobody can overspend. Push past the cap,
-and the button locks - over limit - blocked
-before a single cent moves.
-
-7
-00:01:06,288 --> 00:01:13,656
-Every receipt in this feed is a real
-settlement. Tap one, and it opens the actual
-transaction on Arbiscan.
-
-8
-00:01:14,756 --> 00:01:24,404
-Topping up from another chain is one tap. This
-is a ZeroDev Smart Routing Address - send USDC
-from any chain, and it lands right in the pot.
-
-9
-00:01:25,504 --> 00:01:38,656
-Bareng also brings Indonesian money rituals
-on-chain. Arisan - a rotating savings circle -
-with a verifiable fair draw. The order comes
-
-10
-00:01:39,756 --> 00:01:44,892
-Split a bill, and Bareng nets who owes whom
-down to the fewest possible transfers.
-
-11
-00:01:45,992 --> 00:01:55,304
-Receiving privately? Each payment lands on a
-fresh, one-time stealth address, and the pot
-quietly sweeps it in - completely unlinkable
-
-12
-00:01:56,404 --> 00:02:08,380
-A member's capped key can even become an A I
-agent wallet. It pays per request over x
-four-oh-two - signing a real payment the
-
-13
-00:02:09,480 --> 00:02:19,200
-Idle funds don't sit still. One tap supplies
-them into Aave v three - the real
-approve-and-supply batch - kept one tap away
-
-14
-00:02:20,300 --> 00:02:31,844
-And here's the full pitch - eleven slides, at
-slash deck. Let's walk through it. Bareng:
-money, together - a shared group wallet on a
-
-15
-00:02:32,944 --> 00:02:44,848
-Slide one, the problem. Group money is
-everywhere - but on-chain, it's a mess of
-separate wallets and manual transfers. And
-
-16
-00:02:45,948 --> 00:02:55,860
-The solution: one shared account, real
+00:00:22,480 --> 00:00:32,608
+So we did. One Universal Account, real
 per-person limits, and a Web2 feel - Google
 login, no gas, no seed phrase, no chain to
 
+4
+00:00:33,708 --> 00:00:44,508
+The account itself is E I P
+seventy-seven-oh-two: the owner's own wallet,
+upgraded in place. Each cap is an owner-signed
+
+5
+00:00:45,608 --> 00:00:53,144
+And it's not a mockup - seven real
+transactions have already settled on-chain,
+each one verifiable. Now let's see it live.
+
+6
+00:00:54,244 --> 00:01:02,644
+Here's a shared pot: four hundred and twenty
+dollars, in one account that works across
+Arbitrum, Base, Ethereum, and B N B.
+
+7
+00:01:03,744 --> 00:01:10,152
+Paying is by handle - no addresses to copy -
+and it settles on Arbitrum. Watch the balance
+drop.
+
+8
+00:01:11,252 --> 00:01:16,724
+But push past your cap, and it locks - over
+limit - before a single cent moves.
+
+9
+00:01:17,824 --> 00:01:23,320
+And every receipt here is one of those real
+settlements - tap to open it on Arbiscan.
+
+10
+00:01:24,420 --> 00:01:30,204
+Topping up from another chain is one address -
+send from anywhere, and it lands in the pot.
+
+11
+00:01:31,304 --> 00:01:39,248
+Arisan - a rotating savings circle - with a
+fair draw from a public seed anyone can
+recompute, so it can't be rigged.
+
+12
+00:01:40,348 --> 00:01:44,548
+Split a bill, and it nets who owes whom down
+to the fewest transfers.
+
+13
+00:01:45,648 --> 00:01:52,800
+Receive privately on fresh, one-time stealth
+addresses - auto-swept into the pot,
+unlinkable on-chain.
+
+14
+00:01:53,900 --> 00:02:02,180
+That capped key even works as an x four-oh-two
+A I agent wallet - it pays per request, but
+physically can't exceed the cap.
+
+15
+00:02:03,280 --> 00:02:08,536
+And idle funds earn in Aave v three - one tap
+away from being spent.
+
+16
+00:02:09,636 --> 00:02:18,300
+Under the hood, all five featured partners are
+real integrations - Particle, Magic, Arbitrum,
+ZeroDev, and Openfort.
+
 17
-00:02:56,960 --> 00:03:09,680
-How it uses EIP-7702: the account is the
-owner's own wallet, upgraded in place - no new
-address. And every cap is an owner-signed
+00:02:19,400 --> 00:02:28,112
+And we're honest about scope - what's real,
+what runs in demo mode, and the one thing that
+still needs funds. It survives a judge's
 
 18
-00:03:10,780 --> 00:03:18,268
-This isn't a mockup - seven real transactions
-have settled on-chain, and every one is
-clickable to verify on the explorer.
+00:02:29,212 --> 00:02:36,484
+On cross-chain, Particle's path is bugged
+upstream - so we shipped a ZeroDev routing
+address that actually works.
 
 19
-00:03:19,368 --> 00:03:28,776
-Gotong royong as a primitive: arisan, split
-and settle, private receive, a capped agent
-wallet, pay-by-handle, and idle-balance earn.
+00:02:37,584 --> 00:02:48,000
+Why it wins: a prominent 7702 account, a UX
+that hides the chain, real white space no one
+else fills, and a regional fit with gotong
 
 20
-00:03:29,876 --> 00:03:40,460
-All five featured partners - Particle, Magic,
-Arbitrum, ZeroDev, and Openfort - each a real,
-working integration, not a logo on a slide.
-
-21
-00:03:41,560 --> 00:03:50,632
-And it's honest: what's real, what runs in
-demo mode, and the one thing that still needs
-funds. This is the pitch that survives a
-
-22
-00:03:51,732 --> 00:04:01,884
-Cross-chain, honestly: Particle's path is
-bugged upstream, so we shipped a ZeroDev Smart
-Routing Address that actually works - a
-
-23
-00:04:02,984 --> 00:04:14,480
-Why this wins: prominent 7702, a UX that hides
-the chain, genuine white space no one else
-fills, and a real regional fit with arisan and
-
-24
-00:04:15,580 --> 00:04:25,804
-And the ask: the Universal Accounts Track,
-plus the Arbitrum and Magic bonuses. Bareng -
-money, together. Gotong royong, on-chain.
+00:02:49,100 --> 00:02:57,380
+The ask: the Universal Accounts Track, plus
+the Arbitrum and Magic bonuses. Bareng -
+money, together. Thanks for watching.
 
