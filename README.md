@@ -141,6 +141,19 @@ cross-chain through the ZeroDev SRA instead.
 `npm run prove:onchain` · `prove:aave` · `prove:zerodev` · `prove:x402` · `prove:sweep` · `prove:sra` ·
 `prove:sra-deposit` — each settles or registers a real artifact (see the table up top).
 
+## QA
+
+```bash
+npm test              # 73 unit tests (pure logic + money path), no server/keys needed
+npm run build && npm run start   # then, in another shell:
+npm run qa            # 44-case Playwright sweep against the running app (uses your installed Chrome)
+```
+
+`scripts/qa.mjs` asserts real outcomes (pay decrements, over-cap disables, x402 settles / refuses,
+arisan fair-draw order, Aave batch selectors), adversarial inputs (invalid payee, 200-char memo,
+double-click), responsive widths (360/768/1024), WCAG-AA contrast, and the deck nav — exits non-zero
+on any failure. It caught the double-click double-spend that the unit tests couldn't.
+
 ## Deadlines
 
 - **Jun 29, 23:59** — Milestone 1: project outline + team + idea

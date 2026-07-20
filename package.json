@@ -15,6 +15,7 @@
     "prove:sra-deposit": "node --env-file=.env.local scripts/prove-sra-deposit.mjs",
     "prove:x402": "node --env-file=.env.local scripts/prove-x402.mjs",
     "prove:sweep": "node --env-file=.env.local scripts/prove-sweep.mjs",
+    "qa": "node scripts/qa.mjs",
     "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/x402pay.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs test/settle.test.mjs test/draw.test.mjs test/insights.test.mjs"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "@tailwindcss/postcss": "^4.3.1",
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
+    "playwright-core": "^1.61.1",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3"
   }
