@@ -36,6 +36,11 @@ const POT_HANDLE = "lunchsquad";
 // A real shared-UA spend that settled on Arbitrum One (see docs/ONCHAIN_PROOF.md) — the proof
 // this isn't a mockup. Surfaced as a live badge below.
 const PROVEN_TX = "0x40a4722a3fc52590465576743df759c644a207317763b5e6a9c5cc88c77d50f7";
+// The pot's ZeroDev Smart Routing Address — a REAL, registered cross-chain deposit rail (created by
+// scripts/prove-sra.mjs). Send USDC to it from Base/Optimism/Arbitrum → it routes to the pot on
+// Arbitrum, no bridging. This is ZeroDev's chain-abstraction and it works where Particle's v2 cross-
+// chain balance check is bugged.
+const POT_SRA = "0x0b72F6cD65c80CD9003128746B42c7dAe738D895";
 // Local framing: this is gotong royong, so show the pot in Rupiah too. Demo rate; a live app
 // reads a price feed. ponytail: static rate, swap for an oracle if amounts must be exact.
 const USD_TO_IDR = 16_300;
@@ -85,6 +90,7 @@ export default function Home() {
   const [payee, setPayee] = useState("@sari");
   const [busy, setBusy] = useState(false); // in-flight lock: a double-click must not double-spend
   const [showQr, setShowQr] = useState(false);
+  const [showSra, setShowSra] = useState(false);
   const seq = useRef(0); // monotonic id so prepended feed rows get a STABLE key (fixed demo clock → ts alone collides)
   const [srcChain, setSrcChain] = useState("Base");
   const [now, setNow] = useState(NOW); // advance to demo the rolling weekly window
@@ -288,6 +294,31 @@ export default function Home() {
             <span key={c} className="neo-tag rounded bg-white px-1.5 py-0.5 text-[10px] text-black">{c}</span>
           ))}
         </div>
+        {/* ZeroDev Smart Routing Address — a REAL cross-chain deposit rail for the pot. */}
+        <button
+          onClick={() => setShowSra((v) => !v)}
+          className="neo-sm mt-2 rounded-lg bg-[var(--panel)] px-2.5 py-1 text-[10px] font-black uppercase tracking-wide text-black"
+        >
+          {showSra ? "Hide deposit address" : "Deposit from any chain →"}
+        </button>
+        {showSra && (
+          <div className="mt-2 flex items-center gap-3 rounded-xl bg-white p-3">
+            <img
+              src={qrDataUrl(`ethereum:${POT_SRA}`, 3, 2)}
+              alt="Scan to deposit to the pot from any chain"
+              width={88}
+              height={88}
+              className="shrink-0 [image-rendering:pixelated]"
+            />
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-wide text-black/60">ZeroDev Smart Routing Address</p>
+              <p className="mt-0.5 break-all font-mono text-[11px] text-black">{POT_SRA}</p>
+              <p className="mt-1 text-[10px] font-medium text-black/60">
+                Send USDC from Base · Optimism · Arbitrum → lands in the pot on Arbitrum. No bridging.
+              </p>
+            </div>
+          </div>
+        )}
         <div className="mt-4 flex items-center gap-2">
           <span className="text-xs text-black/70">Top up from</span>
           <select

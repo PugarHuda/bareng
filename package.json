@@ -11,6 +11,7 @@
     "prove:crosschain": "node --env-file=.env.local scripts/prove-crosschain.mjs",
     "prove:zerodev": "node --env-file=.env.local scripts/prove-zerodev-sepolia.mjs",
     "prove:aave": "node --env-file=.env.local scripts/prove-aave.mjs",
+    "prove:sra": "node --env-file=.env.local scripts/prove-sra.mjs",
     "test": "node --test test/limits.test.mjs test/handles.test.mjs test/stealth.test.mjs test/sessionKey.test.mjs test/zerodev.test.mjs test/x402.test.mjs test/sweep.test.mjs test/bareng.test.mjs test/receipts.test.mjs test/yield.test.mjs test/arisan.test.mjs test/settle.test.mjs test/draw.test.mjs test/insights.test.mjs"
   },
   "dependencies": {
@@ -20,6 +21,8 @@
     "@particle-network/universal-account-sdk": "^2.0.3",
     "@zerodev/permissions": "^5.6.3",
     "@zerodev/sdk": "^5.5.10",
+    "@zerodev/smart-routing-address": "^0.2.5",
+    "@zerodev/webauthn-key": "^5.5.0",
     "ethers": "^6.17.0",
     "magic-sdk": "^33.7.1",
     "next": "^16.2.9",

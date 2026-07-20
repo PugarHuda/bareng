@@ -74,8 +74,22 @@ version; AlexUrsol's -32653). The harness is ready; it settles the moment Partic
 settles fine (proofs above). If asked "show a cross-chain tx": be honest — the mechanism is built and
 the UA is cross-chain by design, but Particle's v2 routing is bugged this week (Discord corroborates).
 
-**Recommended track:** Universal Accounts Track (prominent, real 7702 + UA — our core), plus the
-Arbitrum ($2000, consumer app on Arbitrum) and Magic ($500, Google-login onboarding) bonuses.
+### Working cross-chain: ZeroDev Smart Routing Address (SRA)
+Where Particle's v2 cross-chain is bugged, **ZeroDev SRA works** — and it's a perfect fit for a
+shared pot. `prove:sra` creates a **real, registered** Smart Routing Address for the pot
+(`0x0b72F6cD65c80CD9003128746B42c7dAe738D895`, 3 source routes Base/Optimism/Arbitrum → the pot on
+Arbitrum). Send USDC to it from any of those chains and it lands in the pot, no bridging. It's
+surfaced in the dashboard pot card ("Deposit from any chain →" with a scan-to-deposit QR). (A full
+end-to-end deposit needs source funds on another chain to demo; the address + routes are live.)
+
+**Track options:**
+- **Universal Accounts Track (recommended main):** prominent, real 7702 + UA — our core, proven
+  on-chain. Biggest prize ($2500). Present the cross-chain requirement honestly (Particle v2 bug).
+- **OR General Track + ZeroDev SRA subtrack ($500):** if the UA cross-chain gap worries you, the SRA
+  is a genuine ZeroDev chain-abstraction integration + a *working* cross-chain rail. General Track
+  has no hard cross-chain requirement; the app's UX carries the 40%.
+- **Bonuses (either main track):** Arbitrum ($2000, consumer app on Arbitrum) + Magic ($500,
+  Google-login onboarding).
 
 ## Tech
 Next.js 16 · React 19 · TypeScript · viem + ethers · Particle Universal Account SDK · Magic SDK ·
