@@ -72,6 +72,7 @@ only the on-chain call is stubbed.
 | `lib/x402.ts` | x402 flow: 402 → pay → retry, bounded by the cap | ✅ done + tested |
 | `lib/x402pay.ts` | **Real** x402 payment: EIP-3009 `transferWithAuthorization` sign + verify | ✅ done + tested (5) |
 | `app/api/x402/route.ts` | **Real x402 endpoint** — 402, then verifies the signed payment → 200 | ✅ verified e2e (402→sign→200; tampered→402) |
+| `scripts/prove-x402.mjs` | **x402 settled on-chain** — UA broadcasts EIP-3009 transferWithAuthorization | ✅ **settled** ([tx `0x4870c9…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e)) |
 | `lib/sweep.ts` | Stealth-sweep detection + **gasless EIP-3009 sweep authorization** (Openfort) | ✅ done + tested (4) |
 | `lib/magic.ts` | Google/email login (Magic) → EOA + signer | 🟡 needs `NEXT_PUBLIC_MAGIC_KEY` |
 | `lib/universalAccount.ts` | UA init + cross-chain transfer (Arbitrum) | ✅ proven on-chain |

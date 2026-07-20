@@ -72,9 +72,10 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
 - **Magic** (core) — Google/email login mints the seedless EOA that owns the account; wired + verified end-to-end (OAuth reaches Google consent, returns a wallet).
 - **Arbitrum** (core) — every spend settles here; a real UA spend + a real Aave v3 supply settled on Arbitrum One.
 - **ZeroDev** — Kernel7702 spend-cap call-policy (proven on Sepolia) + Smart Routing Address (working cross-chain deposit).
-- **Openfort / x402** — a **real** x402 handshake: `/api/x402` returns 402, the capped agent signs an
-  EIP-3009 `transferWithAuthorization`, the server verifies the signature → 200 (verified e2e; tampered
-  header → 402). The signed authorization is settlement-ready; only the final broadcast needs funds.
+- **Openfort / x402** — a **real** x402 handshake that **settles on-chain**: `/api/x402` returns 402,
+  the capped agent signs an EIP-3009 `transferWithAuthorization`, the server verifies it → 200, and the
+  UA broadcasts it as the facilitator — a real 0.01 USDC payment settled on Arbitrum
+  ([`0x4870c99a…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e)).
 - Stack: Next.js 16 · React 19 · TypeScript · viem + ethers · 66 unit tests on the money paths · neobrutalism UI, keyless demo.
 
 ## On-chain proof (verify on the explorers)
@@ -84,6 +85,8 @@ command from a settled cross-chain tx**, gated only on ~1 USDC of source funds o
 4. **ZeroDev SRA** — registered cross-chain deposit address `0x0b72F6cD65c80CD9003128746B42c7dAe738D895`
 5. **Live dashboard receipts** — 4 real UA settlements on Arbitrum back the dashboard's receipt feed
    (e.g. [`0x4a5d673b…`](https://arbiscan.io/tx/0x4a5d673b7bc109372a68264d83888124749338e21f58b97eb814faae3d0176e1)); each row links to Arbiscan. Seeded via `scripts/seed-receipts.mjs` (self-transfers, only gas spent).
+6. **x402 payment settled on-chain** — EIP-3009 `transferWithAuthorization`, agent → service, via the
+   UA facilitator, [`0x4870c99a…`](https://arbiscan.io/tx/0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e) (`scripts/prove-x402.mjs`).
 
 ## Links
 - **Live demo:** https://bareng-jade.vercel.app (runs keyless — no wallet needed)

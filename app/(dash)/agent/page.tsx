@@ -16,6 +16,8 @@ import { ARBITRUM_USDC } from "@/lib/universalAccount";
 import type { Hex } from "viem";
 
 const NOW = 1_000_000;
+// A REAL x402 payment that settled on-chain via EIP-3009 transferWithAuthorization (scripts/prove-x402).
+const PROVEN_X402_TX = "0x4870c99abff9c1e2aeaec80ca39df1e25f78fc5ba3195cd0d6b9fad14f3ad67e";
 const WANT = { asset: ARBITRUM_USDC, network: "arbitrum" };
 const RESOURCE = "/api/x402";
 // The agent's 7702-capped session key. A throwaway, well-known Anvil key (public) → its address is
@@ -86,6 +88,17 @@ export default function Agent() {
         <h1 className="text-xl font-bold">Agent wallet</h1>
       </header>
 
+      {/* Proof this isn't a mock: a real x402 payment settled on-chain via transferWithAuthorization. */}
+      <a
+        href={`https://arbiscan.io/tx/${PROVEN_X402_TX}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between rounded-xl border border-black bg-[var(--green)] px-3 py-2 text-xs text-black"
+      >
+        <span>✓ Real x402 payment settled on Arbitrum</span>
+        <span className="font-mono text-green-700">{PROVEN_X402_TX.slice(0, 8)}…{PROVEN_X402_TX.slice(-4)} ↗</span>
+      </a>
+
       <section className="rounded-2xl neo-sm p-4 text-sm text-black">
         <p>
           The agent spends as <b className="text-blue-700 font-bold">@budi</b> using his{" "}
@@ -136,7 +149,7 @@ export default function Agent() {
       )}
 
       <footer className="pb-6 pt-2 text-center text-xs text-black/60">
-        Real x402 handshake (/api/x402) · EIP-3009 signed · bounded by a 7702 spend cap
+        Real x402 handshake (/api/x402) · EIP-3009 · <b>settled on-chain</b> · bounded by a 7702 cap
       </footer>
     </main>
   );

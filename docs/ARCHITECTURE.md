@@ -33,12 +33,14 @@ for a final on-chain broadcast that needs funds; ZeroDev's on-chain cap runs on 
   **not** enforce anything on the Particle UA — ZeroDev's kernel is a
   *different* account. To get real on-chain per-member caps you would make the pot a **ZeroDev
   kernel account instead of a Particle UA**, trading away UA's cross-chain unified balance.
-- **`lib/x402.ts` + `lib/x402pay.ts` + `app/api/x402` / `/agent`** — a **real** x402 handshake, not a
-  mock. `/api/x402` returns 402 + PaymentRequirements; the capped agent signs a real EIP-3009
-  `transferWithAuthorization` (`signPayment`) and the server **verifies the signature** (`verifyPayment`)
-  before 200 — proven end-to-end (402 → sign → 200; a tampered header → 402), and bounded by
-  `chargeWithinCap`. The signed authorization is settlement-ready; the only unwired piece is the final
-  on-chain broadcast (needs the payer to hold USDC + a relayer/facilitator).
+- **`lib/x402.ts` + `lib/x402pay.ts` + `app/api/x402` / `/agent` / `scripts/prove-x402.mjs`** — a
+  **real** x402 handshake that **settles on-chain**. `/api/x402` returns 402; the capped agent signs a
+  real EIP-3009 `transferWithAuthorization` (`signPayment`), the server **verifies** it (`verifyPayment`)
+  → 200, and the UA broadcasts it as the facilitator — a real 0.01 USDC payment settled on Arbitrum
+  (`0x4870c99a…`). Bounded by `chargeWithinCap` (over-cap refuses before signing).
+  **Finding worth stating on stage:** EIP-3009 needs a *plain* (undelegated) EOA payer — a 7702-delegated
+  account has code, so USDC routes its signature through EIP-1271 and the plain ECDSA sig is rejected. So
+  the agent is a separate throwaway EOA, funded by a tiny UA transfer; the UA relays the settlement.
 - **`lib/sweep.ts`** — the Openfort backend-sweep angle, real on both halves: it detects the pot's own
   stealth receives (scan + key derivation) AND `buildSweepAuthorization` signs a real, gasless EIP-3009
   authorization to move them into the UA (a relayer broadcasts it — the stealth address holds no ETH).
