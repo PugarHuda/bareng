@@ -23,7 +23,7 @@ Open on the landing page. Neobrutalism hero: *"Money, together."*
    Arbitrum ↗** badge is right there too.
 2. **Spend as @budi → @dewi, $30.** Settles "on Arbitrum"; his remaining drops to $70.
    *"Pay by handle, never an address."*
-3. **Switch to @sari, drag to $60 → "Over limit"**, blocked. *"The cap is an owner-signed 7702
+3. **Still as @budi (he now has $70 left), drag to $85 → "Over limit"**, blocked. *"The cap is an owner-signed 7702
    grant — real crypto the app verifies."* (Honest: enforced app-side; the UA is single-owner. The
    on-chain-enforced version is the ZeroDev reference — see Act 3 / `docs/ARCHITECTURE.md`.)
 4. **Top up from Base → +$50.** *"Funds enter on any chain, land as one balance. That's the
