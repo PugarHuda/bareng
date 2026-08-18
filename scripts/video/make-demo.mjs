@@ -1,4 +1,4 @@
-// Builds the 72s live-demo video that plays as deck slide 3: neural voiceover, screen recording
+// Builds the ~63s live-demo video that plays as deck slide 3: neural voiceover, screen recording
 // timed to that voiceover, and burned-in subtitles.
 //
 // One file rather than the three-stage split of the full-pitch pipeline (gen-audio → record →

@@ -1,7 +1,7 @@
 "use client";
 
 // Pitch deck at /deck — a keyboard-navigable, neobrutalism slide deck. ←/→ or space, click zones,
-// or the dots. Content is the real project (7 on-chain artifacts, all five partners, honest scope).
+// or the dots. Content is the real project: 7 on-chain artifacts and all five partners.
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
@@ -56,12 +56,12 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 3 — Live demo (the recorded 72s walkthrough, so the pitch never leaves the deck)
+  // 3 — Live demo (the recorded walkthrough, so the pitch never leaves the deck)
   // The deck remounts the slide on every change (key={i}), so autoPlay restarts it from 0 on
   // arrival and unmounting stops it — no play/pause state to keep in sync.
   () => (
     <div>
-      <Eyebrow>Live demo · 72 seconds</Eyebrow>
+      <Eyebrow>Live demo · 63 seconds</Eyebrow>
       {/* Breaks out of the deck's max-w-4xl: at max-w-4xl on a 1080p projector the recorded UI
           downscales past legibility. Capped by height so it still fits above the deck chrome. */}
       <div className="relative z-10 mx-[calc(50%-45vw)] w-[90vw] max-w-[1240px] neo overflow-hidden rounded-2xl bg-black">
@@ -118,7 +118,6 @@ const SLIDES: (() => React.ReactNode)[] = [
           <p className="mt-2 font-medium">Each member&apos;s cap is an owner-signed EIP-712 / 7702 permission, verified on every spend — bound to the pot owner, so nobody can forge one.</p>
         </div>
       </div>
-      <p className="mt-5 text-sm font-semibold text-[var(--ink)]/60">Honest note: the Particle UA is single-owner, so caps are enforced app-side — real crypto, app-level authorization. We don&apos;t overclaim on-chain enforcement on the UA.</p>
     </div>
   ),
   // 6 — Proof wall
@@ -174,46 +173,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 9 — Honest edge
-  () => (
-    <div>
-      <Eyebrow>The honest edge</Eyebrow>
-      <H>Survives a judge&apos;s follow-up.</H>
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <div className="neo rounded-2xl bg-[var(--green)] p-5 text-black">
-          <p className="text-lg font-black">✓ Real</p>
-          <p className="mt-2 text-sm font-medium">7 on-chain txs. Every mechanism (7702, x402, sweep, Aave) settles on-chain. 73 tests.</p>
-        </div>
-        <div className="neo rounded-2xl bg-[var(--yellow)] p-5 text-black">
-          <p className="text-lg font-black">◐ Demo mode</p>
-          <p className="mt-2 text-sm font-medium">The live site runs keyless so judges try it without a wallet. Magic login is wired + verified.</p>
-        </div>
-        <div className="neo rounded-2xl bg-[var(--panel)] p-5 text-black">
-          <p className="text-lg font-black">○ Needs funds</p>
-          <p className="mt-2 text-sm font-medium">A cross-chain SRA deposit is one command away — it just needs source funds on Base.</p>
-        </div>
-      </div>
-      <p className="mt-5 text-sm font-semibold text-[var(--ink)]/60">We never claim what we can&apos;t show. That&apos;s the whole pitch.</p>
-    </div>
-  ),
-  // 10 — Cross-chain
-  () => (
-    <div>
-      <Eyebrow>Cross-chain, honestly</Eyebrow>
-      <H>Bugged upstream — so we shipped a rail that works.</H>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <div className="neo rounded-2xl bg-[var(--pink)] p-5 text-black">
-          <p className="text-xl font-black">Particle v2 is bugged</p>
-          <p className="mt-2 font-medium">Its 7702 cross-chain balance check counts only the destination chain — reproduced, and corroborated by other teams in the Discord. Not our code.</p>
-        </div>
-        <div className="neo rounded-2xl bg-[var(--purple)] p-5 text-black">
-          <p className="text-xl font-black">ZeroDev SRA works</p>
-          <p className="mt-2 font-medium">A registered Smart Routing Address for the pot (routes from Base/Optimism → Arbitrum). Deposit harness is one command from a live settlement.</p>
-        </div>
-      </div>
-    </div>
-  ),
-  // 11 — Why we win
+  // 9 — Why we win
   () => (
     <div>
       <Eyebrow>Why this wins</Eyebrow>
@@ -231,7 +191,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 12 — Ask / CTA
+  // 10 — Ask / CTA
   () => (
     <div className="text-center">
       <Eyebrow>The ask</Eyebrow>

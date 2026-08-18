@@ -26,7 +26,7 @@ Kecepatan target 145 kata per menit. Kalau terasa buru-buru, potong kalimat bert
 
 ## Peta waktu
 
-Deck sekarang **12 slide** (video demo disisipkan jadi slide 3).
+Deck sekarang **10 slide** (video demo di slide 3).
 
 | Waktu | Layar | Tombol | Durasi |
 |---|---|---|---|
@@ -36,10 +36,10 @@ Deck sekarang **12 slide** (video demo disisipkan jadi slide 3).
 | 1:35 | Slide **5**, The account is 7702 | `→` ×2 (lewati 4) | 16 dtk |
 | 1:51 | Slide **6**, Seven settled on chain | `→` | 21 dtk |
 | 2:12 | Slide **8**, Partners | `→` ×2 (lewati 7) | 11 dtk |
-| 2:23 | Slide **12**, Close | `End` | 20 dtk |
+| 2:23 | Slide **10**, Close | `End` | 20 dtk |
 | **2:43** | selesai | | |
 
-Slide 4, 7, 9, 10, 11 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
+Slide 4, 7, 9 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
 
 ---
 
@@ -140,18 +140,19 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 > Particle is the account. Magic is the login. Arbitrum is where it settles. ZeroDev caps it.
 > Openfort pays."
 
-*11 detik. Tekan `End` untuk lompat ke slide 12.*
+*11 detik. Tekan `End` untuk lompat ke slide 10.*
 
 ---
 
-## 2:23 · Slide 12 (Close)
+## 2:23 · Slide 10 (Close)
 
 > **BACA:**
 >
-> "One thing we will not overclaim. (jeda) The Universal Account is single owner, so per member
-> caps are enforced app side. We put that on our own slide. [JEDA]
+> "So that is Bareng. (jeda) One shared balance. Real per person limits. Private receives.
+> No gas, no chains, no seed phrases. [JEDA]
 >
-> We only claim what we can show you. [BERHENTI 2 DTK]
+> Seven things already settled on chain, and all five partners are real integrations.
+> [BERHENTI 2 DTK]
 >
 > Bareng. Money, together. Thank you."
 
@@ -171,9 +172,25 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 5. Kalau juri minta lihat aplikasi aslinya saat Q&A, baru buka `https://bareng-jade.vercel.app/app`
    di tab lain. Jangan saat pitch.
 
-## Yang tidak boleh diucapkan
+## Batas klaim (untuk Q&A, bukan untuk dipitch)
 
-- "ZeroDev enforces the cap on the Universal Account". Tidak. Kernel-nya akun terpisah.
-- "Caps are enforced on chain" tanpa embel-embel. Yang benar: *owner signed, enforced app side*.
-- "It is live with real money". Situs deploy jalan di keyless demo mode. Katakan itu kalau ditanya.
-- Angka jumlah tes atau baris kode di panggung. Simpan untuk Q&A.
+Slide "honest edge" dan "cross-chain" sudah dibuang, jadi **kamu tidak menawarkan kelemahan apa pun
+sendiri**. Tapi kalau juri bertanya langsung, jawab akurat. Klaim berlebihan yang runtuh saat dicecar
+jauh lebih mahal daripada jawaban jujur yang singkat, apalagi jurinya orang Particle dan ZeroDev
+sendiri.
+
+**Jangan pernah ucapkan ini**, ditanya atau tidak, karena tidak benar dan mudah dibongkar:
+
+- "ZeroDev enforces the cap on the Universal Account." Kernel ZeroDev itu akun terpisah.
+- "Per member caps are enforced on chain." Yang benar: *owner signed grant, verified on every spend*.
+- "It is live with real money." Situs yang dideploy jalan di keyless demo mode.
+
+**Kalau ditanya langsung**, ini jawaban pendek yang kuat, bukan permintaan maaf:
+
+| Pertanyaan juri | Jawab |
+|---|---|
+| "Apakah cap-nya dipaksakan on-chain?" | "On the Universal Account, the grant is owner signed and verified on every spend. The chain enforced version is the ZeroDev Kernel7702 path, and we proved that on chain too, that is the Sepolia transaction on the proof wall." |
+| "Ini live pakai uang sungguhan?" | "The deployed site runs keyless so you can try it right now without a wallet. The mechanisms behind it have settled on chain, seven times, all clickable." |
+| "Cross-chain-nya jalan?" | "The pot has a registered ZeroDev Smart Routing Address that routes from Base and Optimism into Arbitrum. It is on the pot card in the app." |
+
+Dan jangan sebut angka jumlah tes atau baris kode di panggung. Simpan untuk Q&A.
