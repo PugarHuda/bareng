@@ -185,12 +185,7 @@ sendiri.
 - "Per member caps are enforced on chain." Yang benar: *owner signed grant, verified on every spend*.
 - "It is live with real money." Situs yang dideploy jalan di keyless demo mode.
 
-**Kalau ditanya langsung**, ini jawaban pendek yang kuat, bukan permintaan maaf:
-
-| Pertanyaan juri | Jawab |
-|---|---|
-| "Apakah cap-nya dipaksakan on-chain?" | "On the Universal Account, the grant is owner signed and verified on every spend. The chain enforced version is the ZeroDev Kernel7702 path, and we proved that on chain too, that is the Sepolia transaction on the proof wall." |
-| "Ini live pakai uang sungguhan?" | "The deployed site runs keyless so you can try it right now without a wallet. The mechanisms behind it have settled on chain, seven times, all clickable." |
-| "Cross-chain-nya jalan?" | "The pot has a registered ZeroDev Smart Routing Address that routes from Base and Optimism into Arbitrum. It is on the pot card in the app." |
+**Kalau ditanya langsung, jawabannya ada di `QA_BANK.md`** — 20 pertanyaan dengan jawaban siap
+ucap, lima di antaranya ditandai sebagai yang paling mungkin keluar. Baca itu, bukan bagian ini.
 
 Dan jangan sebut angka jumlah tes atau baris kode di panggung. Simpan untuk Q&A.
