@@ -24,6 +24,14 @@ const PARTNERS = [
 ];
 
 const chip = "neo-tag inline-block rounded-md px-2 py-1 text-xs";
+// Neobrutalism box for the architecture diagram: hard offset shadow drawn as a second rect,
+// matching the .neo CSS the rest of the deck uses.
+const DBox = ({ x, y, w, h, fill }: { x: number; y: number; w: number; h: number; fill: string }) => (
+  <>
+    <rect x={x + 6} y={y + 6} width={w} height={h} rx="12" fill="#111" />
+    <rect x={x} y={y} width={w} height={h} rx="12" fill={fill} stroke="#111" strokeWidth="3" />
+  </>
+);
 const H = ({ children }: { children: React.ReactNode }) => <h2 className="text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl">{children}</h2>;
 const Eyebrow = ({ children }: { children: React.ReactNode }) => <p className="neo-label mb-3 text-sm text-[var(--ink)]/60">{children}</p>;
 
@@ -173,22 +181,65 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 9 — Why we win
+  // 9 — How it works
+  // Replaced a "why this wins" slide that graded itself against the judging rubric. This one is
+  // also the prop to open when a judge asks where the cap actually lives.
   () => (
     <div>
-      <Eyebrow>Why this wins</Eyebrow>
-      <H>UX that hides the chain, on a real 7702 account.</H>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        {[["Prominent 7702 (30%)", "The account itself is EIP-7702; caps are owner-signed grants. Proven on-chain."],
-          ["UX (40%)", "Google login, one balance, zero thought about chains or gas. WCAG-AA, mobile-first."],
-          ["White space", "Particle's ecosystem has no multi-user account. We own that gap."],
-          ["Regional fit", "Arisan + gotong royong put a real cultural ritual on-chain."]].map(([t, d]) => (
-          <div key={t} className="neo-sm rounded-xl bg-[var(--panel)] p-5">
-            <p className="text-xl font-black">{t}</p>
-            <p className="mt-2 text-sm font-medium text-black/70">{d}</p>
-          </div>
+      <Eyebrow>How it works</Eyebrow>
+      <H>One account. <span className="bg-[var(--yellow)] px-1 [box-decoration-break:clone]">No member holds a key.</span></H>
+      {/* Same breakout as the demo slide: at max-w-4xl the diagram wastes half a 1080p projector,
+          and this is the slide to open when a judge asks where the cap lives. */}
+      <svg
+        viewBox="0 0 940 360"
+        className="mt-6 mx-[calc(50%-45vw)] max-h-[46vh] w-[90vw] max-w-[1240px]"
+        role="img"
+        aria-label="Members send owner-signed 7702 grants to one Universal Account, which settles on Arbitrum. A Smart Routing Address feeds it from other chains."
+      >
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#111" />
+          </marker>
+        </defs>
+
+        {/* members */}
+        {[["@budi", 24], ["@sari", 80], ["@dewi", 136]].map(([label, y]) => (
+          <g key={label as string}>
+            <DBox x={8} y={y as number} w={140} h={44} fill="var(--blue)" />
+            <text x={78} y={(y as number) + 29} textAnchor="middle" fontSize="21" fontWeight="800" fill="#111">{label}</text>
+          </g>
         ))}
-      </div>
+
+        {/* grant arrow */}
+        <line x1={158} y1={102} x2={318} y2={102} stroke="#111" strokeWidth="3" markerEnd="url(#ah)" />
+        <text x={238} y={70} textAnchor="middle" fontSize="19" fontWeight="800" fill="#111">owner-signed</text>
+        <text x={238} y={90} textAnchor="middle" fontSize="19" fontWeight="800" fill="#111">7702 grant</text>
+        <text x={238} y={140} textAnchor="middle" fontSize="15" fontWeight="700" fill="#111" opacity="0.72">cap · token · period</text>
+
+        {/* the account */}
+        <DBox x={330} y={26} w={270} h={152} fill="var(--yellow)" />
+        <text x={465} y={62} textAnchor="middle" fontSize="15" fontWeight="800" fill="#111" opacity="0.7">ONE</text>
+        <text x={465} y={95} textAnchor="middle" fontSize="26" fontWeight="900" fill="#111">Universal Account</text>
+        <text x={465} y={126} textAnchor="middle" fontSize="16" fontWeight="700" fill="#111">EIP-7702, upgraded in place</text>
+        <text x={465} y={152} textAnchor="middle" fontSize="16" fontWeight="700" fill="#111" opacity="0.72">holds the cross-chain balance</text>
+
+        {/* settlement */}
+        <line x1={610} y1={102} x2={678} y2={102} stroke="#111" strokeWidth="3" markerEnd="url(#ah)" />
+        <text x={644} y={86} textAnchor="middle" fontSize="15" fontWeight="800" fill="#111">settles</text>
+        <DBox x={690} y={68} w={240} h={70} fill="var(--green)" />
+        <text x={810} y={112} textAnchor="middle" fontSize="26" fontWeight="900" fill="#111">ARBITRUM</text>
+
+        {/* cross-chain deposits */}
+        <DBox x={30} y={266} w={230} h={56} fill="var(--panel)" />
+        <text x={145} y={300} textAnchor="middle" fontSize="18" fontWeight="800" fill="#111">Base · Optimism</text>
+        <line x1={270} y1={294} x2={318} y2={294} stroke="#111" strokeWidth="3" markerEnd="url(#ah)" />
+        <DBox x={330} y={266} w={270} h={56} fill="var(--purple)" />
+        <text x={465} y={300} textAnchor="middle" fontSize="19" fontWeight="800" fill="#111">Smart Routing Address</text>
+        <line x1={465} y1={260} x2={465} y2={192} stroke="#111" strokeWidth="3" markerEnd="url(#ah)" />
+      </svg>
+      <p className="mt-4 text-base font-bold text-[var(--ink)]/80">
+        Members hold no key. The owner&apos;s key signs every settlement, and the grant is what authorizes it.
+      </p>
     </div>
   ),
   // 10 — Ask / CTA
@@ -211,8 +262,23 @@ const SLIDES: (() => React.ReactNode)[] = [
 
 export default function Deck() {
   const [i, setI] = useState(0);
+  const [full, setFull] = useState(false);
   const n = SLIDES.length;
   const go = useCallback((d: number) => setI((x) => Math.max(0, Math.min(n - 1, x + d))), [n]);
+
+  // Real fullscreen, not just F11: a presenter remote sends arrow keys, not F11, and browser
+  // chrome stays visible in some setups. Track the event rather than our own click, so pressing
+  // Escape (which we never see as a keydown here) still flips the label back.
+  const toggleFull = useCallback(() => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else document.documentElement.requestFullscreen().catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const onFs = () => setFull(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -220,10 +286,11 @@ export default function Deck() {
       else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(-1); }
       else if (e.key === "Home") setI(0);
       else if (e.key === "End") setI(n - 1);
+      else if (e.key === "f" || e.key === "F") { e.preventDefault(); toggleFull(); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, n]);
+  }, [go, n, toggleFull]);
 
   return (
     <main className="relative flex min-h-dvh flex-col">
@@ -233,7 +300,17 @@ export default function Deck() {
           <span className="neo-flat grid h-7 w-7 place-items-center rounded-md bg-[var(--yellow)] text-sm font-black">B</span>
           Bareng
         </Link>
-        <span className="tabular-nums text-[var(--ink)]/60">{i + 1} / {n}</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleFull}
+            aria-label={full ? "Exit fullscreen" : "Enter fullscreen"}
+            title="Fullscreen (F)"
+            className="neo-btn rounded-lg bg-[var(--panel)] px-3 py-1 text-xs text-black"
+          >
+            {full ? "✕ Exit" : "⛶ Fullscreen"}
+          </button>
+          <span className="tabular-nums text-[var(--ink)]/60">{i + 1} / {n}</span>
+        </div>
       </div>
 
       {/* slide */}

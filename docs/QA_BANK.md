@@ -12,8 +12,9 @@ biasanya menang atau kalah. Jawaban ditulis dalam bahasa Inggris siap ucap.
 1. **Dua kalimat, lalu berhenti.** Jawaban panjang terdengar seperti sedang menutupi sesuatu.
    Kalau juri mau lebih dalam, dia akan bertanya lagi. Diam setelah menjawab itu kuat.
 2. **Jawab pertanyaannya dulu, baru alasannya.** Jangan buka dengan latar belakang.
-3. **Kalau pertanyaannya sudah ada di slide, buka slide itu** sambil menjawab. Proof wall
-   (slide 6) menjawab separuh pertanyaan soal "ini nyata atau tidak".
+3. **Kalau pertanyaannya sudah ada di slide, buka slide itu** sambil menjawab. Dua slide yang paling
+   sering kamu butuhkan: **slide 6** (proof wall) untuk "ini nyata atau tidak", dan **slide 9**
+   (diagram arsitektur) untuk apa pun soal kunci, cap, atau siapa menandatangani apa.
 4. **Jangan berdebat.** Kalau juri salah paham, perbaiki sekali dengan tenang, lalu lanjut.
 5. **Kalau tidak tahu, bilang tidak tahu**, lalu berikan yang kamu tahu:
    *"I do not know that one. What I can tell you is..."* Mengarang di depan juri Particle atau
@@ -26,7 +27,8 @@ biasanya menang atau kalah. Jawaban ditulis dalam bahasa Inggris siap ucap.
 ### ⭐ A1. "Is the per-member cap actually enforced on-chain?"
 
 Ini pertanyaan paling mungkin dan paling menentukan. Jawab **tanpa minta maaf**, karena posisimu
-sebenarnya kuat.
+sebenarnya kuat. **Buka slide 9** (diagram "One account. No member holds a key.") sambil menjawab,
+gambarnya mengerjakan separuh penjelasan untukmu.
 
 > "The pot is one Universal Account, and its key never leaves the organizer. Members never hold
 > it. So a member has no path to the money at all except through an owner signed grant that binds
@@ -44,7 +46,8 @@ sebenarnya kuat.
 
 ### ⭐ A2. "What stops a member from bypassing your app and moving the money directly?"
 
-Jawaban terkuatmu. Banyak orang mengira ini pertanyaan mematikan; sebenarnya tidak.
+Jawaban terkuatmu. Banyak orang mengira ini pertanyaan mematikan; sebenarnya tidak. **Slide 9** lagi:
+tunjuk kotak anggota, lalu panah grant, lalu akunnya.
 
 > "There is nothing to bypass, because a member holds no key to the pot. Every settlement is signed
 > by the owner's key. The grant is not a UI guard on someone who could go around it, it is the
@@ -250,6 +253,6 @@ Jangan disebut kalau tidak ditanya.
 | Unit test | 73 |
 | Playwright QA | 47 case |
 | Partner terintegrasi | 5 dari 5 |
-| Slide deck | 10 |
+| Slide deck | 10 (proof wall di 6, diagram arsitektur di 9) |
 | Alamat pot (owner) | `0x0Eba675deBf832A81815Fe96025E04d5f40379C6` |
 | Smart Routing Address | `0x0b72F6cD65c80CD9003128746B42c7dAe738D895` |

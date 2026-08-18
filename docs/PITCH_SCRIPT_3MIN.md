@@ -19,6 +19,8 @@ Bahasa Inggris, karena deck dan jurinya internasional. Mau versi Indonesia penuh
 | `[JEDA]` | **berhenti penuh 1 detik.** Diam. Jangan isi dengan "ehm" |
 | `[BERHENTI 2 DTK]` | diam 2 detik. Biarkan layar atau kalimatnya mendarat |
 
+**Tombol deck:** `→` maju · `←` mundur · `Home` slide 1 · `End` slide terakhir · **`F` fullscreen**.
+
 Kecepatan target 145 kata per menit. Kalau terasa buru-buru, potong kalimat bertanda
 `[opsional]`. Jangan potong yang lain, timing-nya sudah dihitung.
 
@@ -40,6 +42,10 @@ Deck sekarang **10 slide** (video demo di slide 3).
 | **2:43** | selesai | | |
 
 Slide 4, 7, 9 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
+
+**Slide 9 sekarang diagram arsitektur** ("One account. No member holds a key."). Tidak dipakai saat
+pitch, tapi **itu slide yang kamu buka kalau juri bertanya di mana cap-nya berada.** Hafalkan
+posisinya: dari slide penutup, `←` satu kali.
 
 ---
 
@@ -162,7 +168,9 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 
 ## Pre-flight, 2 menit sebelum naik
 
-1. **Satu tab saja:** `https://bareng-jade.vercel.app/deck`. Tekan `F11` untuk fullscreen.
+1. **Satu tab saja:** `https://bareng-jade.vercel.app/deck`. Tekan **`F`** untuk fullscreen, atau
+   klik tombol ⛶ di pojok kanan atas. (`F11` juga masih jalan, tapi `F` lebih bersih karena
+   memfullscreen deck-nya, bukan jendela browser.) `Esc` untuk keluar.
 2. **Maju ke slide 3 sekali, pastikan videonya jalan DAN suaranya keluar, lalu `Home`** untuk balik
    ke slide 1. Ini dua hal sekaligus: browser meng-cache videonya, dan browser mengizinkan autoplay
    bersuara untuk sisa sesi. Sekalian cek volume laptop dan sound system venue di sini.
