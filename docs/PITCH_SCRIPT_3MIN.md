@@ -166,41 +166,57 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 
 ---
 
-## Pre-flight, 2 menit sebelum naik
+## Pre-flight (final ini lewat Zoom)
 
-1. **Satu tab saja:** `https://bareng-jade.vercel.app/deck`. Tekan **`F`** untuk fullscreen, atau
-   klik tombol ⛶ di pojok kanan atas. (`F11` juga masih jalan, tapi `F` lebih bersih karena
-   memfullscreen deck-nya, bukan jendela browser.) `Esc` untuk keluar.
-2. **Maju ke slide 3 sekali, pastikan videonya jalan DAN suaranya keluar, lalu `Home`** untuk balik
-   ke slide 1. Ini dua hal sekaligus: browser meng-cache videonya, dan browser mengizinkan autoplay
-   bersuara untuk sisa sesi. Sekalian cek volume laptop dan sound system venue di sini.
-3. Zoom browser **100%**. Dark mode OS dimatikan, desainnya cream. Notifikasi dimatikan.
-4. **Cadangan kalau internet mati:** `demo/bareng-live-demo.mp4` ada di laptop, isinya identik
-   (VO + subtitle). Kalau situsnya tidak terbuka, putar file itu langsung.
-5. Kalau juri minta lihat aplikasi aslinya saat Q&A, baru buka `https://bareng-jade.vercel.app/app`
-   di tab lain. Jangan saat pitch.
+Formatnya online, jadi risiko terbesarmu **bukan** panggung, tapi audio dan kompresi. Kamu diam
+selama 63 detik dan mengandalkan suara video. Kalau audionya tidak sampai, juri dapat satu menit
+hening dan kamu tidak akan sadar, karena di laptopmu terdengar normal.
 
-## Kalau pitch lewat Zoom / Google Meet
+### Sehari sebelumnya: uji ke orang lain
 
-Videonya punya suara sendiri, dan selama 63 detik itu kamu diam. Jadi audio yang sampai ke juri
-sepenuhnya bergantung pada satu centang. **Salah di sini, juri dapat satu menit hening total.**
+Ini satu-satunya cara tahu. Mendengar dan melihat dari laptopmu sendiri bukan bukti apa pun.
 
-1. **Centang "Share sound" saat memilih layar.** Ini WAJIB. Tanpa ini VO videomu tidak terdengar
-   sama sekali di sisi juri, padahal di laptopmu terdengar normal, jadi kamu tidak akan sadar.
-2. **Centang "Optimize for video clip"** juga. Tanpa ini video 63 detik bisa patah-patah di sisi
-   penerima.
-3. **Share satu tab browser, bukan seluruh layar.** Zoom mengirim audio tab dengan lebih bersih,
-   dan notifikasi desktop tidak ikut terlihat.
-4. **Pakai aplikasi desktop Zoom, bukan versi browser.** Ada bug lama di versi PWA/browser:
-   mic peserta auto-mute begitu mulai share screen.
-5. **Setelah share dimulai, lihat toolbar melayang dan pastikan mic-mu tidak ter-mute.** Kalau
-   ter-mute: `Alt+A` (Windows). Mic yang ter-mute TIDAK membuat suara video ikut hilang, itu dua
-   jalur terpisah, jadi jangan panik di tengah demo.
-6. **Uji ke orang lain sebelum hari-H.** Minta satu teman masuk meeting, share slide 3, lalu tanya
-   dua hal: *suara videonya kedengeran?* dan *lancar atau patah-patah?* Mendengarnya dari
-   laptopmu sendiri sama sekali bukan bukti.
-7. `F` fullscreen tetap dipakai, tapi **share dulu baru fullscreen**, supaya Zoom tidak kehilangan
-   jendela yang dipilih.
+1. Minta satu teman masuk Zoom bareng kamu.
+2. Share tab deck, maju ke slide 3, biarkan video jalan penuh.
+3. Tanya dia **tiga hal spesifik**:
+   - Suara narasinya kedengeran jelas?
+   - Videonya lancar atau patah-patah?
+   - **Pas tombolnya berubah jadi `Over limit`, kebaca?** Ini detail terkecil yang penting.
+4. Kalau jawaban ketiga "tidak kebaca", bilang ke aku, videonya bisa direkam ulang dengan UI
+   lebih besar.
+
+### 10 menit sebelum mulai
+
+1. **Aplikasi desktop Zoom, bukan versi browser.** Versi PWA/browser punya bug lama: mic peserta
+   auto-mute begitu mulai share screen.
+2. Buka **satu tab**: `https://bareng-jade.vercel.app/deck`.
+3. **Maju ke slide 3 sekali, pastikan video jalan DAN bersuara, lalu `Home`.** Ini tiga hal
+   sekaligus: browser meng-cache videonya, browser mengizinkan autoplay bersuara untuk sisa sesi,
+   dan kamu memastikan volume laptop tidak nol.
+4. Zoom browser **100%**. Dark mode OS dimatikan, desainnya cream. Notifikasi dimatikan.
+
+### Saat share screen
+
+1. Pilih **tab browser**, bukan seluruh layar. Audio tab lebih bersih dan notifikasi desktop tidak
+   ikut terlihat.
+2. **CENTANG "Share sound".** Ini yang paling gampang lupa dan paling fatal. Tanpa ini VO videomu
+   nol di sisi juri.
+3. **CENTANG "Optimize for video clip".** Tanpa ini video 63 detik bisa patah-patah di sisi penerima.
+4. **Share dulu, baru tekan `F`** untuk fullscreen. Kalau dibalik, Zoom bisa kehilangan jendela
+   yang kamu pilih.
+5. Setelah share dimulai, lihat toolbar melayang: **pastikan mic-mu tidak ter-mute.** Kalau
+   ter-mute, `Alt+A`. Mic ter-mute TIDAK membuat suara video hilang, itu dua jalur terpisah, jadi
+   jangan panik di tengah demo.
+
+### Kalau ada yang gagal di tengah jalan
+
+| Masalah | Lakukan |
+|---|---|
+| Video tidak jalan sendiri | Klik sekali di tengah video. Tombol play-nya terlihat. |
+| Video jalan tapi juri bilang tidak ada suara | Stop share, share ulang **dengan "Share sound" dicentang**. Jangan diperbaiki sambil jalan. |
+| Situs tidak terbuka sama sekali | Putar `demo/bareng-live-demo.mp4` dari laptop, isinya identik. |
+| Kamu tertinggal dari video | Biarkan. Jangan mengejar. Videonya selesai sendiri di 63 detik. |
+| Juri minta lihat aplikasi aslinya | Baru saat Q&A, buka `bareng-jade.vercel.app/app` di tab lain. **Refresh dulu.** |
 
 ## Batas klaim (untuk Q&A, bukan untuk dipitch)
 
@@ -215,7 +231,7 @@ sendiri.
 - "Per member caps are enforced on chain." Yang benar: *owner signed grant, verified on every spend*.
 - "It is live with real money." Situs yang dideploy jalan di keyless demo mode.
 
-**Kalau ditanya langsung, jawabannya ada di `QA_BANK.md`** — 20 pertanyaan dengan jawaban siap
+**Kalau ditanya langsung, jawabannya ada di `QA_BANK.md`**: 20 pertanyaan dengan jawaban siap
 ucap, lima di antaranya ditandai sebagai yang paling mungkin keluar. Baca itu, bukan bagian ini.
 
 Dan jangan sebut angka jumlah tes atau baris kode di panggung. Simpan untuk Q&A.

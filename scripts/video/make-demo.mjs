@@ -223,7 +223,9 @@ console.log(`  trimming ${offset}s of lead-in (raw ${probe(webm).toFixed(1)}s â†
 ff(["-ss", String(offset), "-i", webm, "-i", `${WORK}/voice.wav`,
   "-vf", `subtitles=${WORK}/live-demo.srt:force_style='${style}'`,
   "-map", "0:v:0", "-map", "1:a:0", "-t", String(TOTAL),
-  "-c:v", "libx264", "-preset", "slow", "-crf", "21", "-pix_fmt", "yuv420p",
+  // CRF 18, not 21: this clip is screen-shared over Zoom, which re-encodes it. Double compression
+  // compounds, so spend the megabytes here to hand that encoder a clean source.
+  "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p",
   "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart",
   "public/live-demo.mp4"]);
 
