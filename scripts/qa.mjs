@@ -132,8 +132,16 @@ try {
   await go("/deck");
   const counter = () => page.locator("text=/^\\d+ \\/ \\d+$/").first().innerText().catch(() => "");
   add("/deck", "renders slide 1", /Money,/.test(await page.locator("h1").first().innerText().catch(() => "")) ? "PASS" : "FAIL", await counter());
-  for (let i = 0; i < 4; i++) { await page.keyboard.press("ArrowRight"); await page.waitForTimeout(150); }
-  add("/deck", "arrow-nav reaches proof wall (slide 5)", (await counter()).startsWith("5") ? "PASS" : "FAIL", await counter());
+  for (let i = 0; i < 2; i++) { await page.keyboard.press("ArrowRight"); await page.waitForTimeout(150); }
+  // Slide 3 is the recorded demo. It carries the pitch now, so assert it actually plays rather
+  // than just that the element rendered — a 404 on the mp4 leaves a silent, frozen black box.
+  await page.waitForTimeout(1200);
+  const vid = await page.locator("video").first()
+    .evaluate((el) => ({ src: el.currentSrc, playing: !el.paused && el.currentTime > 0, w: el.videoWidth }))
+    .catch(() => null);
+  add("/deck", "slide 3 demo video autoplays", vid?.playing && vid.w > 0 ? "PASS" : "FAIL", JSON.stringify(vid));
+  for (let i = 0; i < 3; i++) { await page.keyboard.press("ArrowRight"); await page.waitForTimeout(150); }
+  add("/deck", "arrow-nav reaches proof wall (slide 6)", (await counter()).startsWith("6") ? "PASS" : "FAIL", await counter());
   add("/deck", "proof-wall tx links", (await page.locator("a[href*='arbiscan'],a[href*='etherscan']").count()) >= 5 ? "PASS" : "WARN");
   await page.keyboard.press("End"); await page.waitForTimeout(150);
   add("/deck", "End → last slide", /(\d+) \/ \1/.test(await counter()) ? "PASS" : "WARN", await counter());

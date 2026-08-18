@@ -56,7 +56,32 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 3 — Solution
+  // 3 — Live demo (the recorded 72s walkthrough, so the pitch never leaves the deck)
+  // The deck remounts the slide on every change (key={i}), so autoPlay restarts it from 0 on
+  // arrival and unmounting stops it — no play/pause state to keep in sync.
+  () => (
+    <div>
+      <Eyebrow>Live demo · 72 seconds</Eyebrow>
+      {/* Breaks out of the deck's max-w-4xl: at max-w-4xl on a 1080p projector the recorded UI
+          downscales past legibility. Capped by height so it still fits above the deck chrome. */}
+      <div className="relative z-10 mx-[calc(50%-45vw)] w-[90vw] max-w-[1240px] neo overflow-hidden rounded-2xl bg-black">
+        <video
+          src="/live-demo.mp4"
+          autoPlay
+          muted
+          playsInline
+          controls
+          className="mx-auto block max-h-[66vh] w-full object-contain"
+        />
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {["1 · Pay by @handle", "2 · The 7702 cap refuses", "3 · Arisan fair draw"].map((t) => (
+          <span key={t} className={`${chip} bg-[var(--lime)]`}>{t}</span>
+        ))}
+      </div>
+    </div>
+  ),
+  // 4 — Solution
   () => (
     <div>
       <Eyebrow>The solution</Eyebrow>
@@ -74,7 +99,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 4 — How 7702 works
+  // 5 — How 7702 works
   () => (
     <div>
       <Eyebrow>How it uses EIP-7702 (the 30%)</Eyebrow>
@@ -92,7 +117,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       <p className="mt-5 text-sm font-semibold text-[var(--ink)]/60">Honest note: the Particle UA is single-owner, so caps are enforced app-side — real crypto, app-level authorization. We don&apos;t overclaim on-chain enforcement on the UA.</p>
     </div>
   ),
-  // 5 — Proof wall
+  // 6 — Proof wall
   () => (
     <div>
       <Eyebrow>Not a mockup</Eyebrow>
@@ -109,7 +134,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 6 — Features
+  // 7 — Features
   () => (
     <div>
       <Eyebrow>Gotong royong, as a primitive</Eyebrow>
@@ -130,7 +155,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 7 — Partners
+  // 8 — Partners
   () => (
     <div>
       <Eyebrow>Built with — all five, for real</Eyebrow>
@@ -145,7 +170,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 8 — Honest edge
+  // 9 — Honest edge
   () => (
     <div>
       <Eyebrow>The honest edge</Eyebrow>
@@ -167,7 +192,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       <p className="mt-5 text-sm font-semibold text-[var(--ink)]/60">We never claim what we can&apos;t show. That&apos;s the whole pitch.</p>
     </div>
   ),
-  // 9 — Cross-chain
+  // 10 — Cross-chain
   () => (
     <div>
       <Eyebrow>Cross-chain, honestly</Eyebrow>
@@ -184,7 +209,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 10 — Why we win
+  // 11 — Why we win
   () => (
     <div>
       <Eyebrow>Why this wins</Eyebrow>
@@ -202,7 +227,7 @@ const SLIDES: (() => React.ReactNode)[] = [
       </div>
     </div>
   ),
-  // 11 — Ask / CTA
+  // 12 — Ask / CTA
   () => (
     <div className="text-center">
       <Eyebrow>The ask</Eyebrow>
