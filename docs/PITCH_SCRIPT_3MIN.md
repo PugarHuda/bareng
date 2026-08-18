@@ -180,6 +180,28 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 5. Kalau juri minta lihat aplikasi aslinya saat Q&A, baru buka `https://bareng-jade.vercel.app/app`
    di tab lain. Jangan saat pitch.
 
+## Kalau pitch lewat Zoom / Google Meet
+
+Videonya punya suara sendiri, dan selama 63 detik itu kamu diam. Jadi audio yang sampai ke juri
+sepenuhnya bergantung pada satu centang. **Salah di sini, juri dapat satu menit hening total.**
+
+1. **Centang "Share sound" saat memilih layar.** Ini WAJIB. Tanpa ini VO videomu tidak terdengar
+   sama sekali di sisi juri, padahal di laptopmu terdengar normal, jadi kamu tidak akan sadar.
+2. **Centang "Optimize for video clip"** juga. Tanpa ini video 63 detik bisa patah-patah di sisi
+   penerima.
+3. **Share satu tab browser, bukan seluruh layar.** Zoom mengirim audio tab dengan lebih bersih,
+   dan notifikasi desktop tidak ikut terlihat.
+4. **Pakai aplikasi desktop Zoom, bukan versi browser.** Ada bug lama di versi PWA/browser:
+   mic peserta auto-mute begitu mulai share screen.
+5. **Setelah share dimulai, lihat toolbar melayang dan pastikan mic-mu tidak ter-mute.** Kalau
+   ter-mute: `Alt+A` (Windows). Mic yang ter-mute TIDAK membuat suara video ikut hilang, itu dua
+   jalur terpisah, jadi jangan panik di tengah demo.
+6. **Uji ke orang lain sebelum hari-H.** Minta satu teman masuk meeting, share slide 3, lalu tanya
+   dua hal: *suara videonya kedengeran?* dan *lancar atau patah-patah?* Mendengarnya dari
+   laptopmu sendiri sama sekali bukan bukti.
+7. `F` fullscreen tetap dipakai, tapi **share dulu baru fullscreen**, supaya Zoom tidak kehilangan
+   jendela yang dipilih.
+
 ## Batas klaim (untuk Q&A, bukan untuk dipitch)
 
 Slide "honest edge" dan "cross-chain" sudah dibuang, jadi **kamu tidak menawarkan kelemahan apa pun
