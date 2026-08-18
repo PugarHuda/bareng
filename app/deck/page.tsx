@@ -65,10 +65,14 @@ const SLIDES: (() => React.ReactNode)[] = [
       {/* Breaks out of the deck's max-w-4xl: at max-w-4xl on a 1080p projector the recorded UI
           downscales past legibility. Capped by height so it still fits above the deck chrome. */}
       <div className="relative z-10 mx-[calc(50%-45vw)] w-[90vw] max-w-[1240px] neo overflow-hidden rounded-2xl bg-black">
+        {/* Not muted: the clip carries its own voiceover, and the presenter stays silent over it.
+            Chrome allows sound-on autoplay once the page has user activation, which arriving here
+            by keypress provides. If a browser still blocks it the clip sits paused on frame 0 with
+            its controls showing, which is recoverable with one click — unlike muting, which would
+            play a silent video while the presenter waits for narration that never comes. */}
         <video
           src="/live-demo.mp4"
           autoPlay
-          muted
           playsInline
           controls
           className="mx-auto block max-h-[66vh] w-full object-contain"

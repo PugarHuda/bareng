@@ -4,7 +4,10 @@ Kolom **BACA** adalah kata-kata persis yang kamu ucapkan. Tidak ada teks skrip d
 Semua ada di `/deck`, **termasuk videonya**, jadi kamu tidak pernah pindah tab atau pindah aplikasi
 selama pitch. Satu jendela, dari awal sampai akhir.
 
-**Total terukur: 2 menit 52 detik**, sudah termasuk 72 detik live demo. Sisa 8 detik buffer.
+**Total terukur: 2 menit 43 detik**, sudah termasuk 63 detik video demo. Sisa 17 detik buffer.
+
+⚡ **Videonya punya voiceover dan subtitle sendiri.** Selama 63 detik itu kamu **diam**. Jangan
+bicara di atasnya, suaranya akan bertabrakan.
 
 Bahasa Inggris, karena deck dan jurinya internasional. Mau versi Indonesia penuh, bilang saja.
 
@@ -29,12 +32,12 @@ Deck sekarang **12 slide** (video demo disisipkan jadi slide 3).
 |---|---|---|---|
 | 0:00 | Slide **1**, Money, together | mulai di sini | 14 dtk |
 | 0:14 | Slide **2**, The problem | `→` | 18 dtk |
-| 0:32 | Slide **3**, **VIDEO DEMO** (jalan sendiri) | `→` | 72 dtk |
-| 1:44 | Slide **5**, The account is 7702 | `→` ×2 (lewati 4) | 16 dtk |
-| 2:00 | Slide **6**, Seven settled on chain | `→` | 21 dtk |
-| 2:21 | Slide **8**, Partners | `→` ×2 (lewati 7) | 11 dtk |
-| 2:32 | Slide **12**, Close | `End` | 20 dtk |
-| **2:52** | selesai | | |
+| 0:32 | Slide **3**, **VIDEO DEMO** (kamu diam) | `→` | 63 dtk |
+| 1:35 | Slide **5**, The account is 7702 | `→` ×2 (lewati 4) | 16 dtk |
+| 1:51 | Slide **6**, Seven settled on chain | `→` | 21 dtk |
+| 2:12 | Slide **8**, Partners | `→` ×2 (lewati 7) | 11 dtk |
+| 2:23 | Slide **12**, Close | `End` | 20 dtk |
+| **2:43** | selesai | | |
 
 Slide 4, 7, 9, 10, 11 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
 
@@ -65,88 +68,38 @@ Slide 4, 7, 9, 10, 11 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
 >
 > Nobody has built the shared account."
 
-*18 detik. Di kata terakhir, tekan `→`. Videonya langsung jalan sendiri.*
+*18 detik. Di kata terakhir, tekan `→`, lalu **berhenti bicara**. Videonya mengambil alih.*
 
 ---
 
-## 0:32 · Slide 3, VIDEO DEMO (72 detik, 3 beat)
+## 0:32 · Slide 3, VIDEO DEMO (63 detik, kamu diam)
 
-Videonya **auto-play begitu slide muncul**, tanpa suara, 71,9 detik. Kamu tidak menyentuh apa pun,
-cukup bicara di atasnya. Jadi **mulai bicara langsung**, jangan diam menunggu.
+Videonya **auto-play begitu slide muncul**, lengkap dengan **voiceover** dan **subtitle burned-in**.
+Tugasmu di 63 detik ini cuma satu: **tutup mulut dan jangan menghalangi layar.** Berdiri agak
+menyamping, lihat ke layar sesekali bersama juri. Jangan mengulang apa yang sedang dikatakan video.
 
-⚠️ Videonya mengatur tempo, bukan kamu. Kalau kamu tertinggal, ada **control bar** di bawah video
-(muncul saat kursor didekatkan) untuk pause. Kalau kamu tekan `→` lalu `←` kembali,
-**videonya mulai lagi dari nol.**
+Isi videonya, supaya kamu tahu posisinya kalau juri menyela:
 
-### Beat A · bayar pakai handle (0:32 sampai 0:59)
+| Waktu | Beat | Yang terlihat |
+|---|---|---|
+| 0:00 | Pot bersama | saldo $420, kurs rupiah, satu akun lintas chain |
+| 0:11 | Bayar pakai handle | slider ke $30, tombol `Pay $30` |
+| 0:19 | Settle | saldo turun ke $390, "settled on Arbitrum" |
+| 0:25 | Dorong lewat cap | slider ke $85, sisa Budi cuma $70 |
+| 0:31 | Cap menolak | tombol jadi `Over limit` dan mati |
+| 0:43 | Arisan | penjelasan rotating savings circle |
+| 0:54 | Fair draw | seed publik, urutan bisa dihitung ulang siapa pun |
 
-**Di layar:** dashboard, kartu pot biru, saldo $420.
+**Kalau videonya tidak jalan sendiri** (browser memblokir suara), dia berhenti di frame pertama
+dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah 2 di pre-flight ada.
 
-> **BACA:**
->
-> "This is a real shared pot. At lunchsquad. (jeda)
->
-> One balance. Four hundred twenty dollars, and in rupiah, because that is the money people
-> actually think in. (jeda) Three members, each with their own weekly limit. [JEDA]
->
-> I am Budi. I pay Sari thirty dollars, by handle. Never an address."
-
-**Di layar:** slider bergerak ke 30, tombol `Pay $30` ditekan.
-
-> **[BERHENTI 2 DTK]** biarkan angka saldonya turun ke $390 di depan mata juri.
->
-> **BACA:**
->
-> "Settled on Arbitrum. No gas. No chain to pick. No seed phrase."
-
-### Beat B · cap 7702 menolak (0:59 sampai 1:19)
-
-**Di layar:** masih dashboard yang sama, member tidak berganti.
-
-> **BACA:**
->
-> "Now watch the limit. (jeda) Budi has seventy dollars left this week. I drag to eighty five."
-
-**Di layar:** slider naik ke 85, tombol berubah jadi `Over limit` dan mati.
-
-> **[BERHENTI 2 DTK]** ini beat paling kuat di demo. Diam, biarkan tombolnya yang bicara.
->
-> **BACA:**
->
-> "It refuses. (jeda)
->
-> That cap is an owner signed E I P seventy seven oh two grant, verified on every spend.
-> It is cryptography, not a disabled button."
-
-### Beat C · arisan dan fair draw (1:19 sampai 1:44)
-
-**Di layar:** pindah ke halaman Arisan.
-
-> **BACA:**
->
-> "And this is the part that is actually Indonesian. [JEDA]
->
-> Arisan. A five hundred year old rotating savings circle. Everyone pays in. One person
-> collects the whole pot. (jeda)
->
-> The only question that ever starts a fight is, who collects first?"
-
-**Di layar:** tombol `🎲 Fair draw` ditekan, urutan muncul di kotak ungu.
-
-> **[BERHENTI 2 DTK]**
->
-> **BACA:**
->
-> "A public seed. Anyone can recompute this order and prove nobody rigged it."
-
-⚠️ **Jangan sebut nama urutannya.** Seed-nya diambil dari nomor blok, jadi urutannya berubah
-tiap kali. Cukup tunjuk layar dan bilang "this order".
+⚠️ Kalau kamu tekan `→` lalu `←` balik, videonya mulai lagi dari nol.
 
 *Begitu video selesai, tekan `→` dua kali, berhenti di slide 5.*
 
 ---
 
-## 1:44 · Slide 5 (The account is 7702)
+## 1:35 · Slide 5 (The account is 7702)
 
 > **BACA:**
 >
@@ -161,7 +114,7 @@ tiap kali. Cukup tunjuk layar dan bilang "this order".
 
 ---
 
-## 2:00 · Slide 6 (Proof wall)
+## 1:51 · Slide 6 (Proof wall)
 
 > **BACA:**
 >
@@ -178,7 +131,7 @@ tiap kali. Cukup tunjuk layar dan bilang "this order".
 
 ---
 
-## 2:21 · Slide 8 (Partners)
+## 2:12 · Slide 8 (Partners)
 
 > **BACA:**
 >
@@ -191,7 +144,7 @@ tiap kali. Cukup tunjuk layar dan bilang "this order".
 
 ---
 
-## 2:32 · Slide 12 (Close)
+## 2:23 · Slide 12 (Close)
 
 > **BACA:**
 >
@@ -209,11 +162,12 @@ tiap kali. Cukup tunjuk layar dan bilang "this order".
 ## Pre-flight, 2 menit sebelum naik
 
 1. **Satu tab saja:** `https://bareng-jade.vercel.app/deck`. Tekan `F11` untuk fullscreen.
-2. **Maju ke slide 3 sekali, tunggu videonya jalan, lalu `Home`** untuk balik ke slide 1. Ini
-   memaksa browser meng-cache videonya, jadi saat pitch dia langsung main tanpa buffering.
+2. **Maju ke slide 3 sekali, pastikan videonya jalan DAN suaranya keluar, lalu `Home`** untuk balik
+   ke slide 1. Ini dua hal sekaligus: browser meng-cache videonya, dan browser mengizinkan autoplay
+   bersuara untuk sisa sesi. Sekalian cek volume laptop dan sound system venue di sini.
 3. Zoom browser **100%**. Dark mode OS dimatikan, desainnya cream. Notifikasi dimatikan.
-4. **Cadangan kalau internet mati:** `demo/bareng-live-demo.mp4` ada di laptop. Kalau situsnya
-   tidak terbuka sama sekali, putar file itu langsung dan baca skrip demo yang sama.
+4. **Cadangan kalau internet mati:** `demo/bareng-live-demo.mp4` ada di laptop, isinya identik
+   (VO + subtitle). Kalau situsnya tidak terbuka, putar file itu langsung.
 5. Kalau juri minta lihat aplikasi aslinya saat Q&A, baru buka `https://bareng-jade.vercel.app/app`
    di tab lain. Jangan saat pitch.
 

@@ -10,3 +10,6 @@ next-env.d.ts
 _vid/
 *.webm
 demo/*.mp4
+
+# scratch for scripts/video/make-demo.mjs (mp3/webm/wav intermediates)
+scripts/video/.demo-build/

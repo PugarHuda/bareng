@@ -1,0 +1,62 @@
+1
+00:00:00,000 --> 00:00:04,913
+This is a real shared pot, at lunchsquad.
+One balance: four hundred and twenty
+
+2
+00:00:04,913 --> 00:00:09,888
+dollars, and in rupiah too, because that is
+the money people actually think in.
+
+3
+00:00:10,588 --> 00:00:16,173
+Three members, each with their own weekly
+limit. I am Budi, and I pay Sari thirty
+
+4
+00:00:16,173 --> 00:00:18,724
+dollars, by handle. Never an address.
+
+5
+00:00:19,424 --> 00:00:24,272
+Settled on Arbitrum. No gas, no chain to
+pick, no seed phrase.
+
+6
+00:00:24,972 --> 00:00:30,333
+Now watch the limit. Budi has seventy
+dollars left this week, and I drag to eighty
+
+7
+00:00:30,333 --> 00:00:30,660
+five.
+
+8
+00:00:31,360 --> 00:00:37,786
+It refuses. That cap is an owner signed E I
+P seventy seven oh two grant, verified on
+
+9
+00:00:37,786 --> 00:00:41,944
+every spend. It is cryptography, not a
+disabled button.
+
+10
+00:00:42,644 --> 00:00:47,849
+And this is the part that is actually
+Indonesian. Arisan: a five hundred year old
+
+11
+00:00:47,849 --> 00:00:52,796
+rotating savings circle. Everyone pays in,
+one person collects the whole pot.
+
+12
+00:00:53,496 --> 00:00:58,895
+The only question that ever starts a fight
+is, who collects first? A public seed, so
+
+13
+00:00:58,895 --> 00:01:02,688
+anyone can recompute this order and prove
+nobody rigged it.
