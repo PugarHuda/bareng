@@ -1,22 +1,17 @@
-# Pitch script, 3 menit — CADANGAN
+# Pitch langsung — CADANGAN
 
-> **Format finale-nya berubah pada 19 Agustus.** Pitch-nya sekarang **video rekaman yang dikirim di
-> muka**, diputar panitia di slot kamu, dan yang live hanya Q&A sesudahnya. Yang berlaku sekarang
-> ada di **`FINALE.md`**; kata-kata yang diucapkan videonya ada di `video/scripts/vo.mjs`.
+> **Formatnya sudah berubah.** Pitch finale sekarang **video rekaman yang dikirim di muka** dan
+> diputar panitia di slot kamu; yang live cuma Q&A. Yang berlaku ada di **`FINALE.md`**.
 >
-> File ini disimpan untuk satu skenario saja: panitia gagal memutar videomu dan memintamu pitch
-> langsung. Kalau itu terjadi, ini yang kamu baca, dari `/deck`.
+> File ini untuk satu skenario saja: **panitia gagal memutar videomu dan memintamu pitch langsung.**
 
-Kolom **BACA** adalah kata-kata persis yang kamu ucapkan. Tidak ada teks skrip di slide.
-Semua ada di `/deck`, **termasuk videonya**, jadi kamu tidak pernah pindah tab atau pindah aplikasi
-selama pitch. Satu jendela, dari awal sampai akhir.
+Kalau itu terjadi, kamu tidak menghafal apa pun yang baru. **Kata-kata di bawah ini persis kata-kata
+yang diucapkan videonya**, dikurangi bagian demo — karena demonya tetap diputar, dari `/deck` slide 3,
+dan selama itu kamu diam.
 
-**Total terukur: 2 menit 43 detik**, sudah termasuk 63 detik video demo. Sisa 17 detik buffer.
+**Total terukur: 2 menit 40 detik**, sudah termasuk 79 detik video. Sisa 20 detik buffer.
 
-⚡ **Videonya punya voiceover dan subtitle sendiri.** Selama 63 detik itu kamu **diam**. Jangan
-bicara di atasnya, suaranya akan bertabrakan.
-
-Bahasa Inggris, karena deck dan jurinya internasional. Mau versi Indonesia penuh, bilang saja.
+⚡ **Videonya punya suara dan subtitle sendiri.** Selama 79 detik itu **jangan bicara di atasnya.**
 
 ### Tanda jeda
 
@@ -24,157 +19,154 @@ Bahasa Inggris, karena deck dan jurinya internasional. Mau versi Indonesia penuh
 |---|---|
 | `(jeda)` | berhenti setengah detik, tarik napas kecil, lanjut |
 | `[JEDA]` | **berhenti penuh 1 detik.** Diam. Jangan isi dengan "ehm" |
-| `[BERHENTI 2 DTK]` | diam 2 detik. Biarkan layar atau kalimatnya mendarat |
 
 **Tombol deck:** `→` maju · `←` mundur · `Home` slide 1 · `End` slide terakhir · **`F` fullscreen**.
-
-Kecepatan target 145 kata per menit. Kalau terasa buru-buru, potong kalimat bertanda
-`[opsional]`. Jangan potong yang lain, timing-nya sudah dihitung.
 
 ---
 
 ## Peta waktu
 
-Deck sekarang **10 slide** (video demo di slide 3).
-
 | Waktu | Layar | Tombol | Durasi |
 |---|---|---|---|
-| 0:00 | Slide **1**, Money, together | mulai di sini | 14 dtk |
-| 0:14 | Slide **2**, The problem | `→` | 18 dtk |
-| 0:32 | Slide **3**, **VIDEO DEMO** (kamu diam) | `→` | 63 dtk |
-| 1:35 | Slide **5**, The account is 7702 | `→` ×2 (lewati 4) | 16 dtk |
-| 1:51 | Slide **6**, Seven settled on chain | `→` | 21 dtk |
-| 2:12 | Slide **8**, Partners | `→` ×2 (lewati 7) | 11 dtk |
-| 2:23 | Slide **10**, Close | `End` | 20 dtk |
-| **2:43** | selesai | | |
+| 0:00 | Slide **1**, Money, together | mulai di sini | 15 dtk |
+| 0:15 | Slide **2**, The problem | `→` | 12 dtk |
+| 0:27 | Slide **3**, **VIDEO** (kamu diam) | `→` | 79 dtk |
+| 1:46 | Slide **5**, The account is 7702 | `→` ×2 (lewati 4) | 15 dtk |
+| 2:01 | Slide **6**, Seven settled on chain | `→` | 16 dtk |
+| 2:17 | Slide **8**, Partners | `→` ×2 (lewati 7) | 11 dtk |
+| 2:28 | Slide **10**, Close | `End` | 12 dtk |
+| **2:40** | selesai | | |
 
 Slide 4, 7, 9 dilewati. Tekan `→` cepat, jangan bicara di atasnya.
 
-**Slide 9 sekarang diagram arsitektur** ("One account. No member holds a key."). Tidak dipakai saat
-pitch, tapi **itu slide yang kamu buka kalau juri bertanya di mana cap-nya berada.** Hafalkan
-posisinya: dari slide penutup, `←` satu kali.
+**Slide 9 itu diagram arsitektur** ("One account. No member holds a key."). Tidak dipakai saat pitch,
+tapi **itu slide yang kamu buka kalau juri bertanya di mana cap-nya berada.** Dari slide penutup,
+`←` satu kali.
 
 ---
 
 ## 0:00 · Slide 1 (Title)
 
-> **BACA:**
->
 > "Group money is universal. (jeda) Patungan. Arisan. Splitting a bill with friends. [JEDA]
 >
 > But every crypto product ever built is single user. [JEDA]
 >
 > Bareng is the shared one. One account, many people, real limits."
 
-*14 detik. Setelah "real limits", tekan `→`.*
+*15 detik. Lalu `→`.*
 
 ---
 
-## 0:14 · Slide 2 (The problem)
+## 0:15 · Slide 2 (The problem)
 
-> **BACA:**
+> "Today a group pot means a group chat, a spreadsheet, and one person holding everyone's money.
+> (jeda)
 >
-> "Today a group pot means a group chat, a spreadsheet, and one person holding everyone's
-> money. (jeda)
->
-> On chain it is worse. You either share a seed phrase, or you do not share at all. [JEDA]
->
-> Nobody has built the shared account."
+> On chain it is worse. You either share a seed phrase, or you do not share at all. (jeda) Nobody
+> has built the shared account."
 
-*18 detik. Di kata terakhir, tekan `→`, lalu **berhenti bicara**. Videonya mengambil alih.*
+*12 detik. Di kata terakhir tekan `→`, lalu **berhenti bicara**.*
 
 ---
 
-## 0:32 · Slide 3, VIDEO DEMO (63 detik, kamu diam)
+## 0:27 · Slide 3 — VIDEO, 79 detik, kamu diam
 
-Videonya **auto-play begitu slide muncul**, lengkap dengan **voiceover** dan **subtitle burned-in**.
-Tugasmu di 63 detik ini cuma satu: **tutup mulut dan jangan menghalangi layar.** Berdiri agak
-menyamping, lihat ke layar sesekali bersama juri. Jangan mengulang apa yang sedang dikatakan video.
+Videonya auto-play begitu slide muncul, lengkap dengan suara dan subtitle. Tugasmu cuma satu:
+**tutup mulut dan jangan menghalangi layar.** Berdiri agak menyamping, ikut melihat ke layar.
 
-Isi videonya, supaya kamu tahu posisinya kalau juri menyela:
+Isinya, supaya kamu tahu posisinya kalau juri menyela:
 
 | Waktu | Beat | Yang terlihat |
 |---|---|---|
-| 0:00 | Pot bersama | saldo $420, kurs rupiah, satu akun lintas chain |
-| 0:11 | Bayar pakai handle | slider ke $30, tombol `Pay $30` |
-| 0:19 | Settle | saldo turun ke $390, "settled on Arbitrum" |
-| 0:25 | Dorong lewat cap | slider ke $85, sisa Budi cuma $70 |
-| 0:31 | Cap menolak | tombol jadi `Over limit` dan mati |
-| 0:43 | Arisan | penjelasan rotating savings circle |
-| 0:54 | Fair draw | seed publik, urutan bisa dihitung ulang siapa pun |
+| 0:00 | Saldo bersama | $420, kurs rupiah, satu akun lintas chain |
+| 0:10 | Bayar pakai handle | `@sari`, slider ke $30 |
+| 0:16 | Settle | saldo turun ke $390, "settled on Arbitrum" |
+| 0:23 | Cap menolak | slider ke $85, sisa Budi $70, tombol jadi `Over limit` |
+| 0:40 | Arisan | rotating savings circle, fair draw dari seed publik |
+| 0:52 | Split | utang diringkas jadi transfer paling sedikit |
+| 0:59 | Receive | alamat sekali pakai + QR |
+| 1:06 | Earn | idle balance masuk Aave v3 |
+| 1:12 | Agent | agent ber-cap bayar lewat x402 |
 
 **Kalau videonya tidak jalan sendiri** (browser memblokir suara), dia berhenti di frame pertama
-dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah 2 di pre-flight ada.
+dengan tombol play terlihat. **Klik sekali** di tengah video.
 
 ⚠️ Kalau kamu tekan `→` lalu `←` balik, videonya mulai lagi dari nol.
 
-*Begitu video selesai, tekan `→` dua kali, berhenti di slide 5.*
+*Begitu selesai, `→` dua kali, berhenti di slide 5.*
 
 ---
 
-## 1:35 · Slide 5 (The account is 7702)
+## 1:46 · Slide 5 (The account is 7702)
 
-> **BACA:**
->
-> "Underneath, the account itself is E I P seventy seven oh two. (jeda)
->
-> The organizer's Google login becomes a Universal Account in place. Same address, nothing
-> deployed. (jeda)
+> "Underneath, the account itself is E-I-P seventy seven oh two. (jeda) The organizer's Google login
+> becomes a Universal Account in place. Same address, nothing deployed. [JEDA]
 >
 > And that one account holds the balance across every chain."
 
-*16 detik. `→`.*
+*15 detik. `→`.*
 
 ---
 
-## 1:51 · Slide 6 (Proof wall)
+## 2:01 · Slide 6 (Proof wall)
 
-> **BACA:**
->
 > "And none of this is a mockup. [JEDA]
 >
-> Seven things have actually settled on chain. A shared spend. A cap enforced. An Aave supply.
-> An agent payment. A private sweep. (jeda)
->
-> Every hash on this slide is clickable. [JEDA]
+> Seven things have actually settled on chain. A shared spend. A cap enforced. An Aave supply. An
+> agent payment. A private sweep. (jeda) Every hash is clickable. [JEDA]
 >
 > Most teams here do not have one."
 
-*21 detik. Ini kartu terkuatmu. **Pelan** di kalimat terakhir, lalu `→` ×2 ke slide 8.*
+*16 detik. Ini kartu terkuatmu. **Pelan** di kalimat terakhir, lalu `→` ×2 ke slide 8.*
 
 ---
 
-## 2:12 · Slide 8 (Partners)
+## 2:17 · Slide 8 (Partners)
 
-> **BACA:**
->
 > "All five partners, for real. (jeda)
 >
 > Particle is the account. Magic is the login. Arbitrum is where it settles. ZeroDev caps it.
 > Openfort pays."
 
-*11 detik. Tekan `End` untuk lompat ke slide 10.*
+*11 detik. Tekan `End`.*
 
 ---
 
-## 2:23 · Slide 10 (Close)
+## 2:28 · Slide 10 (Close)
 
-> **BACA:**
->
-> "So that is Bareng. (jeda) One shared balance. Real per person limits. Private receives.
-> No gas, no chains, no seed phrases. [JEDA]
->
-> Seven things already settled on chain, and all five partners are real integrations.
-> [BERHENTI 2 DTK]
+> "So that is Bareng. (jeda) One shared balance, real per-person limits, private receives. No gas,
+> no chains, no seed phrases. [JEDA]
 >
 > Bareng. Money, together. Thank you."
 
-*20 detik. Berhenti total. Jangan tambah apa pun, sisanya biarkan jadi Q&A.*
+*12 detik. Berhenti total. Sisanya biarkan jadi Q&A.*
 
 ---
 
+## Pre-flight, kalau ini benar-benar dipakai
+
+Kamu diam 79 detik dan mengandalkan suara video. Kalau audionya tidak sampai ke juri, kamu tidak
+akan sadar, karena di laptopmu terdengar normal.
+
+1. **Aplikasi desktop Zoom, bukan versi browser.** Versi browser punya bug lama: mic peserta
+   auto-mute begitu mulai share screen.
+2. Buka **satu tab**: `https://bareng-jade.vercel.app/deck`.
+3. **Maju ke slide 3 sekali, pastikan video jalan DAN bersuara, lalu `Home`.** Ini tiga hal
+   sekaligus: browser meng-cache videonya, browser mengizinkan autoplay bersuara untuk sisa sesi,
+   dan kamu memastikan volume laptop tidak nol.
+4. Saat share: pilih **tab browser**, bukan seluruh layar. **CENTANG "Share sound"** — ini yang
+   paling gampang lupa dan paling fatal. **CENTANG "Optimize for video clip"**. Share dulu, baru
+   tekan `F`.
+
+| Masalah | Lakukan |
+|---|---|
+| Video tidak jalan sendiri | Klik sekali di tengah video. |
+| Juri bilang tidak ada suara | Stop share, share ulang dengan "Share sound" dicentang. Jangan diperbaiki sambil jalan. |
+| Situs tidak terbuka sama sekali | Putar `video/out/bareng-demo.mp4` dari laptop, isinya identik. |
+| Kamu tertinggal dari video | Biarkan. Videonya selesai sendiri. |
+
 ## Batas klaim
 
-Pindah ke `FINALE.md`. Ringkasnya: jangan pernah bilang ZeroDev meng-enforce cap di Universal
-Account, jangan bilang cap per member di-enforce on-chain, jangan bilang ini live dengan uang
-sungguhan. Jawaban lengkapnya di `QA_BANK.md`.
+Ada di `FINALE.md`. Ringkasnya: jangan pernah bilang ZeroDev meng-enforce cap di Universal Account,
+jangan bilang cap per member di-enforce on-chain, jangan bilang ini live dengan uang sungguhan.
+Jawaban lengkapnya di `QA_BANK.md`.

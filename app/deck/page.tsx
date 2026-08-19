@@ -69,7 +69,7 @@ const SLIDES: (() => React.ReactNode)[] = [
   // arrival and unmounting stops it — no play/pause state to keep in sync.
   () => (
     <div>
-      <Eyebrow>Live demo · 63 seconds</Eyebrow>
+      <Eyebrow>Live demo · 79 seconds</Eyebrow>
       {/* Breaks out of the deck's max-w-4xl: at max-w-4xl on a 1080p projector the recorded UI
           downscales past legibility. Capped by height so it still fits above the deck chrome. */}
       <div className="relative z-10 mx-[calc(50%-45vw)] w-[90vw] max-w-[1240px] neo overflow-hidden rounded-2xl bg-black">
@@ -87,7 +87,7 @@ const SLIDES: (() => React.ReactNode)[] = [
         />
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        {["1 · Pay by @handle", "2 · The 7702 cap refuses", "3 · Arisan fair draw"].map((t) => (
+        {["1 · Pay by @handle", "2 · The 7702 cap refuses", "3 · Arisan fair draw", "4 · Split · Receive · Earn · Agent"].map((t) => (
           <span key={t} className={`${chip} bg-[var(--lime)]`}>{t}</span>
         ))}
       </div>
