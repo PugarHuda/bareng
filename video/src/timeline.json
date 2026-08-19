@@ -1,0 +1,262 @@
+{
+ "fps": 30,
+ "durationInFrames": 5145,
+ "scenes": [
+  {
+   "id": "title",
+   "clip": false,
+   "route": null,
+   "from": 0,
+   "durationInFrames": 471,
+   "lines": [
+    {
+     "id": "t1",
+     "text": "Group money is universal. Patungan. Arisan. Splitting a bill with friends.",
+     "src": "vo/t1.mp3",
+     "from": 0,
+     "narrationInFrames": 165,
+     "durationInFrames": 189
+    },
+    {
+     "id": "t2",
+     "text": "But every crypto product ever built is single user.",
+     "src": "vo/t2.mp3",
+     "from": 189,
+     "narrationInFrames": 101,
+     "durationInFrames": 125
+    },
+    {
+     "id": "t3",
+     "text": "Bareng is the shared one. One account, many people, real limits.",
+     "src": "vo/t3.mp3",
+     "from": 314,
+     "narrationInFrames": 139,
+     "durationInFrames": 157
+    }
+   ]
+  },
+  {
+   "id": "problem",
+   "clip": false,
+   "route": null,
+   "from": 471,
+   "durationInFrames": 423,
+   "lines": [
+    {
+     "id": "p1",
+     "text": "Today a group pot means a group chat, a spreadsheet, and one person holding everyone's money.",
+     "src": "vo/p1.mp3",
+     "from": 0,
+     "narrationInFrames": 178,
+     "durationInFrames": 193
+    },
+    {
+     "id": "p2",
+     "text": "On chain it is worse. You either share a seed phrase, or you do not share at all. Nobody has built the shared account.",
+     "src": "vo/p2.mp3",
+     "from": 193,
+     "narrationInFrames": 209,
+     "durationInFrames": 230
+    }
+   ]
+  },
+  {
+   "id": "core",
+   "clip": true,
+   "route": "/app",
+   "from": 894,
+   "durationInFrames": 1192,
+   "lines": [
+    {
+     "id": "c1",
+     "text": "This is a real shared pot. One balance, four hundred and twenty dollars, and in rupiah too, because that is the money people actually think in.",
+     "src": "vo/c1.mp3",
+     "from": 0,
+     "narrationInFrames": 265,
+     "durationInFrames": 283
+    },
+    {
+     "id": "c2",
+     "text": "Three members, each with their own weekly limit. I am Budi, and I pay Sari thirty dollars, by handle. Never an address.",
+     "src": "vo/c2.mp3",
+     "from": 283,
+     "narrationInFrames": 245,
+     "durationInFrames": 263
+    },
+    {
+     "id": "c3",
+     "text": "Settled on Arbitrum. No gas, no chain to pick, no seed phrase.",
+     "src": "vo/c3.mp3",
+     "from": 546,
+     "narrationInFrames": 146,
+     "durationInFrames": 164
+    },
+    {
+     "id": "c4",
+     "text": "Now watch the limit. Budi has seventy dollars left, I drag to eighty five, and it refuses. That cap is an owner signed E I P seventy seven oh two grant, verified on every spend. Cryptography, not a disabled button.",
+     "src": "vo/c4.mp3",
+     "from": 710,
+     "narrationInFrames": 461,
+     "durationInFrames": 482
+    }
+   ]
+  },
+  {
+   "id": "tour",
+   "clip": true,
+   "route": "/arisan",
+   "from": 2086,
+   "durationInFrames": 1186,
+   "lines": [
+    {
+     "id": "u1",
+     "text": "Arisan: a rotating savings circle five hundred years old. Everyone pays in, one member collects the pot. The order comes from a public seed, so anyone can prove nobody rigged it.",
+     "src": "vo/u1.mp3",
+     "from": 0,
+     "narrationInFrames": 355,
+     "durationInFrames": 370
+    },
+    {
+     "id": "u2",
+     "text": "Split settles the group up. Add what everyone paid, and it nets the debts down to the fewest transfers.",
+     "src": "vo/u2.mp3",
+     "from": 370,
+     "narrationInFrames": 183,
+     "durationInFrames": 198
+    },
+    {
+     "id": "u3",
+     "text": "Receive hands out a fresh one time address every time, so the pot's income is not a public ledger.",
+     "src": "vo/u3.mp3",
+     "from": 568,
+     "narrationInFrames": 190,
+     "durationInFrames": 205
+    },
+    {
+     "id": "u4",
+     "text": "The part of the balance nobody is spending earns. One tap supplies it into Aave v3.",
+     "src": "vo/u4.mp3",
+     "from": 773,
+     "narrationInFrames": 170,
+     "durationInFrames": 185
+    },
+    {
+     "id": "u5",
+     "text": "And an agent gets a capped key of its own. It pays per request over x402, and can never drain the pot.",
+     "src": "vo/u5.mp3",
+     "from": 958,
+     "narrationInFrames": 207,
+     "durationInFrames": 228
+    }
+   ]
+  },
+  {
+   "id": "seven02",
+   "clip": false,
+   "route": null,
+   "from": 3272,
+   "durationInFrames": 468,
+   "lines": [
+    {
+     "id": "s1",
+     "text": "Underneath, the account itself is E I P seventy seven oh two. The organizer's Google login becomes a Universal Account in place. Same address, nothing deployed.",
+     "src": "vo/s1.mp3",
+     "from": 0,
+     "narrationInFrames": 330,
+     "durationInFrames": 345
+    },
+    {
+     "id": "s2",
+     "text": "And that one account holds the balance across every chain.",
+     "src": "vo/s2.mp3",
+     "from": 345,
+     "narrationInFrames": 102,
+     "durationInFrames": 123
+    }
+   ]
+  },
+  {
+   "id": "proof",
+   "clip": false,
+   "route": null,
+   "from": 3740,
+   "durationInFrames": 482,
+   "lines": [
+    {
+     "id": "r1",
+     "text": "And none of this is a mockup.",
+     "src": "vo/r1.mp3",
+     "from": 0,
+     "narrationInFrames": 54,
+     "durationInFrames": 78
+    },
+    {
+     "id": "r2",
+     "text": "Seven things have actually settled on chain. A shared spend. A cap enforced. An Aave supply. An agent payment. A private sweep. Every hash is clickable.",
+     "src": "vo/r2.mp3",
+     "from": 78,
+     "narrationInFrames": 305,
+     "durationInFrames": 323
+    },
+    {
+     "id": "r3",
+     "text": "Most teams here do not have one.",
+     "src": "vo/r3.mp3",
+     "from": 401,
+     "narrationInFrames": 60,
+     "durationInFrames": 81
+    }
+   ]
+  },
+  {
+   "id": "partners",
+   "clip": false,
+   "route": null,
+   "from": 4222,
+   "durationInFrames": 328,
+   "lines": [
+    {
+     "id": "n1",
+     "text": "All five partners, for real.",
+     "src": "vo/n1.mp3",
+     "from": 0,
+     "narrationInFrames": 66,
+     "durationInFrames": 78
+    },
+    {
+     "id": "n2",
+     "text": "Particle is the account. Magic is the login. Arbitrum is where it settles. ZeroDev caps it. Openfort pays.",
+     "src": "vo/n2.mp3",
+     "from": 78,
+     "narrationInFrames": 229,
+     "durationInFrames": 250
+    }
+   ]
+  },
+  {
+   "id": "close",
+   "clip": false,
+   "route": null,
+   "from": 4550,
+   "durationInFrames": 595,
+   "lines": [
+    {
+     "id": "z1",
+     "text": "So that is Bareng. One shared balance, real per person limits, private receives, no gas, no chains, no seed phrases. Seven things already settled on chain, and all five partners are real integrations.",
+     "src": "vo/z1.mp3",
+     "from": 0,
+     "narrationInFrames": 429,
+     "durationInFrames": 465
+    },
+    {
+     "id": "z2",
+     "text": "Bareng. Money, together. Thank you.",
+     "src": "vo/z2.mp3",
+     "from": 465,
+     "narrationInFrames": 85,
+     "durationInFrames": 130
+    }
+   ]
+  }
+ ]
+}

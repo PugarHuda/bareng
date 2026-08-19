@@ -1,4 +1,11 @@
-# Pitch script, 3 menit (finale)
+# Pitch script, 3 menit — CADANGAN
+
+> **Format finale-nya berubah pada 19 Agustus.** Pitch-nya sekarang **video rekaman yang dikirim di
+> muka**, diputar panitia di slot kamu, dan yang live hanya Q&A sesudahnya. Yang berlaku sekarang
+> ada di **`FINALE.md`**; kata-kata yang diucapkan videonya ada di `video/scripts/vo.mjs`.
+>
+> File ini disimpan untuk satu skenario saja: panitia gagal memutar videomu dan memintamu pitch
+> langsung. Kalau itu terjadi, ini yang kamu baca, dari `/deck`.
 
 Kolom **BACA** adalah kata-kata persis yang kamu ucapkan. Tidak ada teks skrip di slide.
 Semua ada di `/deck`, **termasuk videonya**, jadi kamu tidak pernah pindah tab atau pindah aplikasi
@@ -166,72 +173,8 @@ dengan tombol play terlihat. **Klik sekali** di tengah video. Ini alasan langkah
 
 ---
 
-## Pre-flight (final ini lewat Zoom)
+## Batas klaim
 
-Formatnya online, jadi risiko terbesarmu **bukan** panggung, tapi audio dan kompresi. Kamu diam
-selama 63 detik dan mengandalkan suara video. Kalau audionya tidak sampai, juri dapat satu menit
-hening dan kamu tidak akan sadar, karena di laptopmu terdengar normal.
-
-### Sehari sebelumnya: uji ke orang lain
-
-Ini satu-satunya cara tahu. Mendengar dan melihat dari laptopmu sendiri bukan bukti apa pun.
-
-1. Minta satu teman masuk Zoom bareng kamu.
-2. Share tab deck, maju ke slide 3, biarkan video jalan penuh.
-3. Tanya dia **tiga hal spesifik**:
-   - Suara narasinya kedengeran jelas?
-   - Videonya lancar atau patah-patah?
-   - **Pas tombolnya berubah jadi `Over limit`, kebaca?** Ini detail terkecil yang penting.
-4. Kalau jawaban ketiga "tidak kebaca", bilang ke aku, videonya bisa direkam ulang dengan UI
-   lebih besar.
-
-### 10 menit sebelum mulai
-
-1. **Aplikasi desktop Zoom, bukan versi browser.** Versi PWA/browser punya bug lama: mic peserta
-   auto-mute begitu mulai share screen.
-2. Buka **satu tab**: `https://bareng-jade.vercel.app/deck`.
-3. **Maju ke slide 3 sekali, pastikan video jalan DAN bersuara, lalu `Home`.** Ini tiga hal
-   sekaligus: browser meng-cache videonya, browser mengizinkan autoplay bersuara untuk sisa sesi,
-   dan kamu memastikan volume laptop tidak nol.
-4. Zoom browser **100%**. Dark mode OS dimatikan, desainnya cream. Notifikasi dimatikan.
-
-### Saat share screen
-
-1. Pilih **tab browser**, bukan seluruh layar. Audio tab lebih bersih dan notifikasi desktop tidak
-   ikut terlihat.
-2. **CENTANG "Share sound".** Ini yang paling gampang lupa dan paling fatal. Tanpa ini VO videomu
-   nol di sisi juri.
-3. **CENTANG "Optimize for video clip".** Tanpa ini video 63 detik bisa patah-patah di sisi penerima.
-4. **Share dulu, baru tekan `F`** untuk fullscreen. Kalau dibalik, Zoom bisa kehilangan jendela
-   yang kamu pilih.
-5. Setelah share dimulai, lihat toolbar melayang: **pastikan mic-mu tidak ter-mute.** Kalau
-   ter-mute, `Alt+A`. Mic ter-mute TIDAK membuat suara video hilang, itu dua jalur terpisah, jadi
-   jangan panik di tengah demo.
-
-### Kalau ada yang gagal di tengah jalan
-
-| Masalah | Lakukan |
-|---|---|
-| Video tidak jalan sendiri | Klik sekali di tengah video. Tombol play-nya terlihat. |
-| Video jalan tapi juri bilang tidak ada suara | Stop share, share ulang **dengan "Share sound" dicentang**. Jangan diperbaiki sambil jalan. |
-| Situs tidak terbuka sama sekali | Putar `demo/bareng-live-demo.mp4` dari laptop, isinya identik. |
-| Kamu tertinggal dari video | Biarkan. Jangan mengejar. Videonya selesai sendiri di 63 detik. |
-| Juri minta lihat aplikasi aslinya | Baru saat Q&A, buka `bareng-jade.vercel.app/app` di tab lain. **Refresh dulu.** |
-
-## Batas klaim (untuk Q&A, bukan untuk dipitch)
-
-Slide "honest edge" dan "cross-chain" sudah dibuang, jadi **kamu tidak menawarkan kelemahan apa pun
-sendiri**. Tapi kalau juri bertanya langsung, jawab akurat. Klaim berlebihan yang runtuh saat dicecar
-jauh lebih mahal daripada jawaban jujur yang singkat, apalagi jurinya orang Particle dan ZeroDev
-sendiri.
-
-**Jangan pernah ucapkan ini**, ditanya atau tidak, karena tidak benar dan mudah dibongkar:
-
-- "ZeroDev enforces the cap on the Universal Account." Kernel ZeroDev itu akun terpisah.
-- "Per member caps are enforced on chain." Yang benar: *owner signed grant, verified on every spend*.
-- "It is live with real money." Situs yang dideploy jalan di keyless demo mode.
-
-**Kalau ditanya langsung, jawabannya ada di `QA_BANK.md`**: 20 pertanyaan dengan jawaban siap
-ucap, lima di antaranya ditandai sebagai yang paling mungkin keluar. Baca itu, bukan bagian ini.
-
-Dan jangan sebut angka jumlah tes atau baris kode di panggung. Simpan untuk Q&A.
+Pindah ke `FINALE.md`. Ringkasnya: jangan pernah bilang ZeroDev meng-enforce cap di Universal
+Account, jangan bilang cap per member di-enforce on-chain, jangan bilang ini live dengan uang
+sungguhan. Jawaban lengkapnya di `QA_BANK.md`.

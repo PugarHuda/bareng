@@ -1,0 +1,19 @@
+{
+  "name": "bareng-pitch-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render Pitch out/bareng-pitch.mp4 --concurrency 6"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.513",
+    "playwright-core": "^1.62.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.513"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  }
+}

@@ -1,0 +1,5 @@
+node_modules/
+out/
+public/vo/
+public/clip/
+scripts/.clip-build/
